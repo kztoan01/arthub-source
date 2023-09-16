@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { BrowerRoute as Router, Switch, Route, Link } from 'react-router-dom'
-import logo from './assets/image/ArtHub-only-logo-white.png'
+import logo from '../assets/image/ArtHub-only-logo-white.png'
 const user = {
   name: 'Tom Cook',
   email: 'tom@example.com',

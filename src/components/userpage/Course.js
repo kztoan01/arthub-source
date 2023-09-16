@@ -1,11 +1,11 @@
 import { BrowerRoute as Router, Switch, Route, Link } from 'react-router-dom'
-import sketch from './assets/image/sketch.jpg'
-import digital from './assets/image/digital.avif'
-import caricature from './assets/image/caricature-03.jpg'
-import course1 from './assets/image/course-01.jpg'
-import course2 from './assets/image/course-02.jpg'
-import course3 from './assets/image/course-03.jpg'
-import course4 from './assets/image/course-04.jpg'
+import sketch from '../assets/image/sketch.jpg'
+import digital from '../assets/image/digital.avif'
+import caricature from '../assets/image/caricature-03.jpg'
+import course1 from '../assets/image/course-01.jpg'
+import course2 from '../assets/image/course-02.jpg'
+import course3 from '../assets/image/course-03.jpg'
+import course4 from '../assets/image/course-04.jpg'
 
 const callouts = [
     {
@@ -155,46 +155,7 @@ const types = [
         ],
     },
 ]
-// const products = [
-//     {
-//         id: 1,
-//         name: 'Blender Material Nodes Master: Create Procedural 3D Textures',
-//         href: '#',
-//         imageSrc: course1,
-//         imageAlt: "1course",
-//         price: '₫299,000',
-//         instructor: 'Stephen Woods',
-//     },
-//     {
-//         id: 2,
-//         name: 'How to Draw Cute Cartoon Characters',
-//         href: '#',
-//         imageSrc: course2,
-//         imageAlt: "2course",
-//         price: '₫1,499,000',
-//         instructor: 'Ben Colefax',
-//     },
-//     {
-//         id: 3,
-//         name: 'Design Mastery and Earn with Canva | Move From Novice to Pro',
-//         href: '#',
-//         imageSrc: course3,
-//         imageAlt: "3course",
-//         price: '₫429,000',
-//         instructor: 'Tunde Victor Olonitola',
-//     },
-//     {
-//         id: 4,
-//         name: 'The Ultimate Cartoon Caricature Master Class',
-//         href: '#',
-//         imageSrc: course4,
-//         imageAlt: "4course",
-//         price: '₫2,208,000',
-//         instructor: 'AnBecks',
-//     },
 
-//     // More products...
-// ]
 
 function Course() {
     return (

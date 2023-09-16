@@ -1,4 +1,4 @@
-import logo from './assets/image/ArtHub-only-logo.png'
+import logo from '../assets/image/ArtHub-only-logo.png'
 import {BrowerRoute as Router, Switch, Route, Link } from 'react-router-dom'
 function Nav(props) {
     return (

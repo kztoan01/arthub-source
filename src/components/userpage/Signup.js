@@ -1,5 +1,5 @@
 import {BrowerRoute as Router, Switch, Route, Link } from 'react-router-dom'
-import logo from './assets/image/ArtHub-logos_black.png'
+import logo from '../assets/image/ArtHub-logos_black.png'
 function Signup() {
     return (
         <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 pt-0">
