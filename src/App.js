@@ -16,6 +16,12 @@ import DashboardContent from './components/dashboard/DashboardContent.js';
 import StudentContent from './components/dashboard/StudentContent.js';
 import ReportsContent from './components/dashboard/ReportsContent.js';
 import PerformanceContent from './components/dashboard/PerformanceContent.js';
+import Account from './components/account/Account.js'
+import AccountAssignment from './components/account/AccountAssignment.js'
+import AccountLearning from './components/account/AccountLearning.js'
+import AccountNotification from './components/account/AccountNotification.js'
+import AccountPurchase from './components/account/AccountPurchase.js'
+import AccountSetting from './components/account/AccountSetting.js'
 import { BrowerRoute as Router, Routes, Route, Link } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
@@ -68,6 +74,14 @@ function App() {
         <Route path='/instructordashboard/student' element={<><InstructorDashboard /><StudentContent /></>} />
         <Route path='/instructordashboard/reports' element={<><InstructorDashboard /><ReportsContent /></>} />
         <Route path='/instructordashboard/performance' element={<><InstructorDashboard /><PerformanceContent /></>} />
+      </Routes>
+      <Routes>
+        <Route path='/account' element={<Account />} />
+        <Route path='/account/setting' element={<><Account /><AccountSetting /></>} />
+        <Route path='/account/learning' element={<><Account /><AccountLearning /></>} />
+        <Route path='/account/notification' element={<><Account /><AccountNotification /></>} />
+        <Route path='/account/purchase' element={<><Account /><AccountPurchase /></>} />
+        <Route path='/account/assignment' element={<><Account /><AccountAssignment /></>} />
       </Routes>
     </BrowserRouter>
 

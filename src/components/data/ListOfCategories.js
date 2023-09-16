@@ -6,7 +6,7 @@ import course2 from '../assets/image/course-02.jpg'
 import course3 from '../assets/image/course-03.jpg'
 import course4 from '../assets/image/course-04.jpg'
 
-const callouts = [
+export const callouts = [
     {
         name: 'Sketch Drawing',
         description: 'Rapidly executed freehand drawing',
@@ -29,7 +29,7 @@ const callouts = [
         href: '#',
     },
 ]
-const types = [
+export const types = [
     {
         name: 'Most Popular Courses',
         products : [

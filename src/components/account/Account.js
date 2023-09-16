@@ -10,11 +10,11 @@ const user = {
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true, link: '/instructordashboard/dashboard' },
-  { name: 'Courses', href: '#', current: false, link: '/instructordashboard/courses' },
-  { name: 'Student', href: '#', current: false, link: '/instructordashboard/student' },
-  { name: 'Reports', href: '#', current: false, link: '/instructordashboard/reports' },
-  { name: 'Performance', href: '#', current: false, link: '/instructordashboard/performance' },
+  { name: 'Account Setting', href: '#', current: true, link: '/account/setting' },
+  { name: 'My Learning', href: '#', current: false, link: '/account/learning' },
+  { name: 'Notifications', href: '#', current: false, link: '/account/notification' },
+  { name: 'Purchase History', href: '#', current: false, link: '/account/purchase' },
+  { name: 'Assignment', href: '#', current: false, link: '/account/assignment' },
 ]
 const userNavigation = [
   { name: 'Toan - kztoan01@gmail.com', href: '#' },

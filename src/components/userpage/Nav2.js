@@ -1,7 +1,7 @@
 import logo from '../assets/image/ArtHub-only-logo.png'
 import { BrowerRoute as Router, Switch, Route, Link } from 'react-router-dom'
 import { Fragment, useState } from 'react'
-import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react'
+import { Dialog, Disclosure, Popover, Transition, Menu } from '@headlessui/react'
 import {
   ArrowPathIcon,
   Bars3Icon,
@@ -12,7 +12,6 @@ import {
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
-
 const products = [
   { name: 'Caricature', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
   { name: 'Cartoon', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
@@ -28,6 +27,31 @@ const callsToAction = [
   { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
 
+const user = {
+  name: 'Tran Bao Toan',
+  email: 'kztoan01@gmail.com',
+  imageUrl:
+    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+}
+const navigation = [
+  { name: 'Dashboard', href: '#', current: true, link: '/instructordashboard/dashboard' },
+  { name: 'Courses', href: '#', current: false, link: '/instructordashboard/courses' },
+  { name: 'Student', href: '#', current: false, link: '/instructordashboard/student' },
+  { name: 'Reports', href: '#', current: false, link: '/instructordashboard/reports' },
+  { name: 'Performance', href: '#', current: false, link: '/instructordashboard/performance' },
+]
+const userNavigation = [
+  { name: 'Tran Bao Toan', href: '#',link: '/account/setting' },
+  { name: 'kztoan01@gmail.com', href: '#', link: '/account/setting' },
+  { name: 'Cart', href: '#', link: '/cart' },
+  { name: 'Wishlist Cart', href: '#', link: '/wishlist' },
+  { name: 'My Learning', href: '#', link: '/account/learning' },
+  { name: 'Notifications', href: '#', link: '/account/notification' },
+  { name: 'Account Settings', href: '#', link: '/account/setting' },
+  { name: 'Purchase history', href: '#', link: '/account/purchase' },
+  { name: 'Sign out', href: '#', link: '/login' },
+]
+
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
@@ -39,7 +63,7 @@ export default function Nav2(props) {
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
-        <a href="#" className="-m-1.5 p-1.5">
+          <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">ArtHub</span>
             <Link to="/"><img className="h-8 w-auto" src={logo} alt="" /></Link>
           </a>
@@ -82,7 +106,7 @@ export default function Nav2(props) {
                       </div>
                       <Link to="/search"><div className="flex-auto">
                         <a href={item.href} className="block font-semibold text-gray-900">
-                        {item.name}
+                          {item.name}
                           <span className="absolute inset-0" />
                         </a>
                         <p className="mt-1 text-gray-600">{item.description}</p>
@@ -127,6 +151,46 @@ export default function Nav2(props) {
             {props.signup}
           </a></Link>
         </div>
+        <div>
+          <div>
+            <Menu as="div" className="relative ml-3">
+              <div>
+                <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <span className="absolute -inset-1.5" />
+                  <span className="sr-only">Open user menu</span>
+                  <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                </Menu.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  {userNavigation.map((item) => (
+                    <Menu.Item key={item.name}>
+                      {({ active }) => (
+                        <Link to={item.link}><a
+                          href={item.href}
+                          className={classNames(
+                            active ? 'bg-gray-100' : '',
+                            'block px-4 py-2 text-sm text-gray-700'
+                          )}
+                        >
+                          {item.name}
+                        </a></Link>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </Menu.Items>
+              </Transition>
+            </Menu>
+          </div>
+        </div>
       </nav>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-10" />
@@ -156,7 +220,7 @@ export default function Nav2(props) {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                      Categories
+                        Categories
                         <ChevronDownIcon
                           className={classNames(open ? 'rotate-180' : '', 'h-5 w-5 flex-none')}
                           aria-hidden="true"
@@ -215,6 +279,44 @@ export default function Nav2(props) {
                 >
                   {props.signup}
                 </a></Link>
+              </div>
+              <div>
+                <Menu as="div" className="relative ml-3">
+                  <div>
+                    <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <span className="absolute -inset-1.5" />
+                      <span className="sr-only">Open user menu</span>
+                      <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                    </Menu.Button>
+                  </div>
+                  <Transition
+                    as={Fragment}
+                    enter="transition ease-out duration-100"
+                    enterFrom="transform opacity-0 scale-95"
+                    enterTo="transform opacity-100 scale-100"
+                    leave="transition ease-in duration-75"
+                    leaveFrom="transform opacity-100 scale-100"
+                    leaveTo="transform opacity-0 scale-95"
+                  >
+                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                      {userNavigation.map((item) => (
+                        <Menu.Item key={item.name}>
+                          {({ active }) => (
+                            <a
+                              href={item.href}
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                            >
+                              {item.name}
+                            </a>
+                          )}
+                        </Menu.Item>
+                      ))}
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
               </div>
             </div>
           </div>
