@@ -2,7 +2,7 @@ import logo from '../assets/image/ArtHub-logos_black.png'
 import { useState } from 'react';
 import { BrowerRoute as Router, Switch, Route, Link, useNavigate } from 'react-router-dom'
 function Login() {
-
+//local storage, session
     const navigate = useNavigate();
     const [username, setusername] = useState("");
     const [password, setpassword] = useState("");

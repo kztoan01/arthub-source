@@ -22,12 +22,14 @@ import AccountLearning from './components/account/AccountLearning.js'
 import AccountNotification from './components/account/AccountNotification.js'
 import AccountPurchase from './components/account/AccountPurchase.js'
 import AccountSetting from './components/account/AccountSetting.js'
+import CoursePreview from './components/coursepage/CoursePreview'
+import ScrollToTop from './components/extension/ScrollToTop';
 import { BrowerRoute as Router, Routes, Route, Link } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
   return (
     <BrowserRouter>
-
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={
           <>
@@ -82,6 +84,17 @@ function App() {
         <Route path='/account/notification' element={<><Account /><AccountNotification /></>} />
         <Route path='/account/purchase' element={<><Account /><AccountPurchase /></>} />
         <Route path='/account/assignment' element={<><Account /><AccountAssignment /></>} />
+      </Routes>
+      <Routes>
+        <Route path="/coursedetail" element={
+          <>
+            <Banner />
+            <Nav2 login="Login" signup="Sign Up" />
+            <CoursePreview />
+            <Footer />
+          </>
+        }>
+        </Route>
       </Routes>
     </BrowserRouter>
 
