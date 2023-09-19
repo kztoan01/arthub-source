@@ -2,6 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import { courses } from '../data/ListOfCategories.js'
 import { BrowerRoute as Router, Switch, Route, Link } from 'react-router-dom'
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -65,7 +66,12 @@ function classNames(...classes) {
 
 export default function Search() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  // const realprice = courses.map((course) => (course.coursePrice - (course.coursePrice * course.courseCoupon) / 100).toFixed(2));
+  // console.log(realprice);
+  // const renderPrice = realprice.map((price, index) => <p key={index} className="text-sm font-medium text-gray-900">${price}</p>)
 
+  const [search, setSearch] = useState();
+  console.log(search);
   return (
     <div className="bg-white">
       <div>
@@ -170,7 +176,12 @@ export default function Search() {
         </Transition.Root>
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
+          <div class="sm:col-span-3"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Type in anything you want to learn</label>
+            <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)}
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            </div>
+          </div>
+          <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-20">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">Search Courses</h1>
 
             <div className="flex items-center">
@@ -294,7 +305,44 @@ export default function Search() {
               </form>
 
               {/* Product grid */}
-              <div className="lg:col-span-3">{/*content */}</div>
+              <div className="lg:col-span-3">
+                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                  {courses.filter((product) => {
+                    if(search === ''){
+                      return product;
+                    }else{
+                      return product.courseName.toLowerCase().includes(search) || product.courseDescription.toLowerCase().includes(search) || product.courseInstructor.toLowerCase().includes(search)
+                    }
+                    // return  ? product : 
+                  }).map((product) => (
+                    <Link to="/coursedetail"><div key={product.courseId} className="group relative">
+                      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                        <img
+                          src={product.courseImage}
+                          alt=""
+                          className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                        />
+                      </div>
+                      <div className="mt-4 flex justify-between">
+                        <div>
+                          <h3 className="text-sm text-gray-700">
+                            <a href="#">
+                              <span aria-hidden="true" className="absolute inset-0" />
+                              {product.courseName}
+                            </a>
+                          </h3>
+                          <p className="mt-1 text-sm text-gray-500">Instructor: {product.courseInstructor}</p>
+                        </div>
+                        {/* {realprice.map((price) => (
+                                      <p className="text-sm font-medium text-gray-900">${realprice}</p>
+                                    ))} */}
+                        {/* {renderPrice} */}
+                        <p className="text-sm font-medium text-gray-900">${product.coursePrice}</p>
+                      </div>
+                    </div></Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </section>
         </main>

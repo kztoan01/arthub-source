@@ -24,6 +24,8 @@ import AccountPurchase from './components/account/AccountPurchase.js'
 import AccountSetting from './components/account/AccountSetting.js'
 import CoursePreview from './components/coursepage/CoursePreview'
 import ScrollToTop from './components/extension/ScrollToTop';
+import Cart from './components/userpage/Cart.js';
+import WelcomeInstructor from './components/dashboard/WelcomeInstructor';
 import { BrowerRoute as Router, Routes, Route, Link } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
@@ -68,14 +70,23 @@ function App() {
           </>
         }>
         </Route>
+        <Route path="/cart" element={
+          <>
+            <Banner />
+            <Nav2 login="Login" signup="Sign Up" />
+            <Cart />
+            <Footer />
+          </>
+        }>
+        </Route>
       </Routes>
       <Routes>
-        <Route path='/instructordashboard' element={<InstructorDashboard />} />
-        <Route path='/instructordashboard/dashboard' element={<><InstructorDashboard /><DashboardContent /></>} />
-        <Route path='/instructordashboard/courses' element={<><InstructorDashboard /><CoursesContent /></>} />
-        <Route path='/instructordashboard/student' element={<><InstructorDashboard /><StudentContent /></>} />
-        <Route path='/instructordashboard/reports' element={<><InstructorDashboard /><ReportsContent /></>} />
-        <Route path='/instructordashboard/performance' element={<><InstructorDashboard /><PerformanceContent /></>} />
+        <Route path='/instructordashboard' element={<><InstructorDashboard /><Feature /></>} />
+        <Route path='/instructordashboard/dashboard' element={<><InstructorDashboard dashboard="true"/><DashboardContent /></>} />
+        <Route path='/instructordashboard/courses' element={<><InstructorDashboard course="true"/><CoursesContent /></>} />
+        <Route path='/instructordashboard/student' element={<><InstructorDashboard student="true"/><StudentContent /></>} />
+        <Route path='/instructordashboard/reports' element={<><InstructorDashboard report="true"/><ReportsContent /></>} />
+        <Route path='/instructordashboard/performance' element={<><InstructorDashboard perform="true"/><PerformanceContent /></>} />
       </Routes>
       <Routes>
         <Route path='/account' element={<Account />} />

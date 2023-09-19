@@ -9,13 +9,7 @@ const user = {
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true, link: '/instructordashboard/dashboard' },
-  { name: 'Courses', href: '#', current: false, link: '/instructordashboard/courses' },
-  { name: 'Student', href: '#', current: false, link: '/instructordashboard/student' },
-  { name: 'Reports', href: '#', current: false, link: '/instructordashboard/reports' },
-  { name: 'Performance', href: '#', current: false, link: '/instructordashboard/performance' },
-]
+
 const userNavigation = [
   { name: 'Toan - kztoan01@gmail.com', href: '#' },
   { name: 'Settings', href: '#' },
@@ -26,7 +20,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function InstructorDashboard() {
+function InstructorDashboard(props) {
+  
+  const navigation = [
+  { name: 'Dashboard', href: '#', current: props.dashboard, link: '/instructordashboard/dashboard' },
+  { name: 'Courses', href: '#', current: props.course, link: '/instructordashboard/courses' },
+  { name: 'Student', href: '#', current: props.student, link: '/instructordashboard/student' },
+  { name: 'Reports', href: '#', current: props.report, link: '/instructordashboard/reports' },
+  { name: 'Performance', href: '#', current: props.perform, link: '/instructordashboard/performance' },
+]
   return (
     <>
       {/*
@@ -43,7 +45,7 @@ function InstructorDashboard() {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <Link to="/"><a href="#"><img
+                      <Link to="/instructordashboard"><a href="#"><img
                         className="h-8 w-8"
                         src={logo}
                         alt="ArtHub"
@@ -109,7 +111,7 @@ function InstructorDashboard() {
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
-                                    {item.name}
+                                    <Link to="/">{item.name}</Link>
                                   </a>
                                 )}
                               </Menu.Item>
@@ -186,6 +188,7 @@ function InstructorDashboard() {
             </>
           )}
         </Disclosure>
+        
       </div>
     </>
   )

@@ -1,24 +1,50 @@
 import logo from '../assets/image/ArtHub-logos_black.png'
-import { useState } from 'react';
 import { BrowerRoute as Router, Switch, Route, Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import api from '../api/axiosConfig'
+import { users } from '../data/ListOfCategories.js'
 function Login() {
-//local storage, session
+    //local storage, session
     const navigate = useNavigate();
     const [username, setusername] = useState("");
     const [password, setpassword] = useState("");
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
-    const users = [{ username: "kztoan01@gmail.com", password: "123" }];
     const handleSubmit = (e) => {
         e.preventDefault()
-        const account = users.find((user) => user.username === username);
-        if (account && account.password === password) {
-            setauthenticated(true)
-            localStorage.setItem("authenticated", true);
-            navigate("/instructordashboard");
-        }else{
+        const account = users.find((user) => user.userEmail === username);
+        if (account && account.userPassword === password) {
+            if (account && account.userRole === "ST") {
+                setauthenticated(true)
+                localStorage.setItem("authenticated", true);
+                navigate("/");
+            } else {
+                setauthenticated(true)
+                localStorage.setItem("authenticated", true);
+                navigate("/instructordashboard");
+            }
+
+        } else {
             alert("Wrong account!");
         }
     };
+    //get data from mock api
+
+    // const [users, setUsers] = useState();
+
+    // const getUsers = async () =>{
+    //     try{
+    //         const response = await api.get("/");
+    //         console.log(response.data)
+    //         setUsers(response.data);
+    //     }catch(err){
+    //         console.log(err);
+    //     }
+    // }
+
+    //     useEffect(() =>{
+    //         getUsers();
+    //     },[]
+    //     )
 
     return (
         <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 pt-0">

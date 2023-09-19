@@ -140,7 +140,7 @@ export default function Nav2(props) {
             <Link to="/search">Explore</Link>
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            Cart
+          <Link to="/cart">Cart</Link>
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
