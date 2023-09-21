@@ -3,7 +3,7 @@ import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 import { courses } from '../data/ListOfCategories.js'
-import { BrowerRoute as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowerRoute as Router, Switch, Route, Link, useLocation } from 'react-router-dom'
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
   { name: 'Best Rating', href: '#', current: false },
@@ -64,14 +64,17 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Search() {
+export default function Search(props) {
+  const location = useLocation();
+  const state = location.state;
+  
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   // const realprice = courses.map((course) => (course.coursePrice - (course.coursePrice * course.courseCoupon) / 100).toFixed(2));
   // console.log(realprice);
   // const renderPrice = realprice.map((price, index) => <p key={index} className="text-sm font-medium text-gray-900">${price}</p>)
 
   const [search, setSearch] = useState();
-  console.log(search);
+  // console.log(search);
   return (
     <div className="bg-white">
       <div>
@@ -177,7 +180,7 @@ export default function Search() {
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="sm:col-span-3"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Type in anything you want to learn</label>
-            <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)}
+            <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)} 
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
           </div>
@@ -311,7 +314,7 @@ export default function Search() {
                     if(search === ''){
                       return product;
                     }else{
-                      return product.courseName.toLowerCase().includes(search) || product.courseDescription.toLowerCase().includes(search) || product.courseInstructor.toLowerCase().includes(search)
+                      return product.courseName.toLowerCase().includes(search) || product.courseDescription.toLowerCase().includes(search) || product.courseInstructor.toLowerCase().includes(search) || product.courseCategories.toLowerCase().includes(search)
                     }
                     // return  ? product : 
                   }).map((product) => (

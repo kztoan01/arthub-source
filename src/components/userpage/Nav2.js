@@ -13,14 +13,14 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 const products = [
-  { name: 'Caricature', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Cartoon', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Figure', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Gesture', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  { name: 'Photorealism', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-  { name: 'Scientific illustrations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-  { name: 'Sketch', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-  { name: 'Technical', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Caricature',state:'Caricature', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
+  { name: 'Cartoon',state:'Cartoon', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
+  { name: 'Figure',state:'Figure', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
+  { name: 'Gesture',state:'Gesture', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
+  { name: 'Photorealism',state:'Photorealism', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Scientific illustrations',state:'Scientific illustrations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Sketch',state:'Sketch', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Technical',state:'Technical', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
 ]
 const callsToAction = [
   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
@@ -104,7 +104,7 @@ export default function Nav2(props) {
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
                         <item.icon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
                       </div>
-                      <Link to="/search"><div className="flex-auto">
+                      <Link to="/search" state={item.state}><div className="flex-auto">
                         <a href={item.href} className="block font-semibold text-gray-900">
                           {item.name}
                           <span className="absolute inset-0" />
@@ -134,7 +134,7 @@ export default function Nav2(props) {
             <Link to="/instructordashboard">Instructor</Link>
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            My Learning
+          <Link to="/account/learning">My Learning</Link>
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
             <Link to="/search">Explore</Link>
@@ -245,13 +245,13 @@ export default function Nav2(props) {
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Instructor
+                  <Link to="/instructordashboard">Instructor</Link>
                 </a>
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  My Learning
+                  <Link to="/account/learning">My Learning</Link>
                 </a>
                 <a
                   href="#"
@@ -263,7 +263,7 @@ export default function Nav2(props) {
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                 >
-                  Cart
+                  <Link to="/cart">Cart</Link>
                 </a>
               </div>
               <div className="py-6">

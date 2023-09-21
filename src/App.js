@@ -90,11 +90,11 @@ function App() {
       </Routes>
       <Routes>
         <Route path='/account' element={<Account />} />
-        <Route path='/account/setting' element={<><Account /><AccountSetting /></>} />
-        <Route path='/account/learning' element={<><Account /><AccountLearning /></>} />
-        <Route path='/account/notification' element={<><Account /><AccountNotification /></>} />
-        <Route path='/account/purchase' element={<><Account /><AccountPurchase /></>} />
-        <Route path='/account/assignment' element={<><Account /><AccountAssignment /></>} />
+        <Route path='/account/setting' element={<><Account setting="true" /><AccountSetting /></>} />
+        <Route path='/account/learning' element={<><Account learning="true"/><AccountLearning /></>} />
+        <Route path='/account/notification' element={<><Account noti="true" /><AccountNotification /></>} />
+        <Route path='/account/purchase' element={<><Account history="true" /><AccountPurchase /></>} />
+        <Route path='/account/assignment' element={<><Account assignment="true" /><AccountAssignment /></>} />
       </Routes>
       <Routes>
         <Route path="/coursedetail" element={

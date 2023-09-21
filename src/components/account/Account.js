@@ -9,13 +9,7 @@ const user = {
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
-const navigation = [
-  { name: 'Account Setting', href: '#', current: true, link: '/account/setting' },
-  { name: 'My Learning', href: '#', current: false, link: '/account/learning' },
-  { name: 'Notifications', href: '#', current: false, link: '/account/notification' },
-  { name: 'Purchase History', href: '#', current: false, link: '/account/purchase' },
-  { name: 'Assignment', href: '#', current: false, link: '/account/assignment' },
-]
+
 const userNavigation = [
   { name: 'Toan - kztoan01@gmail.com', href: '#' },
   { name: 'Settings', href: '#' },
@@ -26,7 +20,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function InstructorDashboard() {
+function InstructorDashboard(props) {
+
+  const navigation = [
+    { name: 'Account Setting', href: '#', current: props.setting, link: '/account/setting' },
+    { name: 'My Learning', href: '#', current: props.learning, link: '/account/learning' },
+    { name: 'Notifications', href: '#', current: props.noti, link: '/account/notification' },
+    { name: 'Purchase History', href: '#', current: props.history, link: '/account/purchase' },
+    { name: 'Assignment', href: '#', current: props.assignment, link: '/account/assignment' },
+  ]
   return (
     <>
       {/*

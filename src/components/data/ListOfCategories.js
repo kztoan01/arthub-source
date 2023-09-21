@@ -280,19 +280,65 @@ export const courses = [
     },
     {
         "courseId": 2,
-        "courseName": "Sub-Ex",
-        "courseDate": "2022-11-23",
-        "courseDescription": "",
-        "courseIntroduction": "",
-        "courseLevel": "mil",
-        "courseLanguage": "Kannada",
-        "coursePrice": 72.81,
-        "courseCoupon": 87,
-        "courseObjectives": "1st Floor",
-        "courseSection": "PO Box 49847",
-        "courseCategories": "Documentary",
-        "courseInstructor": "Letizia Broz",
-        "courseImage": course2
+        "courseName": "Blender Material Nodes Master: Create Procedural 3D Textures",
+        "courseDate": "2023-05-28",
+        "courseDescription": "Create your own customisable procedural materials & spectacular textures for any Blender project.",
+        "courseIntroduction": "Create your own customisable procedural materials & spectacular textures for any Blender project.",
+        "courseLevel": "Expert",
+        "courseLanguage": "English",
+        "coursePrice": 88,
+        "courseCoupon": 55,
+        "courseObjectives": [
+            {
+                "ojtId" : "1",
+                "ojtName": "Create procedural shaders using the node editor.",             
+            },
+            {
+                "ojtId" : "2",
+                "ojtName": "Learn the optimal way to frame, colour code and re-arrange your node trees for readability.",
+            }, 
+            {
+                "ojtId" : "3",
+                "ojtName": "Create custom utility nodes to speed up your workflow.",
+            }, 
+            {
+                "ojtId" : "4",
+                "ojtName": "Understand how vectors are used to place textures and values across an object.",
+            }, 
+            {
+                "ojtId" : "5",
+                "ojtName": "Manipulate vectors, process values and colours, and generate complex procedural textures.",
+            },
+            {
+                "ojtId" : "6",
+                "ojtName": "Build a working knowledge of Blender’s complex node-based shading environment.",
+            }
+        ],
+        "courseSection": [
+            {
+                "sectionName": "Introduction & Setup",
+                "sectionVideo": "sectionvideo"
+            },
+            {
+                "sectionName": "Basic Shaders",
+                "sectionVideo": "sectionvideo"
+            },
+            {
+                "sectionName": "Mud Shader Project",
+                "sectionVideo": "sectionvideo"
+            },
+            {
+                "sectionName": "Creating Generators",
+                "sectionVideo": "sectionvideo"
+            },
+            {
+                "sectionName": "Advanced Shaders",
+                "sectionVideo": "sectionvideo"
+            }
+        ],
+        "courseCategories": "Digital Design",
+        "courseInstructor": "Stephen Woods",
+        "courseImage": course1
     },
     {
         "courseId": 3,
