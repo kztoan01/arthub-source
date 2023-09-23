@@ -7,6 +7,39 @@ import course3 from '../assets/image/course-03.jpg'
 import course4 from '../assets/image/course-04.jpg'
 import profilepic from '../assets/image/profile-pic.jpg'
 import course01 from '../assets/image/course1.jpg'
+import apiCourse from '../api/axiosCourseConfig.js'
+
+// {
+//     "userName": "toan1",
+//     "password": "123",
+//     "address": "Phu Yen",
+//     "lastName": "Tran",
+//     "firstName": "Toan",
+//     "phone": "0369312472",
+//     "Image": "img",
+//     "email": "kztoan01@gmail.com",
+//     "role": "ST",
+//     "twitter": "toan.tw",
+//     "facebook": "toan.fb"
+// }
+
+// const [courses, setCourses] = useState();
+
+// const getCourses = async () =>{
+//     try{
+//         const response = await apiCourse.get("/getCourses");
+//         console.log(response.data)
+//         setUsers(response.data);
+//     }catch(err){
+//         console.log(err);
+//     }
+// }
+
+//     useEffect(() =>{
+//         getCourses();
+//     },[]
+//     )
+
 export const callouts = [
     {
         name: 'Sketch Drawing',
@@ -30,131 +63,146 @@ export const callouts = [
         href: '#',
     },
 ]
-export const types = [
-    {
-        name: 'Most Popular Courses',
-        products: [
-            {
-                id: 1,
-                name: 'Blender Material Nodes Master: Create Procedural 3D Textures',
-                href: '#',
-                imageSrc: course1,
-                imageAlt: "1course",
-                price: '₫299,000',
-                instructor: 'Stephen Woods',
-            },
-            {
-                id: 2,
-                name: 'How to Draw Cute Cartoon Characters',
-                href: '#',
-                imageSrc: course2,
-                imageAlt: "2course",
-                price: '₫1,499,000',
-                instructor: 'Ben Colefax',
-            },
-            {
-                id: 3,
-                name: 'Design Mastery and Earn with Canva | Move From Novice to Pro',
-                href: '#',
-                imageSrc: course3,
-                imageAlt: "3course",
-                price: '₫429,000',
-                instructor: 'Tunde Victor Olonitola',
-            },
-            {
-                id: 4,
-                name: 'The Ultimate Cartoon Caricature Master Class',
-                href: '#',
-                imageSrc: course4,
-                imageAlt: "4course",
-                price: '₫2,208,000',
-                instructor: 'AnBecks',
-            },
-        ],
-    },
-    {
-        name: 'Caricature Courses',
-        products: [
-            {
-                id: 1,
-                name: 'The Ultimate Cartoon Caricature Master Class',
-                href: '#',
-                imageSrc: course4,
-                imageAlt: "4course",
-                price: '₫2,208,000',
-                instructor: 'AnBecks',
-            },
-            {
-                id: 2,
-                name: 'The Ultimate Cartoon Caricature Master Class',
-                href: '#',
-                imageSrc: course4,
-                imageAlt: "4course",
-                price: '₫2,208,000',
-                instructor: 'AnBecks',
-            },
-            {
-                id: 3,
-                name: 'The Ultimate Cartoon Caricature Master Class',
-                href: '#',
-                imageSrc: course4,
-                imageAlt: "4course",
-                price: '₫2,208,000',
-                instructor: 'AnBecks',
-            },
-            {
-                id: 4,
-                name: 'The Ultimate Cartoon Caricature Master Class',
-                href: '#',
-                imageSrc: course4,
-                imageAlt: "4course",
-                price: '₫2,208,000',
-                instructor: 'AnBecks',
-            },
-        ],
-    },
-    {
-        name: 'Cartoon Courses',
-        products: [
-            {
-                id: 1,
-                name: 'How to Draw Cute Cartoon Characters',
-                href: '#',
-                imageSrc: course2,
-                imageAlt: "2course",
-                price: '₫1,499,000',
-                instructor: 'Ben Colefax',
-            },
-            {
-                id: 2,
-                name: 'How to Draw Cute Cartoon Characters',
-                href: '#',
-                imageSrc: course2,
-                imageAlt: "2course",
-                price: '₫1,499,000',
-                instructor: 'Ben Colefax',
-            },
-            {
-                id: 3,
-                name: 'How to Draw Cute Cartoon Characterso',
-                href: '#',
-                imageSrc: course2,
-                imageAlt: "2course",
-                price: '₫1,499,000',
-                instructor: 'Ben Colefax',
-            },
-            {
-                id: 4,
-                name: 'How to Draw Cute Cartoon Characters',
-                href: '#',
-                imageSrc: course2,
-                imageAlt: "2course",
-                price: '₫1,499,000',
-                instructor: 'Ben Colefax',
-            },
-        ],
-    },
-]
+
+// export const types = [
+//     {
+//         name: 'Most Popular Courses',
+//         courses
+//     },
+//     {
+//         name: 'Caricature Courses',
+//         courses
+//     },
+//     {
+//         name: 'Cartoon Courses',
+//         courses
+//     },
+// ]
+// export const types = [
+//     {
+//         name: 'Most Popular Courses',
+//         products: [
+//             {
+//                 id: 1,
+//                 name: 'Blender Material Nodes Master: Create Procedural 3D Textures',
+//                 href: '#',
+//                 imageSrc: './assets/image/course-01.jpg',
+//                 imageAlt: "1course",
+//                 price: '₫299,000',
+//                 instructor: 'Stephen Woods',
+//             },
+//             {
+//                 id: 2,
+//                 name: 'How to Draw Cute Cartoon Characters',
+//                 href: '#',
+//                 imageSrc: course2,
+//                 imageAlt: "2course",
+//                 price: '₫1,499,000',
+//                 instructor: 'Ben Colefax',
+//             },
+//             {
+//                 id: 3,
+//                 name: 'Design Mastery and Earn with Canva | Move From Novice to Pro',
+//                 href: '#',
+//                 imageSrc: course3,
+//                 imageAlt: "3course",
+//                 price: '₫429,000',
+//                 instructor: 'Tunde Victor Olonitola',
+//             },
+//             {
+//                 id: 4,
+//                 name: 'The Ultimate Cartoon Caricature Master Class',
+//                 href: '#',
+//                 imageSrc: course4,
+//                 imageAlt: "4course",
+//                 price: '₫2,208,000',
+//                 instructor: 'AnBecks',
+//             },
+//         ],
+//     },
+//     {
+//         name: 'Caricature Courses',
+//         products: [
+//             {
+//                 id: 1,
+//                 name: 'The Ultimate Cartoon Caricature Master Class',
+//                 href: '#',
+//                 imageSrc: course4,
+//                 imageAlt: "4course",
+//                 price: '₫2,208,000',
+//                 instructor: 'AnBecks',
+//             },
+//             {
+//                 id: 2,
+//                 name: 'The Ultimate Cartoon Caricature Master Class',
+//                 href: '#',
+//                 imageSrc: course4,
+//                 imageAlt: "4course",
+//                 price: '₫2,208,000',
+//                 instructor: 'AnBecks',
+//             },
+//             {
+//                 id: 3,
+//                 name: 'The Ultimate Cartoon Caricature Master Class',
+//                 href: '#',
+//                 imageSrc: course4,
+//                 imageAlt: "4course",
+//                 price: '₫2,208,000',
+//                 instructor: 'AnBecks',
+//             },
+//             {
+//                 id: 4,
+//                 name: 'The Ultimate Cartoon Caricature Master Class',
+//                 href: '#',
+//                 imageSrc: course4,
+//                 imageAlt: "4course",
+//                 price: '₫2,208,000',
+//                 instructor: 'AnBecks',
+//             },
+//         ],
+//     },
+//     {
+//         name: 'Cartoon Courses',
+//         products: [
+//             {
+//                 id: 1,
+//                 name: 'How to Draw Cute Cartoon Characters',
+//                 href: '#',
+//                 imageSrc: course2,
+//                 imageAlt: "2course",
+//                 price: '₫1,499,000',
+//                 instructor: 'Ben Colefax',
+//             },
+//             {
+//                 id: 2,
+//                 name: 'How to Draw Cute Cartoon Characters',
+//                 href: '#',
+//                 imageSrc: course2,
+//                 imageAlt: "2course",
+//                 price: '₫1,499,000',
+//                 instructor: 'Ben Colefax',
+//             },
+//             {
+//                 id: 3,
+//                 name: 'How to Draw Cute Cartoon Characterso',
+//                 href: '#',
+//                 imageSrc: course2,
+//                 imageAlt: "2course",
+//                 price: '₫1,499,000',
+//                 instructor: 'Ben Colefax',
+//             },
+//             {
+//                 id: 4,
+//                 name: 'How to Draw Cute Cartoon Characters',
+//                 href: '#',
+//                 imageSrc: course2,
+//                 imageAlt: "2course",
+//                 price: '₫1,499,000',
+//                 instructor: 'Ben Colefax',
+//             },
+//         ],
+//     },
+// ]
 
 export const users = [
     {
@@ -215,7 +263,7 @@ export const users = [
     }
 ];
 
-export const courses = [
+export const searchCourses = [
     {
         "courseId": 1,
         "courseName": "The Ultimate Drawing Course - Beginner to Advanced - Sketch Drawing",

@@ -1,7 +1,7 @@
 import logo from '../assets/image/ArtHub-logos_black.png'
 import { BrowerRoute as Router, Switch, Route, Link, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react';
-import api from '../api/axiosConfig'
+import api from '../api/axiosAccountConfig'
 import { users } from '../data/ListOfCategories.js'
 function Login() {
     //local storage, session
