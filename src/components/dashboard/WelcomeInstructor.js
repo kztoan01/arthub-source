@@ -1,4 +1,10 @@
+import { useNavigate } from "react-router-dom";
+
 export default function WelcomeInstructor() {
+  const navigate = useNavigate;
+  if (localStorage.getItem("INS-authenticated") === null) {
+      navigate("/login");
+  }
     return (
       <div className="bg-white">
         <div className="mx-auto max-w-7xl py-24 sm:px-6 sm:py-32 lg:px-8">

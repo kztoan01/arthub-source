@@ -1,4 +1,5 @@
-
+import apiCourse from './components/api/axiosCourseConfig.js'
+import { useEffect, useState } from 'react';
 import './App.css';
 import Nav from './components/userpage/Nav.js'
 import Nav2 from './components/userpage/Nav2.js'
@@ -26,23 +27,36 @@ import CoursePreview from './components/coursepage/CoursePreview'
 import ScrollToTop from './components/extension/ScrollToTop';
 import Cart from './components/userpage/Cart.js';
 import WelcomeInstructor from './components/dashboard/WelcomeInstructor';
-import { BrowerRoute as Router, Routes, Route, Link } from 'react-router-dom'
+import ProtectedRouteINS from './components/protect/ProtectedRouteINS.js'
+import ProtectedRouteSTU from './components/protect/ProtectedRouteSTU.js'
+import CreateCourse from './components/dashboard/CreateCourse.js';
+import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
+  const [courses, setCourses] = useState();
+
+  const getCourses = async () => {
+    try {
+      const response = await apiCourse.get("/getCourses");
+      console.log(response.data)
+      setCourses(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getCourses();
+  }, []
+  )
+
   return (
     <BrowserRouter>
       <ScrollToTop />
+
       <Routes>
-        <Route path="/" element={
-          <>
-            <Banner />
-            <Nav2 login="Login" signup="Sign Up" />
-            <Cover />
-            <Course />
-            <Feature />
-            <Footer />
-          </>}>
-        </Route>
+
+
         <Route path="/login" element={
           <>
             <Banner />
@@ -61,51 +75,75 @@ function App() {
           </>
         }>
         </Route>
-        <Route path="/search" element={
+
+        <Route path="/" element={
           <>
+            {/* <ProtectedRouteSTU> */}
             <Banner />
             <Nav2 login="Login" signup="Sign Up" />
-            <Search />
+            <Cover />
+            <Course courses={courses} />
+            <Feature />
             <Footer />
+            {/* </ProtectedRouteSTU> */}
+          </>}>
+        </Route>
+        <Route path="/search" element={
+          <>
+            {/* <ProtectedRouteSTU> */}
+            <Banner />
+            <Nav2 login="Login" signup="Sign Up" />
+            <Search courses={courses} />
+            <Footer />
+            {/* </ProtectedRouteSTU> */}
           </>
         }>
         </Route>
         <Route path="/cart" element={
           <>
+            {/* <ProtectedRouteSTU> */}
             <Banner />
             <Nav2 login="Login" signup="Sign Up" />
             <Cart />
             <Footer />
+            {/* </ProtectedRouteSTU> */}
           </>
         }>
         </Route>
-      </Routes>
-      <Routes>
-        <Route path='/instructordashboard' element={<><InstructorDashboard /><Feature /></>} />
-        <Route path='/instructordashboard/dashboard' element={<><InstructorDashboard dashboard="true"/><DashboardContent /></>} />
-        <Route path='/instructordashboard/courses' element={<><InstructorDashboard course="true"/><CoursesContent /></>} />
-        <Route path='/instructordashboard/student' element={<><InstructorDashboard student="true"/><StudentContent /></>} />
-        <Route path='/instructordashboard/reports' element={<><InstructorDashboard report="true"/><ReportsContent /></>} />
-        <Route path='/instructordashboard/performance' element={<><InstructorDashboard perform="true"/><PerformanceContent /></>} />
-      </Routes>
-      <Routes>
+        <Route exact path="/:id"
+          element={
+            <> 
+            {/* <ProtectedRouteSTU> */}
+              <Banner />
+              <Nav2 login="Login" signup="Sign Up" />
+              <CoursePreview courses={courses} />
+              <Footer />
+            {/* </ProtectedRouteSTU> */}
+            </>
+          }
+        >
+        </Route>
+
+        <Route path='/instructordashboard'
+          element={<>
+            <ProtectedRouteINS>
+              <InstructorDashboard />
+              <Feature create="true" />
+            </ProtectedRouteINS>
+          </>}
+        />
+        <Route path='/instructordashboard/dashboard' element={<><ProtectedRouteINS><DashboardContent /> </ProtectedRouteINS></>} />
+        <Route path='/instructordashboard/courses' element={<><ProtectedRouteINS><CoursesContent /> </ProtectedRouteINS></>} />
+        <Route path='/instructordashboard/student' element={<><ProtectedRouteINS><StudentContent /> </ProtectedRouteINS></>} />
+        <Route path='/instructordashboard/reports' element={<><ProtectedRouteINS><ReportsContent /> </ProtectedRouteINS></>} />
+        <Route path='/instructordashboard/performance' element={<><ProtectedRouteINS><PerformanceContent /> </ProtectedRouteINS></>} />
+        <Route path='/instructordashboard/courses/createcourse' element={<><ProtectedRouteINS><CoursesContent /> <CreateCourse /> </ProtectedRouteINS></>} />
         <Route path='/account' element={<Account />} />
-        <Route path='/account/setting' element={<><Account setting="true" /><AccountSetting /></>} />
-        <Route path='/account/learning' element={<><Account learning="true"/><AccountLearning /></>} />
-        <Route path='/account/notification' element={<><Account noti="true" /><AccountNotification /></>} />
-        <Route path='/account/purchase' element={<><Account history="true" /><AccountPurchase /></>} />
-        <Route path='/account/assignment' element={<><Account assignment="true" /><AccountAssignment /></>} />
-      </Routes>
-      <Routes>
-        <Route path="/coursedetail" element={
-          <>
-            <Banner />
-            <Nav2 login="Login" signup="Sign Up" />
-            <CoursePreview />
-            <Footer />
-          </>
-        }>
-        </Route>
+        <Route path='/account/setting' element={<> <ProtectedRouteSTU><Account setting="true" /><AccountSetting /> </ProtectedRouteSTU></>} />
+        <Route path='/account/learning' element={<> <ProtectedRouteSTU><Account learning="true" /><AccountLearning /> </ProtectedRouteSTU></>} />
+        <Route path='/account/notification' element={<> <ProtectedRouteSTU><Account noti="true" /><AccountNotification /> </ProtectedRouteSTU></>} />
+        <Route path='/account/purchase' element={<> <ProtectedRouteSTU><Account history="true" /><AccountPurchase /> </ProtectedRouteSTU></>} />
+        <Route path='/account/assignment' element={<> <ProtectedRouteSTU><Account assignment="true" /><AccountAssignment /> </ProtectedRouteSTU></>} />
       </Routes>
     </BrowserRouter>
 

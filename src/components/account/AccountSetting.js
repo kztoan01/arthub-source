@@ -1,4 +1,16 @@
+import { useState } from "react";
 export default function AccountSetting() {
+    const thisAccount = JSON.parse(localStorage.getItem("logined"))  
+    
+    const [username, setUsername] = useState(thisAccount.username);
+    const [bio, setBio] = useState(thisAccount.bio);
+    const [firstname, setFirstname] = useState(thisAccount.firstname);
+    const [lastname, setLastname] = useState(thisAccount.lastname);
+    const [email, setEmail] = useState(thisAccount.email);
+    const [phone, setPhone] = useState(thisAccount.phone);
+    const [address, setAddress] = useState(thisAccount.address);
+    const [facebook, setFacebook] = useState(thisAccount.facebook);
+    const [twitter, setTwitter] = useState(thisAccount.twitter);
     return (
         <>
             <header className="bg-white shadow">
@@ -15,13 +27,13 @@ export default function AccountSetting() {
                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div class="sm:col-span-3"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
                                     address</label>
-                                    <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email" value="kztoan01@gmail.com" readOnly
+                                    <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email" value={thisAccount.email} readOnly
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                     </div>
                                 </div>
                                 <div class="sm:col-span-3"> <label for="first-name"
                                     class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                                    <div class="mt-2"> <input type="password" name="password" id="password" autocomplete="" value="123" readOnly
+                                    <div class="mt-2"> <input type="password" name="password" id="password" autocomplete="" value={thisAccount.password} readOnly
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                     </div>
                                 </div>
@@ -38,15 +50,21 @@ export default function AccountSetting() {
                                         <div class="mt-2">
                                             <div
                                                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                                                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">workcation.com/</span> <input
-                                                    type="text" name="username" id="username" autocomplete="username"
+                                                <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">arthub.com/</span> <input
+                                                    type="text" name="username" id="username" autocomplete="username" value={username} 
+                                                    onChange={(e) => {
+                                                        setUsername(e.target.value);
+                                                    }}
                                                     class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                     placeholder="janesmith" /> </div>
                                         </div>
                                     </div>
                                     <div class="col-span-full"> <label for="about"
                                         class="block text-sm font-medium leading-6 text-gray-900">About</label>
-                                        <div class="mt-2"> <textarea id="about" name="about" rows="3"
+                                        <div class="mt-2"> <textarea id="about" name="about" rows="3" value={bio}
+                                        onChange={(e) =>{
+                                            setBio(e.target.value)
+                                        }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                                         </div>
                                         <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
@@ -89,24 +107,40 @@ export default function AccountSetting() {
                                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div class="sm:col-span-3"> <label for="first-name"
                                         class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-                                        <div class="mt-2"> <input type="text" name="first-name" id="first-name" autocomplete="given-name"
+                                        <div class="mt-2"> <input type="text" name="first-name" id="first-name" autocomplete="given-name" 
+                                        value={firstname}
+                                        onChange={(e) =>{
+                                            setFirstname(e.target.value)
+                                        }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-3"> <label for="last-name"
                                         class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
                                         <div class="mt-2"> <input type="text" name="last-name" id="last-name" autocomplete="family-name"
+                                            value={lastname}
+                                            onChange={(e) => {
+                                                setLastname(e.target.value)
+                                            }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-4"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
                                         address</label>
                                         <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email"
+                                            value={email}
+                                            onChange={(e) =>{
+                                                setEmail(e.target.value)
+                                            }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
-                                    <div class="sm:col-span-4"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
+                                    <div class="sm:col-span-4"> <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
                                         <div class="mt-2"> <input id="phone" name="phone" type="text" autocomplete=""
+                                            value={phone}
+                                            onChange={(e) =>{
+                                                setPhone(e.target.value)
+                                            }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
@@ -122,6 +156,10 @@ export default function AccountSetting() {
                                     <div class="col-span-full"> <label for="street-address"
                                         class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                                         <div class="mt-2"> <input type="text" name="street-address" id="street-address"
+                                            value={address}
+                                            onChange={(e) => {
+                                                setAddress(e.target.value)
+                                            }}
                                             autocomplete="street-address"
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
@@ -129,12 +167,20 @@ export default function AccountSetting() {
                                     <div class="sm:col-span-2 sm:col-start-1"> <label for="city"
                                         class="block text-sm font-medium leading-6 text-gray-900">Facebook</label>
                                         <div class="mt-2"> <input type="text" name="facebook" id="facebook" autocomplete="facebook"
+                                            value={facebook}
+                                            onChange={(e) =>{
+                                                setFacebook(e.target.value)
+                                            }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-2"> <label for="region"
                                         class="block text-sm font-medium leading-6 text-gray-900">Twitter</label>
                                         <div class="mt-2"> <input type="text" name="twitter" id="twitter" autocomplete="twitter"
+                                            value={twitter}
+                                            onChange={(e) =>{
+                                                setTwitter(e.target.value)
+                                            }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>

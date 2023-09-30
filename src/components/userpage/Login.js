@@ -6,26 +6,38 @@ import { users } from '../data/ListOfCategories.js'
 function Login() {
     //local storage, session
     const navigate = useNavigate();
-    const [username, setusername] = useState("");
+    const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
     const handleSubmit = (e) => {
         e.preventDefault()
-        const account = users.find((user) => user.name === username);
+        // const thisCourse = props.courses?.find((course) => String(course.id) === id)
+        const account = users?.find((user) => user.email === email);
         if (account && account.password === password) {
             if (account && account.roleId === "1") {
+                if(localStorage.getItem("STU-authenticated")){
+                    localStorage.removeItem("STU-authenticated")
+                }
                 setauthenticated(true)
-                localStorage.setItem("authenticated", true);
-                navigate("/");
-            } else {
-                setauthenticated(true)
-                localStorage.setItem("authenticated", true);
+                localStorage.setItem("INS-authenticated", true);
+                localStorage.setItem("logined", JSON.stringify(account) );
+                // console.log(account)
                 navigate("/instructordashboard");
+            } else {
+                if(localStorage.getItem("INS-authenticated")){
+                    localStorage.removeItem("INS-authenticated")
+                }
+                setauthenticated(true)
+                localStorage.setItem("STU-authenticated", true);
+                localStorage.setItem("logined",JSON.stringify(account) );
+                // console.log(account)
+                navigate("/");
             }
 
         } else {
             alert("Wrong account!");
         }
+        
     };
     //get data from mock api
 
@@ -34,7 +46,7 @@ function Login() {
     const getUsers = async () =>{
         try{
             const response = await api.get("/accounts");
-            console.log(response.data)
+            // console.log(response.data)
             setUsers(response.data);
         }catch(err){
             console.log(err);
@@ -56,7 +68,7 @@ function Login() {
             <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                 <form class="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
                     <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
-                        <div class="mt-2"> <input id="email" name="email" type="text" autocomplete="email" required value={username} onChange={(e) => setusername(e.target.value)}
+                        <div class="mt-2"> <input id="email" name="email" type="text" autocomplete="email" required value={email} onChange={(e) => setemail(e.target.value)}
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
                         </div>
                     </div>

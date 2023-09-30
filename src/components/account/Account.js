@@ -13,7 +13,6 @@ const user = {
 const userNavigation = [
   { name: 'Toan - kztoan01@gmail.com', href: '#' },
   { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
 ]
 
 function classNames(...classes) {
@@ -21,13 +20,16 @@ function classNames(...classes) {
 }
 
 function InstructorDashboard(props) {
-
+  const handleLogout = (e) => {
+    localStorage.removeItem("STU-authenticated");
+    localStorage.removeItem("logined");
+  }
   const navigation = [
     { name: 'Account Setting', href: '#', current: props.setting, link: '/account/setting' },
     { name: 'My Learning', href: '#', current: props.learning, link: '/account/learning' },
     { name: 'Notifications', href: '#', current: props.noti, link: '/account/notification' },
     { name: 'Purchase History', href: '#', current: props.history, link: '/account/purchase' },
-    { name: 'Assignment', href: '#', current: props.assignment, link: '/account/assignment' },
+    { name: 'Assignment', href: '#', current: props.assignment, link: '/account/assignment'},
   ]
   return (
     <>
@@ -116,6 +118,20 @@ function InstructorDashboard(props) {
                                 )}
                               </Menu.Item>
                             ))}
+                            <Menu.Item>
+                                {({ active }) => (
+                                 <Link to="/login"><a
+                                    href="#"
+                                    onClick={handleLogout}
+                                    className={classNames(
+                                      active ? 'bg-gray-100' : '',
+                                      'block px-4 py-2 text-sm text-gray-700'
+                                    )}
+                                  >
+                                    Sign out
+                                  </a></Link> 
+                                )}
+                              </Menu.Item>
                           </Menu.Items>
                         </Transition>
                       </Menu>

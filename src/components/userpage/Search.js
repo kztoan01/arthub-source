@@ -2,7 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
-import { searchCourses } from '../data/ListOfCategories.js'
+// import { searchCourses } from '../data/ListOfCategories.js'
 import { BrowerRoute as Router, Switch, Route, Link, useLocation } from 'react-router-dom'
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -19,44 +19,68 @@ const subCategories = [
   { name: 'Sketch', href: '#' },
   { name: 'Technical', href: '#' },
 ]
+
+const languages = [
+  { value: '', label: 'All Languages', checked: true },
+  { value: 'english', label: 'English', checked: false },
+  { value: 'vietnamese', label: 'Vietnamese', checked: false },
+  { value: 'french', label: 'French', checked: false },
+  { value: 'japanese', label: 'Japanese', checked: false },
+  { value: 'chinese', label: 'Chinese', checked: false },
+  { value: 'dogese', label: 'Dogese', checked: false },
+]
+const levels =[
+  { value: '', label: 'All Levels', checked: true },
+  { value: 'beginner', label: 'Beginner', checked: false },
+  { value: 'intermediate', label: 'Intermediate', checked: false },
+  { value: 'expert', label: 'Expert', checked: false },
+]
+const prices = [
+  { value: '', label: 'All Price', checked: true },
+  { value: 'free', label: 'Free', checked: false },
+  { value: 0 , label: 'Paid', checked: false },
+]
 const filters = [
   {
     id: 'language',
     name: 'Language',
     options: [
+      { value: '', label: 'All Languages', checked: true },
       { value: 'english', label: 'English', checked: false },
       { value: 'vietnamese', label: 'Vietnamese', checked: false },
-      { value: 'french', label: 'French', checked: true },
+      { value: 'french', label: 'French', checked: false },
       { value: 'japanese', label: 'Japanese', checked: false },
       { value: 'chinese', label: 'Chinese', checked: false },
       { value: 'dogese', label: 'Dogese', checked: false },
     ],
   },
   {
-    id: 'category',
-    name: 'Category',
+    id: 'level',
+    name: 'Level',
     options: [
-      { value: 'caricature', label: 'Caricature', checked: false },
-      { value: 'cartoon', label: 'Cartoon', checked: false },
-      { value: 'figure', label: 'Figure', checked: true },
-      { value: 'gesture', label: 'Gesture', checked: false },
-      { value: 'photorealism', label: 'Photorealism', checked: false },
-      { value: 'scientific illustrations', label: 'Scientific illustrations', checked: false },
-      { value: 'sketch', label: 'Sketch', checked: false },
-      { value: 'technical', label: 'Technical', checked: false },
+      { value: '', label: 'All Levels', checked: true },
+      { value: 'beginner', label: 'Beginner', checked: false },
+      { value: 'intermediate', label: 'Intermediate', checked: false },
+      { value: 'expert', label: 'Expert', checked: false },
     ],
   },
   {
     id: 'price',
     name: 'Price',
     options: [
-      { value: '10-20', label: '10$ - 20$', checked: true },
-      { value: '20-25', label: '20$ - 25$', checked: false },
-      { value: '25-35', label: '25$ - 35$', checked: false },
-      { value: '35-50', label: '35$ - 50$', checked: false },
-      { value: '50-70', label: '50$ - 70$', checked: false },
-      { value: '70', label: '70$ +', checked: false },
+      { value: '', label: 'All Price', checked: true },
+      { value: 'free', label: 'Free', checked: false },
+      { value: 0 , label: 'Paid', checked: false },
     ],
+    // options: [
+    //   { value: '', label: 'All Price', checked: true },
+    //   { value: '10-20', label: '10$ - 20$', checked: false },
+    //   { value: '20-25', label: '20$ - 25$', checked: false },
+    //   { value: '25-35', label: '25$ - 35$', checked: false },
+    //   { value: '35-50', label: '35$ - 50$', checked: false },
+    //   { value: '50-70', label: '50$ - 70$', checked: false },
+    //   { value: '70', label: '70$ +', checked: false },
+    // ],
   },
 ]
 
@@ -65,16 +89,37 @@ function classNames(...classes) {
 }
 
 export default function Search(props) {
+  const courses = props.courses;
+
   const location = useLocation();
   const state = location.state;
-  
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   // const realprice = courses.map((course) => (course.coursePrice - (course.coursePrice * course.courseCoupon) / 100).toFixed(2));
   // console.log(realprice);
   // const renderPrice = realprice.map((price, index) => <p key={index} className="text-sm font-medium text-gray-900">${price}</p>)
 
-  const [search, setSearch] = useState();
-  // console.log(search);
+  const [search, setSearch] = useState('');
+  const [language, setLanguage] = useState('');
+  const [level, setLevel] = useState('');
+  const [price, setPrice] = useState('');
+  console.log(language)
+  console.log(level)
+  console.log(price)
+  // const handleChange = (e) => {
+  //   // to find out if it's checked or not; returns true or false
+  //   const checked = e.target.checked;
+
+  //   // to get the checked value
+  //   const checkedValue = e.target.value;
+
+  //   // to get the checked name
+  //   const checkedName = e.target.name;
+
+  //   //then you can do with the value all you want to do with it.
+
+  // };
+  //    console.log(checkedValue);
   return (
     <div className="bg-white">
       <div>
@@ -180,7 +225,7 @@ export default function Search(props) {
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="sm:col-span-3"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Type in anything you want to learn</label>
-            <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)} 
+            <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)}
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
             </div>
           </div>
@@ -262,7 +307,6 @@ export default function Search(props) {
                     </li>
                   ))}
                 </ul>
-
                 {filters.map((section) => (
                   <Disclosure as="div" key={section.id} className="border-b border-gray-200 py-6">
                     {({ open }) => (
@@ -287,9 +331,19 @@ export default function Search(props) {
                                   id={`filter-${section.id}-${optionIdx}`}
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
-                                  type="checkbox"
+                                  type="radio"
                                   defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  
+                                  onChange={(e) => { 
+                                    if(section.name === 'Language') {
+                                      setLanguage(e.target.value)
+                                    } if(section.name === 'Level') {
+                                      setLevel(e.target.value)
+                                    } if(section.name === 'Price') {
+                                      setPrice(e.target.value)
+                                    }
+                                    }}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -310,18 +364,27 @@ export default function Search(props) {
               {/* Product grid */}
               <div className="lg:col-span-3">
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-                  {searchCourses.filter((product) => {
-                    if(search === ''){
-                      return product;
-                    }else{
-                      return product.courseName.toLowerCase().includes(search) || product.courseDescription.toLowerCase().includes(search) || product.courseInstructor.toLowerCase().includes(search) || product.courseCategories.toLowerCase().includes(search)
+                  {courses?.filter((product) => {
+                    if (search === '') {
+                      if (language === '') {
+                        return product;
+                      } else {
+                        return product.language?.toLowerCase().includes(language)
+                      }
+                    } else {
+                      return product.name?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
+                        || product.description?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
+                        || product.instructorName?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
+
+                      // || product.courseCategories.toLowerCase().includes(search)
                     }
+
                     // return  ? product : 
                   }).map((product) => (
-                    <Link to="/coursedetail"><div key={product.courseId} className="group relative">
+                    <Link to={`/${product.id}`}><div key={product.id} className="group relative">
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
-                          src={product.courseImage}
+                          src={product.image}
                           alt=""
                           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                         />
@@ -331,16 +394,16 @@ export default function Search(props) {
                           <h3 className="text-sm text-gray-700">
                             <a href="#">
                               <span aria-hidden="true" className="absolute inset-0" />
-                              {product.courseName}
+                              {product.name}
                             </a>
                           </h3>
-                          <p className="mt-1 text-sm text-gray-500">Instructor: {product.courseInstructor}</p>
+                          <p className="mt-1 text-sm text-gray-500">Instructor: {product.instructorName}</p>
                         </div>
                         {/* {realprice.map((price) => (
                                       <p className="text-sm font-medium text-gray-900">${realprice}</p>
                                     ))} */}
                         {/* {renderPrice} */}
-                        <p className="text-sm font-medium text-gray-900">${product.coursePrice}</p>
+                        <p className="text-sm font-medium text-gray-900">${product.price}</p>
                       </div>
                     </div></Link>
                   ))}

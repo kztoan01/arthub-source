@@ -3,25 +3,25 @@ import { callouts } from '../data/ListOfCategories.js'
 import course1 from '../assets/image/course-01.jpg'
 import apiCourse from '../api/axiosCourseConfig.js'
 import { useState , useEffect } from 'react';
-function Course() {
+function Course(props) {
     
-    const [courses, setCourses] = useState();
+    // const [courses, setCourses] = useState();
 
-    const getCourses = async () => {
-        try {
-            const response = await apiCourse.get("/getCourses");
-            console.log(response.data)
-            setCourses(response.data);
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // const getCourses = async () => {
+    //     try {
+    //         const response = await apiCourse.get("/getCourses");
+    //         console.log(response.data)
+    //         setCourses(response.data);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
-    useEffect(() => {
-        getCourses();
-    }, []
-    )
-
+    // useEffect(() => {
+    //     getCourses();
+    // }, []
+    // )
+    const courses = props.courses;
     
     const types = [
         {
@@ -75,10 +75,10 @@ function Course() {
 
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                             {type.courses?.map((product) => (
-                                <Link to="/coursedetail"><div key={product.id} className="group relative">
+                                <Link to={`/${product.id}`}><div key={product.id} className="group relative">
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                         <img
-                                            src={course1}
+                                            src={product.image}
                                             // {product.imageSrc}
                                             alt=""
                                             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
@@ -92,7 +92,7 @@ function Course() {
                                                     {product.name}
                                                 </a>
                                             </h3>
-                                            <p className="mt-1 text-sm text-gray-500">Instructor: {product.accountId}</p>
+                                            <p className="mt-1 text-sm text-gray-500">Instructor: {product.instructorName}</p>
                                         </div>
                                         <p className="text-sm font-medium text-gray-900">{product.price}</p>
                                     </div>

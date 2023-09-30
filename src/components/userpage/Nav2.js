@@ -13,26 +13,21 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
 const products = [
-  { name: 'Caricature',state:'Caricature', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Cartoon',state:'Cartoon', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
-  { name: 'Figure',state:'Figure', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Gesture',state:'Gesture', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
-  { name: 'Photorealism',state:'Photorealism', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-  { name: 'Scientific illustrations',state:'Scientific illustrations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-  { name: 'Sketch',state:'Sketch', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
-  { name: 'Technical',state:'Technical', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Caricature', state: 'Caricature', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
+  { name: 'Cartoon', state: 'Cartoon', description: 'Speak directly to your customers', href: '#', icon: CursorArrowRaysIcon },
+  { name: 'Figure', state: 'Figure', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
+  { name: 'Gesture', state: 'Gesture', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
+  { name: 'Photorealism', state: 'Photorealism', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Scientific illustrations', state: 'Scientific illustrations', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Sketch', state: 'Sketch', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
+  { name: 'Technical', state: 'Technical', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
 ]
 const callsToAction = [
   { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
   { name: 'Contact sales', href: '#', icon: PhoneIcon },
 ]
 
-const user = {
-  name: 'Tran Bao Toan',
-  email: 'kztoan01@gmail.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+
 const navigation = [
   { name: 'Dashboard', href: '#', current: true, link: '/instructordashboard/dashboard' },
   { name: 'Courses', href: '#', current: false, link: '/instructordashboard/courses' },
@@ -40,25 +35,45 @@ const navigation = [
   { name: 'Reports', href: '#', current: false, link: '/instructordashboard/reports' },
   { name: 'Performance', href: '#', current: false, link: '/instructordashboard/performance' },
 ]
-const userNavigation = [
-  { name: 'Tran Bao Toan', href: '#',link: '/account/setting' },
-  { name: 'kztoan01@gmail.com', href: '#', link: '/account/setting' },
-  { name: 'Cart', href: '#', link: '/cart' },
-  { name: 'Wishlist Cart', href: '#', link: '/wishlist' },
-  { name: 'My Learning', href: '#', link: '/account/learning' },
-  { name: 'Notifications', href: '#', link: '/account/notification' },
-  { name: 'Account Settings', href: '#', link: '/account/setting' },
-  { name: 'Purchase history', href: '#', link: '/account/purchase' },
-  { name: 'Sign out', href: '#', link: '/login' },
-]
+const handleLogout = (e) => {
+  localStorage.removeItem("STU-authenticated");
+  localStorage.removeItem("logined");
+}
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 export default function Nav2(props) {
+  let logStatus = '';
+  let sigStatus = '';
+  let userNavigation = []
+  let user = []
+  const loginedUser = JSON.parse(localStorage.getItem("logined"));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-
+  if(localStorage.getItem("logined")){
+    userNavigation = [
+      { name: loginedUser.lastname +" " +loginedUser.firstname, href: '#', link: '/account/setting' },
+      { name: loginedUser.email, href: '#', link: '/account/setting' },
+      { name: 'Cart', href: '#', link: '/cart' },
+      { name: 'Wishlist Cart', href: '#', link: '/wishlist' },
+      { name: 'My Learning', href: '#', link: '/account/learning' },
+      { name: 'Notifications', href: '#', link: '/account/notification' },
+      { name: 'Account Settings', href: '#', link: '/account/setting' },
+      { name: 'Purchase history', href: '#', link: '/account/purchase' },
+    ]
+    user = {
+      name: 'Tran Bao Toan',
+      email: 'kztoan01@gmail.com',
+      imageUrl:
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    }
+  }else{
+    logStatus = props.login
+    sigStatus = props.signup
+  }
+  
   return (
     <header className="bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -134,24 +149,25 @@ export default function Nav2(props) {
             <Link to="/instructordashboard">Instructor</Link>
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-          <Link to="/account/learning">My Learning</Link>
+            <Link to="/account/learning">My Learning</Link>
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
             <Link to="/search">Explore</Link>
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-          <Link to="/cart">Cart</Link>
+            <Link to="/cart">Cart</Link>
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link to="/login"><a href="#" className="text-sm font-semibold leading-6 text-gray-900 mr-5">
-            {props.login}
+            {logStatus}
           </a></Link>
           <Link to="/signup"><a href="#" className="text-sm font-semibold leading-6 text-gray-900">
-            {props.signup}
+            {sigStatus}
           </a></Link>
         </div>
-        <div>
+        {localStorage.getItem("logined") ? (
+          <div>
           <div>
             <Menu as="div" className="relative ml-3">
               <div>
@@ -186,11 +202,28 @@ export default function Nav2(props) {
                       )}
                     </Menu.Item>
                   ))}
+                   <Menu.Item>
+                   {({ active }) => (
+                   <Link to="/login">
+                      <a
+                        href=""
+                        onClick={handleLogout}
+                        className={classNames(
+                          active ? 'bg-gray-100' : '',
+                          'block px-4 py-2 text-sm text-gray-700'
+                        )}
+                      >
+                        Sign Out
+                      </a>
+                  </Link> )}
+                  </Menu.Item>
                 </Menu.Items>
               </Transition>
             </Menu>
           </div>
         </div>
+        ) : <></>}
+        
       </nav>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-10" />
@@ -304,6 +337,7 @@ export default function Nav2(props) {
                           {({ active }) => (
                             <a
                               href={item.href}
+                              onClick={item.onClick}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm text-gray-700'
@@ -314,6 +348,20 @@ export default function Nav2(props) {
                           )}
                         </Menu.Item>
                       ))}
+                        <Menu.Item>
+                      
+                            <a
+                              href=""
+                              onClick={handleLogout}
+                              className={classNames(
+                                true ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                            >
+                              Sign Out
+                            </a>
+                        
+                        </Menu.Item>
                     </Menu.Items>
                   </Transition>
                 </Menu>

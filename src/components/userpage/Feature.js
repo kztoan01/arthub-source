@@ -1,5 +1,5 @@
 import { CloudArrowUpIcon, LockClosedIcon, ServerIcon } from '@heroicons/react/20/solid'
-
+import { Link } from 'react-router-dom';
 const features = [
     {
         name: 'Push to deploy.',
@@ -25,7 +25,12 @@ const stats = [
     { id: 3, name: 'Number of students who have participated in the courses', value: '46,000' },
 ]
 
-export default function Feature() {
+export default function Feature(props) {
+    let createButton1 = "";
+    const createButton =<a href="#" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create your first Course</a>
+    if(props.create === "true"){
+       createButton1 = createButton
+    }
     return (
         <>
             <div className="overflow-hidden bg-white py-24 sm:py-32">
@@ -35,6 +40,7 @@ export default function Feature() {
                             <div className="lg:max-w-lg">
                                 <h2 className="text-base font-semibold leading-7 text-indigo-600">You are a teacher?</h2>
                                 <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Become our Instructor</p>
+                                
                                 <p className="mt-6 text-lg leading-8 text-gray-600">
                                     Whether you have experience teaching, or it’s your first time, we’ll help you package your knowledge into an online course that improves student lives.
                                 </p>
@@ -59,7 +65,9 @@ export default function Feature() {
                             height={1442}
                         />
                     </div>
-                </div>
+                    <Link to="/instructordashboard/courses/createcourse">{createButton1}</Link>
+                </div> 
+               
             </div>
 
             <div className="bg-white py-24 sm:py-32">

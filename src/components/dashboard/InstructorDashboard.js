@@ -1,7 +1,7 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from '../assets/image/ArtHub-only-logo-white.png'
 const user = {
   name: 'Toan',
@@ -21,7 +21,10 @@ function classNames(...classes) {
 }
 
 function InstructorDashboard(props) {
-  
+  const navigate = useNavigate;
+  if (localStorage.getItem("INS-authenticated") === null) {
+      navigate("/login");
+  }
   const navigation = [
   { name: 'Dashboard', href: '#', current: props.dashboard, link: '/instructordashboard/dashboard' },
   { name: 'Courses', href: '#', current: props.course, link: '/instructordashboard/courses' },
