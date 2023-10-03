@@ -1,56 +1,5 @@
-import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { StarIcon } from '@heroicons/react/20/solid'
-import { RadioGroup } from '@headlessui/react'
-import detail01 from '../assets/image/3d-detail-01.png'
-import detail02 from '../assets/image/3d-detail-02.jpg'
-import detail03 from '../assets/image/3d-detail-03.jpg'
-import detail04 from '../assets/image/course-01.jpg'
-import apiCourse from '../api/axiosCourseConfig.js'
-// const product = {
-//   name: 'Create Procedural 3D Textures',
-//   price: '₫299,000',
-//   href: '#',
-//   breadcrumbs: [
-//     { id: 1, name: 'Popular Course', href: '#' },
-//     { id: 2, name: 'Cartoon', href: '#' },
-//   ],
-//   images: [
-//     {
-//       src: detail01,
-//       alt: 'img1',
-//     },
-//     {
-//       src: detail02,
-//       alt: 'img2',
-//     },
-//     {
-//       src: detail03,
-//       alt: 'img3',
-//     },
-//     {
-//       src: detail04,
-//       alt: 'img4',
-//     },
-//   ],
-//   introduction:
-//     'Create your own customisable procedural materials & spectacular textures for any Blender project.',
-//   highlights: [
-//     'Create procedural shaders using the node editor.',
-//     'Learn the optimal way to frame, colour code and re-arrange your node trees for readability.',
-//     'Use the Node Wrangler add-on to speed up your workflow.',
-//     'Manipulate vectors, process values and colours, and generate complex procedural textures.',
-//   ],
-//   descriptions: [
-//     'Learn how to create any material from scratch using nodes in Blender!',
-//     'You’ll create many different textures, from beginner to advanced level (including mud shader, wood shader and brick shader). Along the way you’ll learn a lot of advanced techniques that you can then use to make any materials you can think of.',
-//     'You’ll learn procedural texturing, which is where you create your materials and shaders without using any image based textures. So anytime you need a particular pattern or look you’ll create it entirely using nodes (and some interesting maths!).',
-//     'You’ll also gain access to a course forum where you can discuss topics on a course-wide basis, or down to the individual video. Get plugged into our communities of amazing developers on Facebook (nearly 20k), in our own TA-curated Community (17k views/day), and our student chat group (10k live at any one time).',
-//     'Create spectacular textures and become a Blender Material Nodes Master today!',
-//   ]
-
-// }
-
 const includes = [
   '15.5 hours on-demand video.',
   '1 article.',
@@ -67,10 +16,9 @@ function classNames(...classes) {
 }
 
 export default function CoursePreview(props) {
-
-
   const { id } = useParams()
   const thisCourse = props.courses?.find((course) => String(course.id) === id)
+  console.log(thisCourse?.image)
   let enroll = '';
   let price = '';
   if (thisCourse?.price > 0) {
@@ -228,12 +176,12 @@ export default function CoursePreview(props) {
                   </a>
                 </div>
               </div> */}
-              <button
+              <Link to={`/learning/${id}`}> <button
                 type="submit"
                 className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
               >
                 {enroll}
-              </button>
+              </button></Link>
             </form>
           </div>
 
@@ -269,16 +217,6 @@ export default function CoursePreview(props) {
                 <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
                   <li className="text-gray-400">
                     <span className="text-gray-600">{thisCourse?.learningObjective?.four}</span>
-                  </li>
-                </ul>
-                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  <li className="text-gray-400">
-                    <span className="text-gray-600">{thisCourse?.learningObjective?.five}</span>
-                  </li>
-                </ul>
-                <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
-                  <li className="text-gray-400">
-                    <span className="text-gray-600">{thisCourse?.learningObjective?.six}</span>
                   </li>
                 </ul>
               </div>

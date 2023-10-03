@@ -128,7 +128,7 @@ function InstructorDashboard(props) {
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
-                                    Sign out
+                                    Log out
                                   </a></Link> 
                                 )}
                               </Menu.Item>

@@ -27,7 +27,7 @@ function Signup() {
             alert(err);
         }
     }
-
+  
     return (
         <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 pt-0">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm"> <img class="mx-auto h-21 w-auto"

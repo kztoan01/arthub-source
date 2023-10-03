@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRouteINS = ({ children }) => {
     if (localStorage.getItem("INS-authenticated")) {
         return children;
     } if (localStorage.getItem("STU-authenticated")) {
@@ -9,5 +9,5 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" />;
 };
 
-export default ProtectedRoute
+export default ProtectedRouteINS
 

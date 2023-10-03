@@ -1,16 +1,51 @@
 import { useState } from "react";
+import axios from 'axios';
+import api from '../api/axiosAccountConfig'
+import { Fragment, useRef } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 export default function AccountSetting() {
-    const thisAccount = JSON.parse(localStorage.getItem("logined"))  
-    
-    const [username, setUsername] = useState(thisAccount.username);
-    const [bio, setBio] = useState(thisAccount.bio);
-    const [firstname, setFirstname] = useState(thisAccount.firstname);
-    const [lastname, setLastname] = useState(thisAccount.lastname);
-    const [email, setEmail] = useState(thisAccount.email);
-    const [phone, setPhone] = useState(thisAccount.phone);
-    const [address, setAddress] = useState(thisAccount.address);
-    const [facebook, setFacebook] = useState(thisAccount.facebook);
-    const [twitter, setTwitter] = useState(thisAccount.twitter);
+
+    const [open, setOpen] = useState(false)
+
+    const cancelButtonRef = useRef(null)
+
+    const thisAccount = JSON.parse(localStorage.getItem("logined"))
+    const [username, setUsername] = useState(thisAccount?.username);
+    const [bio, setBio] = useState(thisAccount?.bio);
+    const [firstname, setFirstname] = useState(thisAccount?.firstname);
+    const [lastname, setLastname] = useState(thisAccount?.lastname);
+    const [email, setEmail] = useState(thisAccount?.email);
+    const [phone, setPhone] = useState(thisAccount?.phone);
+    const [address, setAddress] = useState(thisAccount?.address);
+    const [facebook, setFacebook] = useState(thisAccount?.facebook);
+    const [twitter, setTwitter] = useState(thisAccount?.twitter);
+    async function handleSubmit(e) {
+        e.preventDefault();
+        try {
+            await axios.put("http://localhost:8080/api/accounts", {
+                id: thisAccount.id,
+                username: username,
+                bio: bio,
+                lastname: lastname,
+                firstname: firstname,
+                email: email,
+                phone: phone,
+                address: address,
+                facebook: facebook,
+                twitter: twitter,
+                password: thisAccount.password,
+                roleId: thisAccount.roleId
+            }).then(response => {
+                const updatedAccount = response.data;
+                localStorage.setItem("logined", JSON.stringify(updatedAccount));
+            });
+            setOpen(true)
+        } catch (err) {
+            alert(err);
+        }
+    }
+
     return (
         <>
             <header className="bg-white shadow">
@@ -20,20 +55,20 @@ export default function AccountSetting() {
             </header>
             <main>
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                    <form>
+                    <form onSubmit={handleSubmit}>
                         <div class="border-b border-gray-900/10 pb-12">
                             <h2 class="text-base font-semibold leading-7 text-gray-900">Account Security</h2>
                             <p class="mt-1 text-sm leading-6 text-gray-600">Update your account.</p>
                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                 <div class="sm:col-span-3"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
                                     address</label>
-                                    <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email" value={thisAccount.email} readOnly
+                                    <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email" value={email} readOnly
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                     </div>
                                 </div>
                                 <div class="sm:col-span-3"> <label for="first-name"
                                     class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                                    <div class="mt-2"> <input type="password" name="password" id="password" autocomplete="" value={thisAccount.password} readOnly
+                                    <div class="mt-2"> <input type="password" name="password" id="password" autocomplete="" value={thisAccount?.password} readOnly
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                     </div>
                                 </div>
@@ -51,7 +86,7 @@ export default function AccountSetting() {
                                             <div
                                                 class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                                                 <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">arthub.com/</span> <input
-                                                    type="text" name="username" id="username" autocomplete="username" value={username} 
+                                                    type="text" name="username" id="username" autocomplete="username" value={username}
                                                     onChange={(e) => {
                                                         setUsername(e.target.value);
                                                     }}
@@ -62,9 +97,9 @@ export default function AccountSetting() {
                                     <div class="col-span-full"> <label for="about"
                                         class="block text-sm font-medium leading-6 text-gray-900">About</label>
                                         <div class="mt-2"> <textarea id="about" name="about" rows="3" value={bio}
-                                        onChange={(e) =>{
-                                            setBio(e.target.value)
-                                        }}
+                                            onChange={(e) => {
+                                                setBio(e.target.value)
+                                            }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                                         </div>
                                         <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
@@ -107,11 +142,11 @@ export default function AccountSetting() {
                                 <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                                     <div class="sm:col-span-3"> <label for="first-name"
                                         class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-                                        <div class="mt-2"> <input type="text" name="first-name" id="first-name" autocomplete="given-name" 
-                                        value={firstname}
-                                        onChange={(e) =>{
-                                            setFirstname(e.target.value)
-                                        }}
+                                        <div class="mt-2"> <input type="text" name="first-name" id="first-name" autocomplete="given-name"
+                                            value={firstname}
+                                            onChange={(e) => {
+                                                setFirstname(e.target.value)
+                                            }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
@@ -129,7 +164,7 @@ export default function AccountSetting() {
                                         address</label>
                                         <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email"
                                             value={email}
-                                            onChange={(e) =>{
+                                            onChange={(e) => {
                                                 setEmail(e.target.value)
                                             }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
@@ -138,7 +173,7 @@ export default function AccountSetting() {
                                     <div class="sm:col-span-4"> <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
                                         <div class="mt-2"> <input id="phone" name="phone" type="text" autocomplete=""
                                             value={phone}
-                                            onChange={(e) =>{
+                                            onChange={(e) => {
                                                 setPhone(e.target.value)
                                             }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
@@ -168,7 +203,7 @@ export default function AccountSetting() {
                                         class="block text-sm font-medium leading-6 text-gray-900">Facebook</label>
                                         <div class="mt-2"> <input type="text" name="facebook" id="facebook" autocomplete="facebook"
                                             value={facebook}
-                                            onChange={(e) =>{
+                                            onChange={(e) => {
                                                 setFacebook(e.target.value)
                                             }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
@@ -178,7 +213,7 @@ export default function AccountSetting() {
                                         class="block text-sm font-medium leading-6 text-gray-900">Twitter</label>
                                         <div class="mt-2"> <input type="text" name="twitter" id="twitter" autocomplete="twitter"
                                             value={twitter}
-                                            onChange={(e) =>{
+                                            onChange={(e) => {
                                                 setTwitter(e.target.value)
                                             }}
                                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
@@ -248,6 +283,73 @@ export default function AccountSetting() {
                         </div>
                     </form ></div>
             </main>
+            {/* notification */}
+            <Transition.Root show={open} as={Fragment}>
+                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <div className="sm:flex sm:items-start">
+                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                            </div>
+                                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                                                    Account Update Successfully
+                                                </Dialog.Title>
+                                                <div className="mt-2">
+                                                    <p className="text-sm text-gray-500">
+                                                    We have updated your account information, please check your personal information.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                                            onClick={() => setOpen(false)}
+                                        >
+                                            Done
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                            onClick={() => setOpen(false)}
+                                            ref={cancelButtonRef}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
         </>
     )
 }

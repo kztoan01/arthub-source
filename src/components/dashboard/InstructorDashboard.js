@@ -1,37 +1,40 @@
 import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, Navigate} from 'react-router-dom'
 import logo from '../assets/image/ArtHub-only-logo-white.png'
-const user = {
-  name: 'Toan',
-  email: 'kztoan01@gmail.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
 
-const userNavigation = [
-  { name: 'Toan - kztoan01@gmail.com', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
 function InstructorDashboard(props) {
-  const navigate = useNavigate;
-  if (localStorage.getItem("INS-authenticated") === null) {
-      navigate("/login");
+
+  const thisAccount = JSON.parse(localStorage.getItem("logined"))
+  const handleLogout = (e) => {
+    localStorage.removeItem("INS-authenticated");
+    localStorage.removeItem("logined");
   }
+  const user = {
+    name: thisAccount.firstname + " " + thisAccount.lastname,
+    email: thisAccount.email,
+    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  }
+
+  const userNavigation = [
+    { name: thisAccount.firstname + " " + thisAccount.lastname + " - " + thisAccount.email, href: '#' },
+    { name: 'Settings', href: '#' },
+  ]
   const navigation = [
-  { name: 'Dashboard', href: '#', current: props.dashboard, link: '/instructordashboard/dashboard' },
-  { name: 'Courses', href: '#', current: props.course, link: '/instructordashboard/courses' },
-  { name: 'Student', href: '#', current: props.student, link: '/instructordashboard/student' },
-  { name: 'Reports', href: '#', current: props.report, link: '/instructordashboard/reports' },
-  { name: 'Performance', href: '#', current: props.perform, link: '/instructordashboard/performance' },
-]
+    { name: 'Dashboard', href: '#', current: props.dashboard, link: '/instructordashboard/dashboard' },
+    { name: 'Courses', href: '#', current: props.course, link: '/instructordashboard/courses' },
+    { name: 'Student', href: '#', current: props.student, link: '/instructordashboard/student' },
+    { name: 'Reports', href: '#', current: props.report, link: '/instructordashboard/reports' },
+    { name: 'Performance', href: '#', current: props.perform, link: '/instructordashboard/performance' },
+    { name: 'Account', href: '#', current: props.account, link: '/instructordashboard/account' },
+  ]
   return (
     <>
       {/*
@@ -114,11 +117,25 @@ function InstructorDashboard(props) {
                                       'block px-4 py-2 text-sm text-gray-700'
                                     )}
                                   >
-                                    <Link to="/">{item.name}</Link>
+                                    <Link to="/instructordashboard/account">{item.name}</Link>
                                   </a>
                                 )}
                               </Menu.Item>
                             ))}
+                            <Menu.Item>
+                              {({ active }) => (
+                                <a
+                                  href=""
+                                  onClick={handleLogout}
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'block px-4 py-2 text-sm text-gray-700'
+                                  )}
+                                >
+                                  Log out
+                                </a>
+                              )}
+                            </Menu.Item>
                           </Menu.Items>
                         </Transition>
                       </Menu>
@@ -191,7 +208,7 @@ function InstructorDashboard(props) {
             </>
           )}
         </Disclosure>
-        
+
       </div>
     </>
   )

@@ -23,7 +23,7 @@ function Login() {
                 localStorage.setItem("logined", JSON.stringify(account) );
                 // console.log(account)
                 navigate("/instructordashboard");
-            } else {
+            } else if(account && account.roleId === "2"){
                 if(localStorage.getItem("INS-authenticated")){
                     localStorage.removeItem("INS-authenticated")
                 }
@@ -32,6 +32,17 @@ function Login() {
                 localStorage.setItem("logined",JSON.stringify(account) );
                 // console.log(account)
                 navigate("/");
+            } else if(account && account.roleId === "3"){
+                navigate("/3");
+            }else {
+                if(localStorage.getItem("INS-authenticated") || localStorage.getItem("STU-authenticated")){
+                    localStorage.removeItem("INS-authenticated")
+                    localStorage.removeItem("STU-authenticated")
+                }
+                setauthenticated(true)
+                localStorage.setItem("AD-authenticated", true);
+                localStorage.setItem("logined",JSON.stringify(account) );
+                navigate("/admindashboard");
             }
 
         } else {

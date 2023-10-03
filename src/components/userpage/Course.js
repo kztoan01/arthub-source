@@ -2,27 +2,15 @@ import { Link } from 'react-router-dom'
 import { callouts } from '../data/ListOfCategories.js'
 import course1 from '../assets/image/course-01.jpg'
 import apiCourse from '../api/axiosCourseConfig.js'
-import { useState , useEffect } from 'react';
+import { useState, useEffect } from 'react';
 function Course(props) {
-    
-    // const [courses, setCourses] = useState();
-
-    // const getCourses = async () => {
-    //     try {
-    //         const response = await apiCourse.get("/getCourses");
-    //         console.log(response.data)
-    //         setCourses(response.data);
-    //     } catch (err) {
-    //         console.log(err);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     getCourses();
-    // }, []
-    // )
     const courses = props.courses;
-    
+    let price = '';
+    // if (thisCourse?.price > 0) {
+    //     price = '$' + thisCourse?.price;
+    // } else {
+    //     price = 'Free'
+    // }
     const types = [
         {
             name: 'Most Popular Courses',
@@ -37,7 +25,7 @@ function Course(props) {
             courses
         },
     ]
-    
+
     return (
         <>
             <div className="bg-gray-100">
