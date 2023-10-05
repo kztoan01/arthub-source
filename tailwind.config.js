@@ -15,3 +15,5 @@ module.exports = {
     require('@tailwindcss/forms'),
   ],
 }
+
+// collapsible

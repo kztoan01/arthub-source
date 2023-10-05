@@ -1,4 +1,16 @@
-export default function AccountLearning() {
+export default function AccountLearning(props) {
+    const thisAccount = JSON.parse(localStorage.getItem("logined"))
+    const learner = props.learner
+    const thisStudent = learner?.filter((learner) => learner.accountId === thisAccount.id);
+    console.log(thisStudent)
+    // const learningCourses = props.courses?.map((course) => ({
+    //     id : course.id,
+    //     match: learner?.some((learn) => learn.courseId === course.id )
+
+    // }))
+    // console.log(learningCourses)
+    // const learningCourses = props.courses?.filter((course) => course.id === thisStudent.courseId)
+    console.log(props.courses)
     return (
         <>
             <header className="bg-white shadow">

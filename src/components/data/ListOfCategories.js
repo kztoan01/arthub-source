@@ -1,5 +1,5 @@
 import sketch from '../assets/image/sketch.jpg'
-import digital from '../assets/image/digital.avif'
+import digital from '../assets/image/digital2.jpg'
 import caricature from '../assets/image/caricature-03.jpg'
 import course1 from '../assets/image/course-01.jpg'
 import course2 from '../assets/image/course-02.jpg'

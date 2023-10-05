@@ -5,26 +5,69 @@ import apiCourse from '../api/axiosCourseConfig.js'
 import { useState, useEffect } from 'react';
 function Course(props) {
     const courses = props.courses;
-    let price = '';
+    const level = courses?.filter((course) => course.level === "Expert");
+    const english = courses?.filter((course) => course.language === "English");
+    const free = courses?.filter((course) => course.price === 0);
+    const vietnamese = courses?.filter((course) => course.language === "Vietnamese");
+    const types = [
+        {
+            name: 'Most Popular Courses',
+            //most popular courses
+        },
+        {
+            name: 'Caricature Courses',
+            //caricature courses
+        },
+        {
+            name: 'Cartoon Courses',
+            //cartoon courses
+        },
+        {
+            name: 'Sketch Courses',
+            //sketch courses
+        },
+        {
+            name: 'Expert Courses',
+            courses: level
+        },
+        {
+            name: 'English Courses',
+            courses: english
+        },
+        {
+            name: 'Vietnamese Courses',
+            courses: vietnamese
+        },
+        {
+            name: 'Free Courses',
+            courses: free
+        },
+
+    ]
+
     // if (thisCourse?.price > 0) {
     //     price = '$' + thisCourse?.price;
     // } else {
     //     price = 'Free'
     // }
-    const types = [
-        {
-            name: 'Most Popular Courses',
-            courses
-        },
-        {
-            name: 'Caricature Courses',
-            courses
-        },
-        {
-            name: 'Cartoon Courses',
-            courses
-        },
-    ]
+    // const types = [
+    //     {
+    //         name: 'Most Popular Courses',
+    //         courses
+    //     },
+    //     {
+    //         name: 'Caricature Courses',
+    //         courses
+    //     },
+    //     {
+    //         name: 'Cartoon Courses',
+    //         courses
+    //     },
+    //     {
+    //         name: 'Cartoon Courses',
+    //         courses
+    //     },
+    // ]
 
     return (
         <>
@@ -82,7 +125,10 @@ function Course(props) {
                                             </h3>
                                             <p className="mt-1 text-sm text-gray-500">Instructor: {product.instructorName}</p>
                                         </div>
-                                        <p className="text-sm font-medium text-gray-900">{product.price}</p>
+                                        {product.price === 0 ? (
+                                            <p className="text-sm font-medium text-gray-900">Free</p>
+                                        ) : <p className="text-sm font-medium text-gray-900">{product.price}</p>}
+
                                     </div>
                                 </div></Link>
                             ))}

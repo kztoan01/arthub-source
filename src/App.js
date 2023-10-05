@@ -1,4 +1,5 @@
 import apiCourse from './components/api/axiosCourseConfig.js'
+import api from './components/api/axiosAccountConfig'
 import { useEffect, useState } from 'react';
 import './App.css';
 import Nav from './components/userpage/Nav.js'
@@ -36,11 +37,48 @@ import ProtectedAdmin from './components/protect/ProtectedAdmin.js';
 import ManageAccount from './components/admin/ManageAccount.js';
 import ManageCourse from './components/admin/MagageCourse.js'
 import ManageNotify from './components/admin/ManageNotify.js'
+import Company from './components/introduction/Company.js';
+import Blog from './components/introduction/Blog.js';
+import Testimonials from './components/introduction/Testimonials.js';
+import Team from './components/introduction/Team.js';
+import apiLearner from './components/api/axiosLearnerConfig.js'
 import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
+  const [users, setUsers] = useState();
   const [courses, setCourses] = useState();
+  const [learner,setLearner] = useState();
+  //get course leaner
+  const getLearner = async () => {
+    try {
+      const response = await apiLearner.get("/getLearners");
+      // console.log(response.data)
+      setLearner(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
+  useEffect(() => {
+    getLearner();
+  }, []
+  )
+  //get all users
+  const getUsers = async () => {
+    try {
+      const response = await api.get("/accounts");
+      // console.log(response.data)
+      setUsers(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getUsers();
+  }, []
+  )
+  //get all courses
   const getCourses = async () => {
     try {
       const response = await apiCourse.get("/getCourses");
@@ -67,7 +105,7 @@ function App() {
           <>
             <Banner />
             <Nav2 login="" signup="Sign Up" />
-            <Login />
+            <Login users={users} />
             <Footer />
           </>
         }>
@@ -105,6 +143,17 @@ function App() {
           </>
         }>
         </Route>
+        <Route path="/aboutus" element={
+          <>
+            <Banner />
+            <Nav2 login="" signup="Sign Up" />
+            <Company />
+            <Testimonials />
+            <Blog />
+            <Team />
+            <Footer />
+          </>
+        }></Route>
         <Route exact path="/:id"
           element={
             <>
@@ -168,43 +217,52 @@ function App() {
         />
         <Route path='/account' element={<Account />} />
         <Route path='/account/setting' element={<> <ProtectedRouteSTU><Account setting="true" /><AccountSetting /> </ProtectedRouteSTU></>} />
-        <Route path='/account/learning' element={<> <ProtectedRouteSTU><Account learning="true" /><AccountLearning /> </ProtectedRouteSTU></>} />
+        <Route path='/account/learning' element={<> <ProtectedRouteSTU><Account learning="true" /><AccountLearning learner = {learner} courses={courses}/> </ProtectedRouteSTU></>} />
         <Route path='/account/notification' element={<> <ProtectedRouteSTU><Account noti="true" /><AccountNotification /> </ProtectedRouteSTU></>} />
         <Route path='/account/purchase' element={<> <ProtectedRouteSTU><Account history="true" /><AccountPurchase /> </ProtectedRouteSTU></>} />
         <Route path='/account/assignment' element={<> <ProtectedRouteSTU><Account assignment="true" /><AccountAssignment /> </ProtectedRouteSTU></>} />
+
         <Route path='/learning/:id' element={<>
-        <ProtectedCourseData>
-          <Nav2 login="Login" signup="Sign Up" />
-          <Gallery courses = {courses}/>
-          <CourseDetails courses = {courses}/>
-          <Footer />
+          <ProtectedCourseData>
+            <Nav2 login="Login" signup="Sign Up" />
+            <Gallery courses={courses} />
+            <CourseDetails courses={courses} />
+            <Footer />
           </ProtectedCourseData>
         </>} />
 
-          {/* admin dashboard */}
+        {/* admin dashboard */}
         <Route path='/admindashboard' element={<>
-        <ProtectedAdmin>
-          <AdminDashboard dashboard = "true"/>
+          <ProtectedAdmin>
+            <AdminDashboard dashboard="true" />
           </ProtectedAdmin></>} />
-        <Route path='/admindashboard/courses' element={<> 
-        <ProtectedAdmin>
-          <AdminDashboard course = "true"/>
-          <ManageCourse />
-           </ProtectedAdmin></>} />
-        <Route path='/admindashboard/account' element={<> 
-          <AdminDashboard account = "true" />
-          <ManageAccount />
-          </>} />
-        <Route path='/admindashboard/reports' element={<> 
-          <AdminDashboard report = "true" />
-          <ManageNotify />
+        <Route path='/admindashboard/courses' element={<>
+          <ProtectedAdmin>
+            <AdminDashboard course="true" />
+            <ManageCourse courses={courses} />
+          </ProtectedAdmin></>} />
+        <Route path='/admindashboard/account' element={<>
+          <ProtectedAdmin>
+            <AdminDashboard account="true" />
+            <ManageAccount users={users} />
+          </ProtectedAdmin>
+        </>} />
+        <Route path='/admindashboard/reports' element={<>
+          <ProtectedAdmin>
+            <AdminDashboard report="true" />
+            <ManageNotify />
+          </ProtectedAdmin>
         </>} />
         <Route path='/admindashboard/performance' element={<>
-          <AdminDashboard perform = "true" />
+          <ProtectedAdmin>
+            <AdminDashboard perform="true" />
+          </ProtectedAdmin>
         </>} />
         <Route path='/admindashboard/setting' element={<>
-          <AdminDashboard setting = "true" />
-        <AccountSetting />
+          <ProtectedAdmin>
+            <AdminDashboard setting="true" />
+            <AccountSetting />
+          </ProtectedAdmin>
         </>} />
 
       </Routes>

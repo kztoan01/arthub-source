@@ -16,6 +16,10 @@ function classNames(...classes) {
 }
 
 export default function CoursePreview(props) {
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   var elems = document.querySelectorAll('.collapsible');
+  //   var instances = M.Collapsible.init(elems, options);
+  // });
   const { id } = useParams()
   const thisCourse = props.courses?.find((course) => String(course.id) === id)
   console.log(thisCourse?.image)
@@ -45,6 +49,7 @@ export default function CoursePreview(props) {
   // }, []
   // )
   return (
+    <>
     <div className="bg-white">
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
@@ -234,6 +239,9 @@ export default function CoursePreview(props) {
           </div>
         </div>
       </div>
+     {/* section  */}
+     
     </div>
+    </>
   )
 }

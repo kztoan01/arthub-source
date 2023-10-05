@@ -16,7 +16,6 @@ function AdminDashboard(props) {
   const handleLogout = (e) => {
     localStorage.removeItem("AD-authenticated");
     localStorage.removeItem("logined");
-    <Navigate to="/login" />
   }
   const user = {
     name: thisAccount?.firstname + " " + thisAccount?.lastname,
@@ -52,11 +51,11 @@ function AdminDashboard(props) {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <a href="#"><img
+                      <Link to="/" href="#"><img
                         className="h-8 w-8"
                         src={logo}
                         alt="ArtHub"
-                      /></a>
+                      /></Link>
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
