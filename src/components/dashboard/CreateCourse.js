@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, version } from 'react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Switch } from '@headlessui/react'
+import axios from 'axios'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -8,7 +9,88 @@ function classNames(...classes) {
 
 export default function CreateCourse() {
     const [agreed, setAgreed] = useState(false)
+    // Create Course
+    const thisInstructor = JSON.parse(localStorage.getItem("logined"))
+    const [name, setName] = useState("")
+    const [introduction, setIntroduction] = useState("")
+    const [description, setDescription] = useState("")
+    const [category, setCategory] = useState("1")
+    const [language, setLanguage] = useState("")
+    const [level, setLevel] = useState("")
+    const [price, setPrice] = useState("")
+    const [coupon, setCoupon] = useState("")
+    const [lo2, setLo2] = useState("")
+    const [lo1, setLo1] = useState("")
+    const [lo3, setLo3] = useState("")
+    const [lo4, setLo4] = useState("")
+    const [sec1, setSec1] = useState("")
+    const [sec2, setSec2] = useState("")
+    const [sec3, setSec3] = useState("")
+    const [sec4, setSec4] = useState("")
+    const [sec5, setSec5] = useState("")
+    const [sec6, setSec6] = useState("")
+    console.log(category)
+    async function handleSubmit(e) {
+        e.preventDefault()
+        try {
+            await axios.post("http://localhost:8080/course/addCourse", {
+                accountId: thisInstructor.id,
+                isApproved: 0,
+                iPassed: 0,
+                coupon: coupon,
+                price: price,
+                language: language,
+                level: level,
+                introduction: introduction,
+                description: description,
+                name: name,
+                sections: [
+                    {
+                        name: sec1,
+                        accountId: thisInstructor.id
+                    },
+                    {
+                        name: sec2,
+                        accountId: thisInstructor.id
+                    },
+                    {
+                        name: sec3,
+                        accountId: thisInstructor.id
+                    },
+                    {
+                        name: sec4,
+                        accountId: thisInstructor.id
+                    },
+                    {
+                        name: sec5,
+                        accountId: thisInstructor.id
+                    },
+                    {
+                        name: sec6,
+                        accountId: thisInstructor.id
+                    }
 
+                ],
+                learningObjective: {
+                    one: lo1,
+                    two: lo2,
+                    three: lo3,
+                    four: lo4
+                },
+                categories: [
+                    {
+                        categoryId: category
+                    }
+                ]
+            });
+            alert("Create Course Success!");
+
+        } catch (err) {
+            alert(err);
+        }
+        // console.log(name + " " + introduction + " " +description + " " +category + " " +language + " " +level
+        // + " " +price + " " +coupon + " " +lo1 + " " +lo2 + " " +lo3 + " " +lo4 + " " +sec1 + " " +sec2 + " " +sec3 + " " +sec4 + " " +sec5 + " " +sec6)
+    }
     return (
         <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
             {/* <div
@@ -29,7 +111,7 @@ export default function CreateCourse() {
                     Tell us a little bit about your course.
                 </p>
             </div>
-            <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20">
+            <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20" >
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
                     <div>
                         <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
@@ -42,6 +124,9 @@ export default function CreateCourse() {
                                 id="first-name"
                                 autoComplete="given-name"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                onChange={(e) => {
+                                    setName(e.target.value);
+                                }}
                             />
                         </div>
                     </div>
@@ -70,7 +155,9 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            />
+                                onChange={(e) => {
+                                    setIntroduction(e.target.value);
+                                }} />
                         </div>
                     </div>
                     <div className="sm:col-span-2">
@@ -84,45 +171,61 @@ export default function CreateCourse() {
                                 rows={4}
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 defaultValue={''}
+                                onChange={(e) => {
+                                    setDescription(e.target.value);
+                                }}
                             />
                         </div>
                     </div>
                     <div class="sm:col-span-3"> <label for="country"
                         class="block text-sm font-medium leading-6 text-gray-900">Select Category</label>
-                        <div class="mt-2"> <select id="country" name="country" autocomplete="country-name"
+                        <div class="mt-2"> <select
+                            value={category}
+                            onChange={(e) => {
+                                setCategory(e.target.value);
+                            }}
+                            id="country" name="country" autocomplete="country-name"
                             class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                            <option>Caricature</option>
-                            <option>Cartoon</option>
-                            <option>Figure</option>
-                            <option>Gesture</option>
-                            <option>Perspective</option>
-                            <option>Photorealism</option>
-                            <option>Scientific illustrations</option>
-                            <option>Scatchboard</option>
-                            <option>Stillhouette</option>
-                            <option>Sketch</option>
-                            <option>Techical</option>
+                            <option value={1}>Caricature</option>
+                            <option value={2}>Cartoon</option>
+                            <option value={3}>Figure</option>
+                            <option value={4}>Gesture</option>
+                            <option value={5}>Perspective</option>
+                            <option value={6}>Photorealism</option>
+                            <option value={7}>Scientific illustrations</option>
+                            <option value={8}>Scatchboard</option>
+                            <option value={9}>Stillhouette</option>
+                            <option value={10}>Sketch</option>
+                            <option value={11}>Techical</option>
                         </select> </div>
                     </div>
                     <div class="sm:col-span-3"> <label for="country"
                         class="block text-sm font-medium leading-6 text-gray-900">Select Language</label>
-                        <div class="mt-2"> <select id="country" name="country" autocomplete="country-name"
+                        <div class="mt-2"> <select
+                            onChange={(e) => {
+                                setLanguage(e.target.value);
+                            }}
+                            id="country" name="country" autocomplete="country-name"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                            <option>English</option>
-                            <option>Vietnamese</option>
-                            <option>French</option>
-                            <option>Japanese</option>
-                            <option>Chinese</option>
-                            <option>Dogese</option>
+                            <option value={"English"}>English</option>
+                            <option value={"Vietnamese"}>Vietnamese</option>
+                            <option value={"French"}>French</option>
+                            <option value={"Japanese"}>Japanese</option>
+                            <option value={"Chinese"}>Chinese</option>
+                            <option value={"Dogese"}>Dogese</option>
                         </select> </div>
                     </div>
                     <div class="sm:col-span-3"> <label for="country"
                         class="block text-sm font-medium leading-6 text-gray-900">Select Level</label>
-                        <div class="mt-2"> <select id="country" name="country" autocomplete="country-name"
+                        <div class="mt-2"> <select
+                            onChange={(e) => {
+                                setLevel(e.target.value);
+                            }}
+                            id="country" name="country" autocomplete="country-name"
                             class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                            <option>Beginner</option>
-                            <option>Intermediate</option>
-                            <option>Expert</option>
+                            <option value={"Beginner"}>Beginner</option>
+                            <option value={"Intermediate"}>Intermediate</option>
+                            <option value={"Expert"}>Expert</option>
                         </select> </div>
                     </div>
                     <div className="sm:col-span-2">
@@ -148,6 +251,9 @@ export default function CreateCourse() {
                                 />
                             </div>
                             <input
+                                onChange={(e) => {
+                                    setPrice(e.target.value);
+                                }}
                                 type="number"
                                 // name="phone-number"
                                 // id="phone-number"
@@ -159,7 +265,7 @@ export default function CreateCourse() {
 
                     <div className="sm:col-span-2">
                         <label htmlFor="phone-number" className="block text-sm font-semibold leading-6 text-gray-900">
-                        Coupon
+                            Coupon
                         </label>
                         <div className="relative mt-2.5">
                             <div className="absolute inset-y-0 left-0 flex items-center">
@@ -171,6 +277,9 @@ export default function CreateCourse() {
                                 </div>
                             </div>
                             <input
+                                onChange={(e) => {
+                                    setCoupon(e.target.value);
+                                }}
                                 type="number"
                                 name="phone-number"
                                 id="phone-number"
@@ -180,13 +289,16 @@ export default function CreateCourse() {
                         </div>
                     </div>
                     <div className="sm:col-span-2">
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">What will students learn in your course?</h2>
-                                <p class="mt-1 text-sm leading-6 text-gray-600">You must enter at least 6 learning objectives or outcomes that learners can expect to achieve after completing your course.</p>
+                        <h2 class="text-base font-semibold leading-7 text-gray-900">What will students learn in your course?</h2>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">You must enter at least 6 learning objectives or outcomes that learners can expect to achieve after completing your course.</p>
                         {/* <label htmlFor="company" className="block text-sm font-semibold leading-6 text-gray-900">
                             Course Introduction
                         </label> */}
                         <div className="mt-2.5">
                             <input
+                                onChange={(e) => {
+                                    setLo1(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -195,6 +307,9 @@ export default function CreateCourse() {
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                             <input
+                                onChange={(e) => {
+                                    setLo2(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -203,6 +318,9 @@ export default function CreateCourse() {
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                             <input
+                                onChange={(e) => {
+                                    setLo3(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -211,6 +329,9 @@ export default function CreateCourse() {
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                             <input
+                                onChange={(e) => {
+                                    setLo4(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -221,13 +342,16 @@ export default function CreateCourse() {
                         </div>
                     </div>
                     <div className="sm:col-span-2">
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Curriculum</h2>
-                                <p class="mt-1 text-sm leading-6 text-gray-600">Start putting together your course by creating sections, lectures and practice activities. You can enter up to 6 sections in your course</p>
+                        <h2 class="text-base font-semibold leading-7 text-gray-900">Curriculum</h2>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">Start putting together your course by creating sections, lectures and practice activities. You can enter up to 6 sections in your course</p>
                         {/* <label htmlFor="company" className="block text-sm font-semibold leading-6 text-gray-900">
                             Course Introduction
                         </label> */}
                         <div className="mt-2.5">
                             <input
+                                onChange={(e) => {
+                                    setSec1(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -235,7 +359,10 @@ export default function CreateCourse() {
                                 placeholder='Section name #1'
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
-                             <input
+                            <input
+                                onChange={(e) => {
+                                    setSec2(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -243,7 +370,10 @@ export default function CreateCourse() {
                                 placeholder='Section name #2'
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
-                             <input
+                            <input
+                                onChange={(e) => {
+                                    setSec3(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -252,6 +382,9 @@ export default function CreateCourse() {
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                             <input
+                                onChange={(e) => {
+                                    setSec4(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -260,6 +393,9 @@ export default function CreateCourse() {
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                             <input
+                                onChange={(e) => {
+                                    setSec5(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -268,6 +404,9 @@ export default function CreateCourse() {
                                 className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                             />
                             <input
+                                onChange={(e) => {
+                                    setSec6(e.target.value);
+                                }}
                                 type="text"
                                 name="company"
                                 id="company"
@@ -308,6 +447,7 @@ export default function CreateCourse() {
                 </div>
                 <div className="mt-10">
                     <button
+                        onClick={handleSubmit}
                         type="submit"
                         className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                     >

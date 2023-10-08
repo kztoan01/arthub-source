@@ -18,6 +18,7 @@ function classNames(...classes) {
 
 export default function ManageCourse(props) {
     const courses = props.courses
+    const courseNotApproved = courses?.filter((course) => String(course.approved) === "false");
     let dateonly = "";
     return (
         <>
@@ -28,7 +29,7 @@ export default function ManageCourse(props) {
             </header>
             <main>
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-                    {courses.map((product) => (
+                    {courseNotApproved?.map((product) => (
                         <div className="lg:flex lg:items-center lg:justify-between pb-10">
                             <div className="min-w-0 flex-1">
                                 <h2 className="text-2xl font-bold leading-7 text-gray-900 ">

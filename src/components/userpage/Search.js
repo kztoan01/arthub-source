@@ -29,7 +29,7 @@ const languages = [
   { value: 'chinese', label: 'Chinese', checked: false },
   { value: 'dogese', label: 'Dogese', checked: false },
 ]
-const levels =[
+const levels = [
   { value: '', label: 'All Levels', checked: true },
   { value: 'beginner', label: 'Beginner', checked: false },
   { value: 'intermediate', label: 'Intermediate', checked: false },
@@ -38,7 +38,7 @@ const levels =[
 const prices = [
   { value: '', label: 'All Price', checked: true },
   { value: 'free', label: 'Free', checked: false },
-  { value: 0 , label: 'Paid', checked: false },
+  { value: 0, label: 'Paid', checked: false },
 ]
 const filters = [
   {
@@ -70,7 +70,7 @@ const filters = [
     options: [
       { value: '', label: 'All Price', checked: true },
       { value: 'free', label: 'Free', checked: false },
-      { value: 0 , label: 'Paid', checked: false },
+      { value: 0, label: 'Paid', checked: false },
     ],
     // options: [
     //   { value: '', label: 'All Price', checked: true },
@@ -103,9 +103,9 @@ export default function Search(props) {
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
   const [price, setPrice] = useState('');
-  console.log(language)
-  console.log(level)
-  console.log(price)
+  // console.log(language)
+  // console.log(level)
+  // console.log(price)
   // const handleChange = (e) => {
   //   // to find out if it's checked or not; returns true or false
   //   const checked = e.target.checked;
@@ -334,16 +334,16 @@ export default function Search(props) {
                                   type="radio"
                                   defaultChecked={option.checked}
                                   className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                                  
-                                  onChange={(e) => { 
-                                    if(section.name === 'Language') {
+
+                                  onChange={(e) => {
+                                    if (section.name === 'Language') {
                                       setLanguage(e.target.value)
-                                    } if(section.name === 'Level') {
+                                    } if (section.name === 'Level') {
                                       setLevel(e.target.value)
-                                    } if(section.name === 'Price') {
+                                    } if (section.name === 'Price') {
                                       setPrice(e.target.value)
                                     }
-                                    }}
+                                  }}
                                 />
                                 <label
                                   htmlFor={`filter-${section.id}-${optionIdx}`}
@@ -365,19 +365,22 @@ export default function Search(props) {
               <div className="lg:col-span-3">
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                   {courses?.filter((product) => {
-                    if (search === '') {
-                      if (language === '') {
-                        return product;
+                    if (String(product.approved) === "true") {
+                      if (search === '') {
+                        if (language === '') {
+                          return product;
+                        } else {
+                          return product.language?.toLowerCase().includes(language)
+                        }
                       } else {
-                        return product.language?.toLowerCase().includes(language)
-                      }
-                    } else {
-                      return product.name?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
-                        || product.description?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
-                        || product.instructorName?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
+                        return product.name?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
+                          || product.description?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
+                          || product.instructorName?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
 
-                      // || product.courseCategories.toLowerCase().includes(search)
+                        // || product.courseCategories.toLowerCase().includes(search)
+                      }
                     }
+
 
                     // return  ? product : 
                   }).map((product) => (

@@ -10,7 +10,7 @@ function Login(props) {
     const [open, setOpen] = useState(false)
     const cancelButtonRef = useRef(null)
     const users = props.users;
-    console.log(users)
+    // console.log(users)
     //local storage, session
     const navigate = useNavigate();
     const [email, setemail] = useState("");

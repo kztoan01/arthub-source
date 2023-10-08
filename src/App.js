@@ -42,12 +42,17 @@ import Blog from './components/introduction/Blog.js';
 import Testimonials from './components/introduction/Testimonials.js';
 import Team from './components/introduction/Team.js';
 import apiLearner from './components/api/axiosLearnerConfig.js'
+import Tictactoe from './components/userpage/Tictactoe.js';
 import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
+
   const [users, setUsers] = useState();
   const [courses, setCourses] = useState();
-  const [learner,setLearner] = useState();
+  const [learner, setLearner] = useState();
+  // get 
+  const thisAccount = JSON.parse(localStorage.getItem("logined"))
+  const thisStudent = learner?.filter((learner) => learner.accountId === thisAccount?.id);
   //get course leaner
   const getLearner = async () => {
     try {
@@ -100,7 +105,24 @@ function App() {
 
       <Routes>
 
-
+        <Route path="/game" element={
+          <>
+            <Banner />
+            <Nav2 login="" signup="Sign Up" />
+            <div 
+          style={{
+            width : '100vw',
+            height : '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor : 'white'
+          }}>
+            <Tictactoe/></div>
+            <Footer />
+          </>
+        }>
+        </Route>
         <Route path="/login" element={
           <>
             <Banner />
@@ -160,7 +182,7 @@ function App() {
               <ProtectedRouteSTU>
                 <Banner />
                 <Nav2 login="Login" signup="Sign Up" />
-                <CoursePreview courses={courses} />
+                <CoursePreview courses={courses} learner={learner} />
                 <Footer />
               </ProtectedRouteSTU>
             </>
@@ -217,7 +239,7 @@ function App() {
         />
         <Route path='/account' element={<Account />} />
         <Route path='/account/setting' element={<> <ProtectedRouteSTU><Account setting="true" /><AccountSetting /> </ProtectedRouteSTU></>} />
-        <Route path='/account/learning' element={<> <ProtectedRouteSTU><Account learning="true" /><AccountLearning learner = {learner} courses={courses}/> </ProtectedRouteSTU></>} />
+        <Route path='/account/learning' element={<> <ProtectedRouteSTU><Account learning="true" /><AccountLearning learner={learner} courses={courses} /> </ProtectedRouteSTU></>} />
         <Route path='/account/notification' element={<> <ProtectedRouteSTU><Account noti="true" /><AccountNotification /> </ProtectedRouteSTU></>} />
         <Route path='/account/purchase' element={<> <ProtectedRouteSTU><Account history="true" /><AccountPurchase /> </ProtectedRouteSTU></>} />
         <Route path='/account/assignment' element={<> <ProtectedRouteSTU><Account assignment="true" /><AccountAssignment /> </ProtectedRouteSTU></>} />
