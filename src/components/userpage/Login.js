@@ -4,18 +4,33 @@ import { useState, useEffect } from 'react';
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import api from '../api/axiosAccountConfig'
 // import api from '../api/axiosAccountConfig'
 // import { users } from '../data/ListOfCategories.js'
 function Login(props) {
+    const [users, setUsers] = useState();
     const [open, setOpen] = useState(false)
     const cancelButtonRef = useRef(null)
-    const users = props.users;
     // console.log(users)
     //local storage, session
     const navigate = useNavigate();
     const [email, setemail] = useState("");
     const [password, setpassword] = useState("");
     const [authenticated, setauthenticated] = useState(localStorage.getItem(localStorage.getItem("authenticated") || false));
+    const getUsers = async () => {
+        try {
+          const response = await api.get("/accounts");
+          // console.log(response.data)
+          setUsers(response.data);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    
+      useEffect(() => {
+        getUsers();
+      }, []
+      )
     const handleSubmit = (e) => {
         e.preventDefault()
         // const thisCourse = props.courses?.find((course) => String(course.id) === id)

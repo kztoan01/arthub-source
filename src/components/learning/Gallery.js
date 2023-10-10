@@ -1,6 +1,6 @@
 import Video from "./Video.js";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { PlayIcon } from "@heroicons/react/24/solid";
 const datas = [
     {
@@ -68,8 +68,15 @@ const datas = [
     },
 ];
 export default function Gallery(props) {
-
     const { id } = useParams()
+    const navigate = useNavigate()
+    const thisAccount = JSON.parse(localStorage.getItem("logined"))
+    const learner = props.learner
+    const thisStudent = learner?.filter((learner) => learner.accountId === thisAccount.id);
+    const isEnroll = thisStudent?.find((thisStudent) => String(thisStudent.courseId) === id)
+    if(isEnroll == null) {
+        navigate('/')
+    }
     const thisCourse = props.courses?.find((course) => String(course.id) === id)
     const [activeVid, setActiveVid] = useState("https://www.youtube.com/embed/Sv5yCzPCkv8?si=ZwqYBwnWohqcAtWH")
     const [actTitle, setActTitle] = useState("SZA - Snooze");

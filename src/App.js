@@ -43,6 +43,9 @@ import Testimonials from './components/introduction/Testimonials.js';
 import Team from './components/introduction/Team.js';
 import apiLearner from './components/api/axiosLearnerConfig.js'
 import Tictactoe from './components/userpage/Tictactoe.js';
+import PreviewCourse from './components/dashboard/PreviewCourse.js';
+import ProtectedStudentInfo from './components/protect/ProtectedStudentInfo.js';
+import PreviewPendingCourse from './components/admin/PreviewPendingCourse.js';
 import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
@@ -57,7 +60,6 @@ function App() {
   const getLearner = async () => {
     try {
       const response = await apiLearner.get("/getLearners");
-      // console.log(response.data)
       setLearner(response.data);
     } catch (err) {
       console.log(err);
@@ -72,7 +74,6 @@ function App() {
   const getUsers = async () => {
     try {
       const response = await api.get("/accounts");
-      // console.log(response.data)
       setUsers(response.data);
     } catch (err) {
       console.log(err);
@@ -87,7 +88,6 @@ function App() {
   const getCourses = async () => {
     try {
       const response = await apiCourse.get("/getCourses");
-      console.log(response.data)
       setCourses(response.data);
     } catch (err) {
       console.log(err);
@@ -109,16 +109,16 @@ function App() {
           <>
             <Banner />
             <Nav2 login="" signup="Sign Up" />
-            <div 
-          style={{
-            width : '100vw',
-            height : '100vh',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor : 'white'
-          }}>
-            <Tictactoe/></div>
+            <div
+              style={{
+                width: '100vw',
+                height: '100vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'white'
+              }}>
+              <Tictactoe /></div>
             <Footer />
           </>
         }>
@@ -206,7 +206,8 @@ function App() {
         <Route path='/instructordashboard/courses' element={<>
           <ProtectedRouteINS>
             <InstructorDashboard course="true" />
-            <CoursesContent />
+            <CoursesContent courses = {courses}/>
+            <CreateCourse />
           </ProtectedRouteINS></>} />
         <Route path='/instructordashboard/student' element={<>
           <ProtectedRouteINS>
@@ -223,12 +224,12 @@ function App() {
             <InstructorDashboard perform="true" />
             <PerformanceContent />
           </ProtectedRouteINS></>} />
-        <Route path='/instructordashboard/courses/createcourse' element={<>
+        {/* <Route path='/instructordashboard/courses/createcourse' element={<>
           <ProtectedRouteINS>
             <InstructorDashboard course="true" />
-            <CoursesContent />
+            <CoursesContent courses = {courses}/>
             <CreateCourse />
-          </ProtectedRouteINS></>} />
+          </ProtectedRouteINS></>} /> */}
         <Route path='/instructordashboard/account'
           element={<>
             <ProtectedRouteINS>
@@ -237,17 +238,23 @@ function App() {
             </ProtectedRouteINS>
           </>}
         />
-        <Route path='/account' element={<Account />} />
-        <Route path='/account/setting' element={<> <ProtectedRouteSTU><Account setting="true" /><AccountSetting /> </ProtectedRouteSTU></>} />
-        <Route path='/account/learning' element={<> <ProtectedRouteSTU><Account learning="true" /><AccountLearning learner={learner} courses={courses} /> </ProtectedRouteSTU></>} />
-        <Route path='/account/notification' element={<> <ProtectedRouteSTU><Account noti="true" /><AccountNotification /> </ProtectedRouteSTU></>} />
-        <Route path='/account/purchase' element={<> <ProtectedRouteSTU><Account history="true" /><AccountPurchase /> </ProtectedRouteSTU></>} />
-        <Route path='/account/assignment' element={<> <ProtectedRouteSTU><Account assignment="true" /><AccountAssignment /> </ProtectedRouteSTU></>} />
+        <Route path='/instructordashboard/preview/:id' element={<>
+          <ProtectedRouteINS>
+            <InstructorDashboard course="true" />
+            <PreviewCourse courses={courses}/>
+            <Footer />
+          </ProtectedRouteINS></>} />
+        <Route path='/account' element={<><ProtectedStudentInfo><Account /></ProtectedStudentInfo></>} />
+        <Route path='/account/setting' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account setting="true" /><AccountSetting /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+        <Route path='/account/learning' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account learning="true" /><AccountLearning learner={learner} courses={courses} /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+        <Route path='/account/notification' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account noti="true" /><AccountNotification /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
+        <Route path='/account/purchase' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account history="true" /><AccountPurchase /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
+        <Route path='/account/assignment' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account assignment="true" /><AccountAssignment /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
 
         <Route path='/learning/:id' element={<>
           <ProtectedCourseData>
             <Nav2 login="Login" signup="Sign Up" />
-            <Gallery courses={courses} />
+            <Gallery learner={learner} courses={courses} />
             <CourseDetails courses={courses} />
             <Footer />
           </ProtectedCourseData>
@@ -263,6 +270,12 @@ function App() {
             <AdminDashboard course="true" />
             <ManageCourse courses={courses} />
           </ProtectedAdmin></>} />
+          <Route path='/pendingcourse/:id' element={<>
+            <ProtectedAdmin>
+            <AdminDashboard course="true" />
+            <PreviewPendingCourse courses={courses}/>
+            <Footer />
+            </ProtectedAdmin></>} />
         <Route path='/admindashboard/account' element={<>
           <ProtectedAdmin>
             <AdminDashboard account="true" />

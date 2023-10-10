@@ -15,8 +15,8 @@ export default function CreateCourse() {
     const [introduction, setIntroduction] = useState("")
     const [description, setDescription] = useState("")
     const [category, setCategory] = useState("1")
-    const [language, setLanguage] = useState("")
-    const [level, setLevel] = useState("")
+    const [language, setLanguage] = useState("English")
+    const [level, setLevel] = useState("Beginner")
     const [price, setPrice] = useState("")
     const [coupon, setCoupon] = useState("")
     const [lo2, setLo2] = useState("")
@@ -29,12 +29,12 @@ export default function CreateCourse() {
     const [sec4, setSec4] = useState("")
     const [sec5, setSec5] = useState("")
     const [sec6, setSec6] = useState("")
-    console.log(category)
     async function handleSubmit(e) {
         e.preventDefault()
         try {
             await axios.post("http://localhost:8080/course/addCourse", {
                 accountId: thisInstructor.id,
+                status : 0,
                 isApproved: 0,
                 iPassed: 0,
                 coupon: coupon,
@@ -202,6 +202,7 @@ export default function CreateCourse() {
                     <div class="sm:col-span-3"> <label for="country"
                         class="block text-sm font-medium leading-6 text-gray-900">Select Language</label>
                         <div class="mt-2"> <select
+                        value={language}
                             onChange={(e) => {
                                 setLanguage(e.target.value);
                             }}
@@ -218,6 +219,7 @@ export default function CreateCourse() {
                     <div class="sm:col-span-3"> <label for="country"
                         class="block text-sm font-medium leading-6 text-gray-900">Select Level</label>
                         <div class="mt-2"> <select
+                        value={level}
                             onChange={(e) => {
                                 setLevel(e.target.value);
                             }}

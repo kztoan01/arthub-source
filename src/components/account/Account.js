@@ -3,15 +3,19 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import logo from '../assets/image/ArtHub-only-logo-white.png'
+
+
+const thisAccount = JSON.parse(localStorage.getItem("logined"))
+
 const user = {
-  name: 'Toan',
-  email: 'kztoan01@gmail.com',
+  name: thisAccount?.lastname + ' ' +thisAccount?.firstname,
+  email: thisAccount?.email,
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 }
 
 const userNavigation = [
-  { name: 'Toan - kztoan01@gmail.com', href: '#' },
+  { name: thisAccount?.lastname + ' ' +thisAccount?.firstname, href: '#' },
   { name: 'Settings', href: '#' },
 ]
 

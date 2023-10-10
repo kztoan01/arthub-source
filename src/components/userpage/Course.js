@@ -5,10 +5,10 @@ import apiCourse from '../api/axiosCourseConfig.js'
 import { useState, useEffect } from 'react';
 function Course(props) {
     const courses = props.courses;
-    const level = courses?.filter((course) =>  course.level === "Expert" && String(course.approved) === "true");
-    const english = courses?.filter((course) => course.language === "English" && String(course.approved) === "true");
-    const free = courses?.filter((course) => course.price === 0 && String(course.approved) === "true");
-    const vietnamese = courses?.filter((course) => course.language === "Vietnamese" && String(course.approved) === "true");
+    const level = courses?.filter((course) =>  course.level === "Expert" && String(course.status) === "2");
+    const english = courses?.filter((course) => course.language === "English" && String(course.status) === "2");
+    const free = courses?.filter((course) => course.price === 0 && String(course.status) === "2");
+    const vietnamese = courses?.filter((course) => course.language === "Vietnamese" && String(course.status) === "2");
     const types = [
         {
             name: 'Most Popular Courses',

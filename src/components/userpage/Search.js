@@ -365,7 +365,7 @@ export default function Search(props) {
               <div className="lg:col-span-3">
                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                   {courses?.filter((product) => {
-                    if (String(product.approved) === "true") {
+                    if (String(product.status) === "2") {
                       if (search === '') {
                         if (language === '') {
                           return product;
@@ -373,9 +373,9 @@ export default function Search(props) {
                           return product.language?.toLowerCase().includes(language)
                         }
                       } else {
-                        return product.name?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
-                          || product.description?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
-                          || product.instructorName?.toLowerCase().includes(search) && product.language?.toLowerCase().includes(language)
+                        return product.name?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language)
+                          || product.description?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language)
+                          || product.instructorName?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language)
 
                         // || product.courseCategories.toLowerCase().includes(search)
                       }

@@ -65,7 +65,7 @@ export default function Feature(props) {
                             height={1442}
                         />
                     </div>
-                    <Link to="/instructordashboard/courses/createcourse">{createButton1}</Link>
+                    <Link to="/instructordashboard/courses">{createButton1}</Link>
                 </div>
 
             </div>
