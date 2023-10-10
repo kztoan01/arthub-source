@@ -46,6 +46,7 @@ import Tictactoe from './components/userpage/Tictactoe.js';
 import PreviewCourse from './components/dashboard/PreviewCourse.js';
 import ProtectedStudentInfo from './components/protect/ProtectedStudentInfo.js';
 import PreviewPendingCourse from './components/admin/PreviewPendingCourse.js';
+import ArthubPerformance from './components/admin/ArthubPerformance.js';
 import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
@@ -291,6 +292,7 @@ function App() {
         <Route path='/admindashboard/performance' element={<>
           <ProtectedAdmin>
             <AdminDashboard perform="true" />
+            <ArthubPerformance />
           </ProtectedAdmin>
         </>} />
         <Route path='/admindashboard/setting' element={<>
