@@ -125,7 +125,7 @@ export default function PreviewPendingCourse(props) {
             price = '$' + thisCourse?.price;
             return <button
                 type="button"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
                 Add to cart
             </button>
@@ -134,7 +134,7 @@ export default function PreviewPendingCourse(props) {
             price = 'Free'
             return <button
                 type="submit"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
                 Enroll now
             </button>
@@ -143,7 +143,9 @@ export default function PreviewPendingCourse(props) {
     const [activeVid, setActiveVid] = useState("https://www.youtube.com/embed/Sv5yCzPCkv8?si=ZwqYBwnWohqcAtWH")
     const [actTitle, setActTitle] = useState("SZA - Snooze");
     const [description, setActiveDescription] = useState("My favorite song from my celebrity crush")
-    
+    //img config
+    const linkImg = 'http://localhost:8080//images//'
+    console.log(linkImg+thisCourse?.images?.two)
     return (
         <>
             <div className="bg-white">
@@ -183,7 +185,7 @@ export default function PreviewPendingCourse(props) {
                             <img
                                 // src={product.images[0].src}
                                 // alt={product.images[0].alt}
-                                src={thisCourse?.image}
+                                src={linkImg+thisCourse?.images?.one}
                                 alt=""
                                 className="h-full w-full object-cover object-center"
                             />
@@ -193,7 +195,7 @@ export default function PreviewPendingCourse(props) {
                                 <img
                                     // src={product.images[1].src}
                                     // alt={product.images[1].alt}
-                                    src={thisCourse?.image}
+                                    src={linkImg+thisCourse?.images?.two}
                                     alt=""
                                     className="h-full w-full object-cover object-center"
                                 />
@@ -202,7 +204,7 @@ export default function PreviewPendingCourse(props) {
                                 <img
                                     // src={product.images[2].src}
                                     // alt={product.images[2].alt}
-                                    src={thisCourse?.image}
+                                    src={linkImg+thisCourse?.images?.three}
                                     alt=""
                                     className="h-full w-full object-cover object-center"
                                 />
@@ -212,7 +214,7 @@ export default function PreviewPendingCourse(props) {
                             <img
                                 // src={product.images[3].src}
                                 // alt={product.images[3].alt}
-                                src={thisCourse?.image}
+                                src={linkImg+thisCourse?.images?.four}
                                 alt=""
                                 className="h-full w-full object-cover object-center"
                             />
@@ -247,7 +249,7 @@ export default function PreviewPendingCourse(props) {
                                         ))}
                                     </div>
                                     <p className="sr-only">{reviews.average} out of 5 stars</p>
-                                    <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                    <a href={reviews.href} className="ml-3 text-sm font-medium text-purple-600 hover:text-purple-500">
                                         {reviews.totalCount} reviews
                                     </a>
                                 </div>
@@ -272,7 +274,7 @@ export default function PreviewPendingCourse(props) {
                 <div className="mt-10">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                    <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="#" className="text-sm font-medium text-purple-600 hover:text-purple-500">
                       Size guide
                     </a>
                   </div>
@@ -282,7 +284,7 @@ export default function PreviewPendingCourse(props) {
                                       ) : <p className="text-sm font-medium text-gray-900">{product.price}</p>} */}
                                 {/* <Link to={`/learning/${id}`}> <button
                     type="submit"
-                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                   >
                     {enroll}
                   </button></Link> */}
@@ -432,7 +434,7 @@ export default function PreviewPendingCourse(props) {
                                             </div>
                                         </div>
                                         <div className="ml-4 flex-shrink-0">
-                                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                            <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
                                                 Download
                                             </a>
                                         </div>
@@ -446,7 +448,7 @@ export default function PreviewPendingCourse(props) {
                                             </div>
                                         </div>
                                         <div className="ml-4 flex-shrink-0">
-                                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                            <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
                                                 Download
                                             </a>
                                         </div>

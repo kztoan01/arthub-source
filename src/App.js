@@ -47,61 +47,13 @@ import PreviewCourse from './components/dashboard/PreviewCourse.js';
 import ProtectedStudentInfo from './components/protect/ProtectedStudentInfo.js';
 import PreviewPendingCourse from './components/admin/PreviewPendingCourse.js';
 import ArthubPerformance from './components/admin/ArthubPerformance.js';
+import {ShopContextProvider} from './components/coursepage/shop-context.js'
 import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
 function App() {
-
-  const [users, setUsers] = useState();
-  const [courses, setCourses] = useState();
-  const [learner, setLearner] = useState();
-  // get 
-  const thisAccount = JSON.parse(localStorage.getItem("logined"))
-  const thisStudent = learner?.filter((learner) => learner.accountId === thisAccount?.id);
-  //get course leaner
-  const getLearner = async () => {
-    try {
-      const response = await apiLearner.get("/getLearners");
-      setLearner(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    getLearner();
-  }, []
-  )
-  //get all users
-  const getUsers = async () => {
-    try {
-      const response = await api.get("/accounts");
-      setUsers(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    getUsers();
-  }, []
-  )
-  //get all courses
-  const getCourses = async () => {
-    try {
-      const response = await apiCourse.get("/getCourses");
-      setCourses(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    getCourses();
-  }, []
-  )
-
   return (
     <BrowserRouter>
+    <ShopContextProvider>
       <ScrollToTop />
 
       <Routes>
@@ -128,7 +80,7 @@ function App() {
           <>
             <Banner />
             <Nav2 login="" signup="Sign Up" />
-            <Login users={users} />
+            <Login />
             <Footer />
           </>
         }>
@@ -149,7 +101,7 @@ function App() {
               <Banner />
               <Nav2 login="Login" signup="Sign Up" />
               <Cover />
-              <Course courses={courses} />
+              <Course />
               <Feature />
               <Footer />
             </ProtectedRouteSTU>
@@ -160,7 +112,7 @@ function App() {
             <ProtectedRouteSTU>
               <Banner />
               <Nav2 login="Login" signup="Sign Up" />
-              <Search courses={courses} />
+              <Search />
               <Footer />
             </ProtectedRouteSTU>
           </>
@@ -183,7 +135,7 @@ function App() {
               <ProtectedRouteSTU>
                 <Banner />
                 <Nav2 login="Login" signup="Sign Up" />
-                <CoursePreview courses={courses} learner={learner} />
+                <CoursePreview />
                 <Footer />
               </ProtectedRouteSTU>
             </>
@@ -207,7 +159,7 @@ function App() {
         <Route path='/instructordashboard/courses' element={<>
           <ProtectedRouteINS>
             <InstructorDashboard course="true" />
-            <CoursesContent courses = {courses}/>
+            <CoursesContent />
             <CreateCourse />
           </ProtectedRouteINS></>} />
         <Route path='/instructordashboard/student' element={<>
@@ -242,12 +194,12 @@ function App() {
         <Route path='/instructordashboard/preview/:id' element={<>
           <ProtectedRouteINS>
             <InstructorDashboard course="true" />
-            <PreviewCourse courses={courses}/>
+            <PreviewCourse />
             <Footer />
           </ProtectedRouteINS></>} />
         <Route path='/account' element={<><ProtectedStudentInfo><Account /></ProtectedStudentInfo></>} />
         <Route path='/account/setting' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account setting="true" /><AccountSetting /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
-        <Route path='/account/learning' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account learning="true" /><AccountLearning learner={learner} courses={courses} /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+        <Route path='/account/learning' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account learning="true" /><AccountLearning /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
         <Route path='/account/notification' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account noti="true" /><AccountNotification /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
         <Route path='/account/purchase' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account history="true" /><AccountPurchase /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
         <Route path='/account/assignment' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account assignment="true" /><AccountAssignment /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
@@ -255,8 +207,8 @@ function App() {
         <Route path='/learning/:id' element={<>
           <ProtectedCourseData>
             <Nav2 login="Login" signup="Sign Up" />
-            <Gallery learner={learner} courses={courses} />
-            <CourseDetails courses={courses} />
+            <Gallery />
+            <CourseDetails />
             <Footer />
           </ProtectedCourseData>
         </>} />
@@ -269,18 +221,18 @@ function App() {
         <Route path='/admindashboard/courses' element={<>
           <ProtectedAdmin>
             <AdminDashboard course="true" />
-            <ManageCourse courses={courses} />
+            <ManageCourse  />
           </ProtectedAdmin></>} />
           <Route path='/pendingcourse/:id' element={<>
             <ProtectedAdmin>
             <AdminDashboard course="true" />
-            <PreviewPendingCourse courses={courses}/>
+            <PreviewPendingCourse />
             <Footer />
             </ProtectedAdmin></>} />
         <Route path='/admindashboard/account' element={<>
           <ProtectedAdmin>
             <AdminDashboard account="true" />
-            <ManageAccount users={users} />
+            <ManageAccount />
           </ProtectedAdmin>
         </>} />
         <Route path='/admindashboard/reports' element={<>
@@ -303,6 +255,7 @@ function App() {
         </>} />
 
       </Routes>
+      </ShopContextProvider>
     </BrowserRouter>
 
   );

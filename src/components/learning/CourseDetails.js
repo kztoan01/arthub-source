@@ -1,9 +1,24 @@
 import { useParams } from "react-router-dom";
 import { PaperClipIcon } from '@heroicons/react/20/solid'
-
+import { useState, useEffect } from "react";
+import apiCourse from '../api/axiosCourseConfig'
 export default function CourseDetails(props) {
+  const [courses, setCourses] = useState()
+  const getCourses = async () => {
+      try {
+          const response = await apiCourse.get("/getCourses");
+          setCourses(response.data);
+      } catch (err) {
+          console.log(err);
+      }
+  }
+
+  useEffect(() => {
+      getCourses();
+  }, []
+  )
     const { id } = useParams()
-    const thisCourse = props.courses?.find((course) => String(course.id) === id)
+    const thisCourse = courses?.find((course) => String(course.id) === id)
   return (
     <div className="isolate bg-white px-6 py-24 sm:py-0 lg:px-24">
       <div className="px-4 sm:px-0">
@@ -35,7 +50,13 @@ export default function CourseDetails(props) {
             </dd>
           </div>
           <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-            <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
+            <dt className="text-sm font-medium leading-6 text-gray-900">About Instructor</dt>
+            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            {thisCourse?.bio}
+            </dd>
+          </div>
+          <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <dt className="text-sm font-medium leading-6 text-gray-900">Extension Files</dt>
             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
               <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
                 <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
@@ -47,7 +68,7 @@ export default function CourseDetails(props) {
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
                       Download
                     </a>
                   </div>
@@ -61,7 +82,7 @@ export default function CourseDetails(props) {
                     </div>
                   </div>
                   <div className="ml-4 flex-shrink-0">
-                    <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
                       Download
                     </a>
                   </div>

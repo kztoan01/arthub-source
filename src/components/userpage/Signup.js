@@ -42,7 +42,7 @@ function Signup() {
                             onChange={(e) => {
                                 setFirstname(e.target.value);
                             }}
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                         </div>
                     </div>
                     <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
@@ -51,7 +51,7 @@ function Signup() {
                         onChange={(e) => {
                             setLastname(e.target.value);
                         }}
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                         </div>
                     </div>
                     <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">User Name</label>
@@ -60,7 +60,7 @@ function Signup() {
                         onChange={(e) => {
                             setUsername(e.target.value);
                         }}
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                         </div>
                     </div>
                     <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
@@ -69,7 +69,7 @@ function Signup() {
                         onChange={(e) => {
                             setEmail(e.target.value);
                         }}
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                         </div>
                     </div>
                     <div>
@@ -81,29 +81,29 @@ function Signup() {
                             onChange={(e) => {
                                 setPassword(e.target.value);
                             }}
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                         </div>
                     </div>
                     <div>
                         <div class="flex items-center justify-between"> <label for="password"
                             class="block text-sm font-medium leading-6 text-gray-900">Which one are you?</label><a href="#"
-                                class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 text-sm">Learn more</a>
+                                class="font-semibold leading-6 text-purple-600 hover:text-purple-500 text-sm">Learn more</a>
                         </div>
                         <select id="country" name="country" autocomplete="country-name"
                              value={roleId}
                              onChange={(e) => {
                                 setRoleId(e.target.value);
                             }}
-                            class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6">
                             <option value={1}>Instructor</option>
                             <option value={2}>Student</option>
                         </select> </div>
                     <div> <button type="submit" onClick={save}
-                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
+                        class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">Sign
                         up</button> </div>
                 </form>
                 <p class="mt-10 text-center text-sm text-gray-500"> Already have an account? <Link to="/login"><a href="#"
-                    class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Login</a></Link> </p>
+                    class="font-semibold leading-6 text-purple-600 hover:text-purple-500">Login</a></Link> </p>
             </div>
         </div>
     );

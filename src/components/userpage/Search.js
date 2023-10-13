@@ -4,6 +4,8 @@ import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 // import { searchCourses } from '../data/ListOfCategories.js'
 import { BrowerRoute as Router, Switch, Route, Link, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
+import apiCourse from '../api/axiosCourseConfig'
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
   { name: 'Best Rating', href: '#', current: false },
@@ -89,8 +91,20 @@ function classNames(...classes) {
 }
 
 export default function Search(props) {
-  const courses = props.courses;
+  const [courses, setCourses] = useState()
+  const getCourses = async () => {
+      try {
+          const response = await apiCourse.get("/getCourses");
+          setCourses(response.data);
+      } catch (err) {
+          console.log(err);
+      }
+  }
 
+  useEffect(() => {
+      getCourses();
+  }, []
+  )
   const location = useLocation();
   const state = location.state;
 
@@ -103,7 +117,7 @@ export default function Search(props) {
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
   const [price, setPrice] = useState('');
-  // console.log(language)
+  console.log(search)
   // console.log(level)
   // console.log(price)
   // const handleChange = (e) => {
@@ -166,8 +180,8 @@ export default function Search(props) {
                     <h3 className="sr-only">Categories</h3>
                     <ul role="list" className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map((category) => (
-                        <li key={category.name}>
-                          <a href={category.href} className="block px-2 py-3">
+                        <li key={category.name} >
+                          <a href={category.href} className="block px-2 py-3" onClick={() => setSearch(category.name)}>
                             {category.name}
                           </a>
                         </li>
@@ -200,7 +214,7 @@ export default function Search(props) {
                                       defaultValue={option.value}
                                       type="checkbox"
                                       defaultChecked={option.checked}
-                                      className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                      className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                                     />
                                     <label
                                       htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
@@ -226,7 +240,7 @@ export default function Search(props) {
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div class="sm:col-span-3"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Type in anything you want to learn</label>
             <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)}
-              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+              class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
             </div>
           </div>
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-20">
@@ -303,7 +317,7 @@ export default function Search(props) {
                 <ul role="list" className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map((category) => (
                     <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
+                      <a href={category.href} onClick={() => setSearch(category.name)}>{category.name}</a>
                     </li>
                   ))}
                 </ul>
@@ -333,7 +347,7 @@ export default function Search(props) {
                                   defaultValue={option.value}
                                   type="radio"
                                   defaultChecked={option.checked}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
 
                                   onChange={(e) => {
                                     if (section.name === 'Language') {

@@ -1,13 +1,20 @@
-import { useState, version } from 'react'
+
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Switch } from '@headlessui/react'
 import axios from 'axios'
+import { Link} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Fragment, useRef } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { CheckCircleIcon } from '@heroicons/react/24/outline'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 export default function CreateCourse() {
+    const [open, setOpen] = useState(false);
+    const cancelButtonRef = useRef(null)
     const [agreed, setAgreed] = useState(false)
     // Create Course
     const thisInstructor = JSON.parse(localStorage.getItem("logined"))
@@ -83,7 +90,7 @@ export default function CreateCourse() {
                     }
                 ]
             });
-            alert("Create Course Success!");
+            setOpen(true)
 
         } catch (err) {
             alert(err);
@@ -123,7 +130,7 @@ export default function CreateCourse() {
                                 name="first-name"
                                 id="first-name"
                                 autoComplete="given-name"
-                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                                 onChange={(e) => {
                                     setName(e.target.value);
                                 }}
@@ -140,7 +147,7 @@ export default function CreateCourse() {
                                 name="last-name"
                                 id="last-name"
                                 autoComplete="family-name"
-                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -154,7 +161,7 @@ export default function CreateCourse() {
                                 name="company"
                                 id="company"
                                 autoComplete="organization"
-                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                                 onChange={(e) => {
                                     setIntroduction(e.target.value);
                                 }} />
@@ -169,7 +176,7 @@ export default function CreateCourse() {
                                 name="message"
                                 id="message"
                                 rows={4}
-                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                                 defaultValue={''}
                                 onChange={(e) => {
                                     setDescription(e.target.value);
@@ -185,7 +192,7 @@ export default function CreateCourse() {
                                 setCategory(e.target.value);
                             }}
                             id="country" name="country" autocomplete="country-name"
-                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:max-w-xs sm:text-sm sm:leading-6">
                             <option value={1}>Caricature</option>
                             <option value={2}>Cartoon</option>
                             <option value={3}>Figure</option>
@@ -207,7 +214,7 @@ export default function CreateCourse() {
                                 setLanguage(e.target.value);
                             }}
                             id="country" name="country" autocomplete="country-name"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:max-w-xs sm:text-sm sm:leading-6">
                             <option value={"English"}>English</option>
                             <option value={"Vietnamese"}>Vietnamese</option>
                             <option value={"French"}>French</option>
@@ -224,7 +231,7 @@ export default function CreateCourse() {
                                 setLevel(e.target.value);
                             }}
                             id="country" name="country" autocomplete="country-name"
-                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:max-w-xs sm:text-sm sm:leading-6">
                             <option value={"Beginner"}>Beginner</option>
                             <option value={"Intermediate"}>Intermediate</option>
                             <option value={"Expert"}>Expert</option>
@@ -242,7 +249,7 @@ export default function CreateCourse() {
                                 <select
                                     // id="country"
                                     // name="country"
-                                    className="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                                    className="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm"
                                 >
                                     <option>USD</option>
                                     <option>VND</option>
@@ -260,7 +267,7 @@ export default function CreateCourse() {
                                 // name="phone-number"
                                 // id="phone-number"
                                 autoComplete="tel"
-                                className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -286,7 +293,7 @@ export default function CreateCourse() {
                                 name="phone-number"
                                 id="phone-number"
                                 autoComplete="tel"
-                                className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -306,7 +313,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Learning objectives #1'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -317,7 +324,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Learning objectives #2'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -328,7 +335,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Learning objectives #3'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -339,7 +346,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Learning objectives #4'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -359,7 +366,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Section name #1'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -370,7 +377,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Section name #2'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -381,7 +388,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Section name #3'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -392,7 +399,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Section name #4'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -403,7 +410,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Section name #5'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                             <input
                                 onChange={(e) => {
@@ -414,7 +421,7 @@ export default function CreateCourse() {
                                 id="company"
                                 autoComplete="organization"
                                 placeholder='Section name #6'
-                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                className="mt-2 block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                         </div>
                     </div>
@@ -424,8 +431,8 @@ export default function CreateCourse() {
                                 checked={agreed}
                                 onChange={setAgreed}
                                 className={classNames(
-                                    agreed ? 'bg-indigo-600' : 'bg-gray-200',
-                                    'flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
+                                    agreed ? 'bg-purple-600' : 'bg-gray-200',
+                                    'flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600'
                                 )}
                             >
                                 <span className="sr-only">Agree to policies</span>
@@ -440,7 +447,7 @@ export default function CreateCourse() {
                         </div>
                         <Switch.Label className="text-sm leading-6 text-gray-600">
                             By selecting this, you agree to our{' '}
-                            <a href="#" className="font-semibold text-indigo-600">
+                            <a href="#" className="font-semibold text-purple-600">
                                 privacy&nbsp;policy
                             </a>
                             .
@@ -451,12 +458,79 @@ export default function CreateCourse() {
                     <button
                         onClick={handleSubmit}
                         type="submit"
-                        className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="block w-full rounded-md bg-purple-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
                     >
-                        Let's talk
+                        Create Course
                     </button>
                 </div>
             </form>
+            {/* notification */}
+            <Transition.Root show={open} as={Fragment}>
+          <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                      <div className="sm:flex sm:items-start">
+                        <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                          <CheckCircleIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                        </div>
+                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                            Create Course Successfully
+                          </Dialog.Title>
+                          <div className="mt-2">
+                            <p className="text-sm text-gray-500">
+                            The course has been saved to draft. Click DONE to continue completing the course
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                     <button
+                        type="button"
+                        className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
+                        onClick={() => setOpen(false)}
+                      >
+                        Done
+                      </button>
+                      <button
+                        type="button"
+                        className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                        onClick={() => setOpen(false)}
+                        ref={cancelButtonRef}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
         </div>
     )
 }

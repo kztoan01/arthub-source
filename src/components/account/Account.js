@@ -6,16 +6,16 @@ import logo from '../assets/image/ArtHub-only-logo-white.png'
 
 
 const thisAccount = JSON.parse(localStorage.getItem("logined"))
-
+const linkImg = 'http://localhost:8080//images//'
 const user = {
-  name: thisAccount?.lastname + ' ' +thisAccount?.firstname,
+  name: thisAccount?.lastname + ' ' + thisAccount?.firstname,
   email: thisAccount?.email,
   imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    linkImg + thisAccount?.image,
 }
 
 const userNavigation = [
-  { name: thisAccount?.lastname + ' ' +thisAccount?.firstname, href: '#' },
+  { name: thisAccount?.lastname + ' ' + thisAccount?.firstname, href: '#' },
   { name: 'Settings', href: '#' },
 ]
 
@@ -33,7 +33,7 @@ function InstructorDashboard(props) {
     { name: 'My Learning', href: '#', current: props.learning, link: '/account/learning' },
     { name: 'Notifications', href: '#', current: props.noti, link: '/account/notification' },
     { name: 'Purchase History', href: '#', current: props.history, link: '/account/purchase' },
-    { name: 'Assignment', href: '#', current: props.assignment, link: '/account/assignment'},
+    { name: 'Assignment', href: '#', current: props.assignment, link: '/account/assignment' },
   ]
   return (
     <>
@@ -123,19 +123,19 @@ function InstructorDashboard(props) {
                               </Menu.Item>
                             ))}
                             <Menu.Item>
-                                {({ active }) => (
-                                 <Link to="/login"><a
-                                    href="#"
-                                    onClick={handleLogout}
-                                    className={classNames(
-                                      active ? 'bg-gray-100' : '',
-                                      'block px-4 py-2 text-sm text-gray-700'
-                                    )}
-                                  >
-                                    Log out
-                                  </a></Link> 
-                                )}
-                              </Menu.Item>
+                              {({ active }) => (
+                                <Link to="/login"><a
+                                  href="#"
+                                  onClick={handleLogout}
+                                  className={classNames(
+                                    active ? 'bg-gray-100' : '',
+                                    'block px-4 py-2 text-sm text-gray-700'
+                                  )}
+                                >
+                                  Log out
+                                </a></Link>
+                              )}
+                            </Menu.Item>
                           </Menu.Items>
                         </Transition>
                       </Menu>

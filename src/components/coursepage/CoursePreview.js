@@ -6,6 +6,13 @@ import { useState, useEffect } from 'react'
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
+import apiLearner from '../api/axiosLearnerConfig'
+import apiCourse from '../api/axiosCourseConfig'
+import { courses } from '../data/Courses'
+import { useContext } from 'react'
+import { ShopContext } from './shop-context'
+import { PlayIcon } from "@heroicons/react/24/solid";
+import ceo from '../assets/image/toan.jpg'
 const includes = [
   '15.5 hours on-demand video.',
   '1 article.',
@@ -13,7 +20,110 @@ const includes = [
   'Access on mobile and TV',
   'Certificate of completion',
 ]
+const posts = [
+  {
+    id: 1,
+    title: 'This course was amazing!',
+    href: '#',
+    description:
+      "I have fun watching and listening to Henri's way of thinking to observe the facial features. A lot of important details where shared on how to approach the images. Ready to practice a lot and think more of a cartoonish way of drawing.",
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    category: { title: 'Marketing', href: '#' },
+    author: {
+      name: 'Trần Bảo Toàn',
+      role: 'Founder / CTO',
+      href: '#',
+      imageUrl:
+        ceo,
+    },
+  },
+  {
+    id: 2,
+    title: 'Boost your conversion rate',
+    href: '#',
+    description:
+      'Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.',
+    date: 'Mar 16, 2020',
+    datetime: '2020-03-16',
+    category: { title: 'Marketing', href: '#' },
+    author: {
+      name: 'Michael Foster',
+      role: 'Co-Founder / CTO',
+      href: '#',
+      imageUrl:
+        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    },
+  },
+ 
 
+  // More posts...
+]
+const datas = [
+  {
+    img:
+      "https://i.ytimg.com/vi/Sv5yCzPCkv8/maxresdefault.jpg",
+    link: "https://www.youtube.com/embed/Sv5yCzPCkv8?si=ZwqYBwnWohqcAtWH",
+    title: "SZA - Snooze",
+    description: "My favorite song from my celebrity crush",
+  },
+  {
+    img:
+      "https://i.ytimg.com/vi/TzECmqe61_g/maxresdefault.jpg",
+    link:
+      "https://www.youtube.com/embed/TzECmqe61_g?si=fLiVfe0jvk0kSV3w",
+    title: "Zola - Belles Femmes",
+    description: "Belles Femmes - nouveau titre de Zola.",
+  },
+  {
+    img:
+      "https://i.ytimg.com/vi/l5M64JuiZAE/maxresdefault.jpg",
+    link:
+      "https://www.youtube.com/embed/l5M64JuiZAE?si=bXwI1IYcPmpRTPTm",
+    title: "21 Savage - Can't Leave Without It",
+    description: "The best rap song. Indeed",
+  },
+  {
+    img:
+      "https://i.ytimg.com/vi/arB4LBg_80M/maxresdefault.jpg",
+    link:
+      "https://www.youtube.com/embed/xvDPtb6_IoM?si=yBYeibWoRJfrz9zl",
+    title: "No Auto Durk",
+    description: "My favorite of Lil Durk",
+  },
+  {
+    img:
+      "https://i.ytimg.com/vi/51vVIvPl_EA/maxresdefault.jpg",
+    link:
+      "https://www.youtube.com/embed/u0LaoQks5mY?si=39iqnpzjauJqiooR",
+    title: "Migos - Need It (Official Video) ft. YoungBoy Never Broke Again",
+    description: "I said I neededdddd",
+  },
+  {
+    img:
+      "https://i.ytimg.com/vi/nCglrp951YI/maxresdefault.jpg",
+    link:
+      "https://www.youtube.com/embed/nCglrp951YI?si=ZE7bCg30MCvhyYUO",
+    title: "Offset - Legacy ft. Travis Scott, 21 Savage",
+    description: "ft. 21 Savage on top",
+  },
+  {
+    img:
+      "https://images.genius.com/31496d46a302dd9b55416525688ac9d9.1000x1000x1.png",
+    link:
+      "https://www.youtube.com/embed/I4DjHHVHWAE?si=kPxOXPWjIdLEJoLb",
+    title: "Drake, 21 Savage - Rich Flex",
+    description: "Can 21 do something for Drake?",
+  },
+  {
+    img:
+      "https://i.ytimg.com/vi/vpubBZdPbtg/maxresdefault.jpg",
+    link:
+      "https://www.youtube.com/embed/vpubBZdPbtg?si=etXFyjCSBOzCISAw",
+    title: "Cảm ơn - Ngài ft Rush",
+    description: "Ngài comeback",
+  },
+];
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
@@ -21,35 +131,74 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
+
+
 export default function CoursePreview(props) {
-  // document.addEventListener('DOMContentLoaded', function () {
-  //   var elems = document.querySelectorAll('.collapsible');
-  //   var instances = M.Collapsible.init(elems, options);
-  // });
+  //galgry
+  const [activeVid, setActiveVid] = useState("https://www.youtube.com/embed/Sv5yCzPCkv8?si=ZwqYBwnWohqcAtWH")
+  const [actTitle, setActTitle] = useState("SZA - Snooze");
+  const [description, setActiveDescription] = useState("My favorite song from my celebrity crush")
+  // cart
+  const { addToCart, cartItems } = useContext(ShopContext);
+
+  // const cartItemCount = cartItems[id];
+
+  //---------
+  const [courses, setCourses] = useState()
+  const getCourses = async () => {
+    try {
+      const response = await apiCourse.get("/getCourses");
+      setCourses(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getCourses();
+  }, []
+  )
+  const [learner, setLearner] = useState()
+  const getLearner = async () => {
+    try {
+      const response = await apiLearner.get("/getLearners");
+      setLearner(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getLearner();
+  }, []
+  )
+  const [detail, setDetail] = useState(false)
   const [open, setOpen] = useState(false);
   const cancelButtonRef = useRef(null)
   const thisAccount = JSON.parse(localStorage.getItem("logined"))
-  const thisStudent = props.learner?.filter((learner) => learner.accountId === thisAccount?.id);
+  const thisStudent = learner?.filter((learner) => learner.accountId === thisAccount?.id);
   const { id } = useParams()
-  const thisCourse = props.courses?.find((course) => String(course.id) === id)
+  const thisCourse = courses?.find((course) => String(course.id) === id)
   const isLearn = thisStudent?.find((course) => course.courseId === thisCourse?.id)
   let price = '';
   const navigate = useNavigate();
+  console.log(thisCourse?.id)
   if (thisCourse?.price > 0) {
     price = '$' + thisCourse?.price
   } else {
     price = 'Free'
   }
+  const formData = new FormData();
+  formData.append('courseId', thisCourse?.id);
+  formData.append('accountId', thisAccount?.id);
   async function enrollFree(e) {
     e.preventDefault();
     if (localStorage.getItem("STU-authenticated")) {
       try {
-        await axios.post("http://localhost:8080/learner/addLearner", {
-          accountId: thisAccount.id,
-          courseId: thisCourse.id,
-          price: thisCourse.price
-        });
-        setOpen(true)
+        await axios.post("http://localhost:8080/course/enrol", formData).then(response => {
+          setOpen(true)
+          getLearner()
+        })
       } catch (err) {
         alert(err);
       }
@@ -65,22 +214,23 @@ export default function CoursePreview(props) {
       if (isLearn) {
         return <Link to={`/learning/${id}`}> <button
           type="submit"
-          className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
         >
           Go to course
         </button></Link>
       } else {
-        return <Link to='/'> <button
-          type="submit"
-          className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        return <button
+          onClick={() => addToCart(parseInt(thisCourse?.id))}
+          type="button"
+          className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
         >
           Add to cart
-        </button></Link>
+        </button>
       }
     } else if (isLearn) {
       return <Link to={`/learning/${id}`}> <button
         type="submit"
-        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
       >
         Go to course
       </button></Link>
@@ -89,7 +239,7 @@ export default function CoursePreview(props) {
       price = 'Free'
       return <button onClick={enrollFree}
         type="submit"
-        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
       >
         Enroll now
       </button>
@@ -111,6 +261,8 @@ export default function CoursePreview(props) {
   //   getCourses();
   // }, []
   // )
+  const linkImg = 'http://localhost:8080//images//'
+    console.log(linkImg+thisCourse?.images?.two)
   return (
     <>
       <div className="bg-white">
@@ -150,7 +302,7 @@ export default function CoursePreview(props) {
               <img
                 // src={product.images[0].src}
                 // alt={product.images[0].alt}
-                src={thisCourse?.image}
+                src={linkImg+thisCourse?.images?.one}
                 alt=""
                 className="h-full w-full object-cover object-center"
               />
@@ -160,7 +312,7 @@ export default function CoursePreview(props) {
                 <img
                   // src={product.images[1].src}
                   // alt={product.images[1].alt}
-                  src={thisCourse?.image}
+                  src={linkImg+thisCourse?.images?.two}
                   alt=""
                   className="h-full w-full object-cover object-center"
                 />
@@ -169,7 +321,7 @@ export default function CoursePreview(props) {
                 <img
                   // src={product.images[2].src}
                   // alt={product.images[2].alt}
-                  src={thisCourse?.image}
+                  src={linkImg+thisCourse?.images?.four}
                   alt=""
                   className="h-full w-full object-cover object-center"
                 />
@@ -179,7 +331,7 @@ export default function CoursePreview(props) {
               <img
                 // src={product.images[3].src}
                 // alt={product.images[3].alt}
-                src={thisCourse?.image}
+                src={linkImg+thisCourse?.images?.three}
                 alt=""
                 className="h-full w-full object-cover object-center"
               />
@@ -214,7 +366,7 @@ export default function CoursePreview(props) {
                     ))}
                   </div>
                   <p className="sr-only">{reviews.average} out of 5 stars</p>
-                  <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                  <a href={reviews.href} className="ml-3 text-sm font-medium text-purple-600 hover:text-purple-500">
                     {reviews.totalCount} reviews
                   </a>
                 </div>
@@ -239,7 +391,7 @@ export default function CoursePreview(props) {
               <div className="mt-10">
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                  <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                  <a href="#" className="text-sm font-medium text-purple-600 hover:text-purple-500">
                     Size guide
                   </a>
                 </div>
@@ -249,7 +401,7 @@ export default function CoursePreview(props) {
                                     ) : <p className="text-sm font-medium text-gray-900">{product.price}</p>} */}
                 {/* <Link to={`/learning/${id}`}> <button
                   type="submit"
-                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                 >
                   {enroll}
                 </button></Link> */}
@@ -268,7 +420,7 @@ export default function CoursePreview(props) {
               </div>
 
               <div className="mt-10">
-                <h3 className="text-sm font-medium text-gray-900">What you'll learn</h3>
+                <h3 className="text-xl font-medium text-gray-900">What you'll learn</h3>
 
                 <div className="mt-4">
                   <ul role="list" className="list-disc space-y-2 pl-4 text-sm">
@@ -295,12 +447,108 @@ export default function CoursePreview(props) {
               </div>
 
               <div className="mt-10">
-                <h2 className="text-sm font-medium text-gray-900">Description</h2>
+                <h2 className="text-xl font-medium text-gray-900">Description</h2>
 
                 <div className="mt-4 space-y-6">
                   {/* {thisCourse.descriptions.map((description) => ( */}
                   <p className="text-sm text-gray-600">{thisCourse?.description}</p>
                   {/* ))} */}
+                </div>
+              </div>
+              {/* gallery */}
+              <div className="mt-10">
+                <h2 className="text-xl font-medium text-gray-900">Course content</h2>
+                <div
+                  className="mt-8  
+                           overflow-y-scroll flex flex-col 
+                           mt-4 mr-20 border-slate-200 
+                           border-2 rounded-lg"
+                  style={{ height: "min(38vw, 650px)" }}
+                >
+
+                  <h3 className="text-xl p-2 font-semibold">Section 1</h3>
+                  <p className="px-2">Introduction</p>
+                  {datas.map((data) => (
+                    <div key={data.title}
+                      className="hover:bg-gray-300 p-2
+                                       border-2 rounded-xl h-2/6 
+                                       "
+                      onClick={() => {
+                        if (data.title === "SZA - Snooze") {
+                          setDetail(true)
+                          setActiveVid(data.link);
+                          setActTitle(data.title);
+                          setActiveDescription(data.description);
+                        }
+                      }}
+                    >
+                      <PlayIcon class="h-6 w-6 text-gray-500" />
+                      {/* <img
+                                    className="w-1/2 h-20 my-4 
+                                           mx-2 float-left"
+                                    src={data.img}
+                                    // {"." + thisCourse?.image}
+                                /> */}
+                      {data.title === "SZA - Snooze" ? (
+                      <p
+                        className="ml-2 font-semibold 
+                                          pl-6 text-sm"
+                      >
+                        {data.title} - Preview Available
+                      </p>) : (<p
+                        className="ml-2 font-semibold 
+                                          pl-6 text-sm"
+                      >
+                        {data.title}
+                      </p>)}
+
+                      <p className="px-2 text-sm">{data.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* reviews */}
+              <div className="bg-white py-24 sm:py-32">
+                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+                  <h2 className="text-xl font-medium text-gray-900">Reviews</h2>
+                  <div className="mt-4 space-y-6">
+                    {posts.map((post) => (
+                      <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
+                        <div className="flex items-center gap-x-4 text-xs mt-4">
+                          <time dateTime={post.datetime} className="text-gray-500">
+                            {post.date}
+                          </time>
+                          <a
+                            href={post.category.href}
+                            className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                          >
+                            {post.category.title}
+                          </a>
+                        </div>
+                        <div className="group relative">
+                          <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                            <a href={post.href}>
+                              <span className="absolute inset-0" />
+                              {post.title}
+                            </a>
+                          </h3>
+                          <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
+                        </div>
+                        <div className="relative mt-8 flex items-center gap-x-4">
+                          <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
+                          <div className="text-sm leading-6">
+                            <p className="font-semibold text-gray-900">
+                              <a href={post.author.href}>
+                                <span className="absolute inset-0" />
+                                {post.author.name}
+                              </a>
+                            </p>
+                            <p className="text-gray-600">{post.author.role}</p>
+                          </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -353,7 +601,7 @@ export default function CoursePreview(props) {
                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                       <Link to={`/learning/${id}`}><button
                         type="button"
-                        className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                        className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
                         onClick={() => setOpen(false)}
                       >
                         Done
@@ -373,8 +621,121 @@ export default function CoursePreview(props) {
             </div>
           </Dialog>
         </Transition.Root>
-        {/* section  */}
+        {/* preview video  */}
+        <Transition.Root show={detail} as={Fragment}>
+          <Dialog as="div" className="relative z-10" onClose={setDetail}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
+            </Transition.Child>
 
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                  enterTo="opacity-100 translate-y-0 md:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 md:scale-100"
+                  leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                >
+                  <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                    <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                      <div className="w-screen flex h-screen flex-row mx-12">
+                        <div className="w-full h-full  px-2 pt-2 
+                            rounded-xl">
+                          <iframe src={activeVid} className="w-full h-5/6"></iframe>
+                          <div className="pt-4 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                            Title: {actTitle}
+                            <p className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                              Description:{description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      {/* <div class="border-b border-gray-900/10 pb-12">
+                                            <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
+                                            {String(thisAccount?.roleId) === "4" ? <p class="mt-1 text-sm leading-6 text-gray-600">Administrator</p>
+                                            : <></>}
+                                            {String(thisAccount?.roleId) === "3" ? <p class="mt-1 text-sm leading-6 text-gray-600">Staff</p>
+                                            : <></>}
+                                            {String(thisAccount?.roleId) === "2" ? <p class="mt-1 text-sm leading-6 text-gray-600">Student</p>
+                                            : <></>}
+                                            {String(thisAccount?.roleId) === "1" ? <p class="mt-1 text-sm leading-6 text-gray-600">Instructor</p>
+                                            : <></>}
+                                            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                                                <div class="sm:col-span-3"> <label for="first-name"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+                                                    <div class="mt-2"> <input type="text" name="first-name" id="first-name" autocomplete="given-name"
+                                                    value={thisAccount?.firstname} readOnly
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                                <div class="sm:col-span-3"> <label for="last-name"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+                                                    <div class="mt-2"> <input type="text" name="last-name" id="last-name" autocomplete="family-name"
+                                                    value={thisAccount?.lastname} readOnly
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                                <div class="sm:col-span-4"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
+                                                    address</label>
+                                                    <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email"
+                                                    value={thisAccount?.email} readOnly
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                                <div class="sm:col-span-4"> <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
+                                                    <div class="mt-2"> <input id="phone" name="phone" type="text" autocomplete=""
+                                                    value={thisAccount?.phone} readOnly
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-span-full"> <label for="street-address"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">Address</label>
+                                                    <div class="mt-2"> <input type="text" name="street-address" id="street-address"
+                                                    value={thisAccount?.address} readOnly
+                                                        autocomplete="street-address"
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                                <div class="sm:col-span-2 sm:col-start-1"> <label for="city"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">Facebook</label>
+                                                    <div class="mt-2"> <input type="text" name="facebook" id="facebook" autocomplete="facebook"
+                                                    value={thisAccount?.facebook} readOnly
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                                <div class="sm:col-span-2"> <label for="region"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">Twitter</label>
+                                                    <div class="mt-2"> <input type="text" name="twitter" id="twitter" autocomplete="twitter"
+                                                    value={thisAccount?.twitter} readOnly
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                                <div class="sm:col-span-2"> <label for="postal-code"
+                                                    class="block text-sm font-medium leading-6 text-gray-900">GitHub</label>
+                                                    <div class="mt-2"> <input type="text" name="github" id="github" autocomplete="github"
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> */}
+                    </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
       </div>
     </>
   )

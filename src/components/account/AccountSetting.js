@@ -5,12 +5,28 @@ import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckCircleIcon } from '@heroicons/react/24/outline'
 export default function AccountSetting() {
+    const thisAccount = JSON.parse(localStorage.getItem("logined"))
+    const [image, setImage] = useState('')
+    const formData = new FormData();
+    formData.append('accountId', thisAccount?.id);
+    formData.append('image', image);
 
+    async function save(e) {
+        e.preventDefault();
+        try {
+            await axios.post("http://localhost:8080/api/updateAccountImage", formData).then(response => {
+                setOpen(true)
+            });;
+        } catch (err) {
+            alert(err);
+        }
+    }
+    const linkImg = 'http://localhost:8080//images//'
     const [open, setOpen] = useState(false)
-
+    console.log(linkImg + thisAccount?.image)
     const cancelButtonRef = useRef(null)
 
-    const thisAccount = JSON.parse(localStorage.getItem("logined"))
+
     const [username, setUsername] = useState(thisAccount?.username);
     const [bio, setBio] = useState(thisAccount?.bio);
     const [firstname, setFirstname] = useState(thisAccount?.firstname);
@@ -63,13 +79,13 @@ export default function AccountSetting() {
                                 <div class="sm:col-span-3"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
                                     address</label>
                                     <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email" value={email} readOnly
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                     </div>
                                 </div>
                                 <div class="sm:col-span-3"> <label for="first-name"
                                     class="block text-sm font-medium leading-6 text-gray-900">Password</label>
                                     <div class="mt-2"> <input type="password" name="password" id="password" autocomplete="" value={thisAccount?.password} readOnly
-                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                     </div>
                                 </div>
                             </div>
@@ -84,7 +100,7 @@ export default function AccountSetting() {
                                         class="block text-sm font-medium leading-6 text-gray-900">Username</label>
                                         <div class="mt-2">
                                             <div
-                                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                                                class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-purple-600 sm:max-w-md">
                                                 <span class="flex select-none items-center pl-3 text-gray-500 sm:text-sm">arthub.com/</span> <input
                                                     type="text" name="username" id="username" autocomplete="username" value={username}
                                                     onChange={(e) => {
@@ -100,18 +116,24 @@ export default function AccountSetting() {
                                             onChange={(e) => {
                                                 setBio(e.target.value)
                                             }}
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"></textarea>
                                         </div>
                                         <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about yourself.</p>
                                     </div>
                                     <div class="col-span-full"> <label for="photo"
                                         class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-                                        <div class="mt-2 flex items-center gap-x-3"> <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24"
-                                            fill="currentColor" aria-hidden="true">
-                                            <path fill-rule="evenodd"
-                                                d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                                                clip-rule="evenodd" />
-                                        </svg> <button type="button"
+                                        <div class="mt-2 flex items-center gap-x-3"> 
+                                        {/* <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                            fill="currentColor" aria-hidden="true"> */}
+                                            {thisAccount?.image ? (<>
+                                                <img className="h-12 w-12 rounded-full" src={linkImg + thisAccount?.image} alt="" />
+                                            </>) : (<>
+                                                <path fill-rule="evenodd"
+                                                    d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                                    clip-rule="evenodd" />
+                                            </>)}
+                                        {/* </svg>  */}
+                                        <button type="button"
                                             class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
                                         </div>
                                     </div>
@@ -125,7 +147,7 @@ export default function AccountSetting() {
                                                     clip-rule="evenodd" />
                                             </svg>
                                                 <div class="mt-4 flex text-sm leading-6 text-gray-600"> <label for="file-upload"
-                                                    class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                                                    class="relative cursor-pointer rounded-md bg-white font-semibold text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 hover:text-purple-500">
                                                     <span>Upload a file</span> <input id="file-upload" name="file-upload" type="file" class="sr-only" />
                                                 </label>
                                                     <p class="pl-1">or drag and drop</p>
@@ -147,7 +169,7 @@ export default function AccountSetting() {
                                             onChange={(e) => {
                                                 setFirstname(e.target.value)
                                             }}
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-3"> <label for="last-name"
@@ -157,7 +179,7 @@ export default function AccountSetting() {
                                             onChange={(e) => {
                                                 setLastname(e.target.value)
                                             }}
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-4"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
@@ -167,7 +189,7 @@ export default function AccountSetting() {
                                             onChange={(e) => {
                                                 setEmail(e.target.value)
                                             }}
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-4"> <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
@@ -176,13 +198,13 @@ export default function AccountSetting() {
                                             onChange={(e) => {
                                                 setPhone(e.target.value)
                                             }}
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-3"> <label for="country"
                                         class="block text-sm font-medium leading-6 text-gray-900">Country</label>
                                         <div class="mt-2"> <select id="country" name="country" autocomplete="country-name"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:max-w-xs sm:text-sm sm:leading-6">
                                             <option>United States</option>
                                             <option>Vietnam</option>
                                             <option>Canada</option>
@@ -196,7 +218,7 @@ export default function AccountSetting() {
                                                 setAddress(e.target.value)
                                             }}
                                             autocomplete="street-address"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-2 sm:col-start-1"> <label for="city"
@@ -206,7 +228,7 @@ export default function AccountSetting() {
                                             onChange={(e) => {
                                                 setFacebook(e.target.value)
                                             }}
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-2"> <label for="region"
@@ -216,13 +238,13 @@ export default function AccountSetting() {
                                             onChange={(e) => {
                                                 setTwitter(e.target.value)
                                             }}
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                     <div class="sm:col-span-2"> <label for="postal-code"
                                         class="block text-sm font-medium leading-6 text-gray-900">GitHub</label>
                                         <div class="mt-2"> <input type="text" name="github" id="github" autocomplete="github"
-                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                         </div>
                                     </div>
                                 </div>
@@ -237,14 +259,14 @@ export default function AccountSetting() {
                                         <div class="mt-6 space-y-6">
                                             <div class="relative flex gap-x-3">
                                                 <div class="flex h-6 items-center"> <input id="comments" name="comments" type="checkbox"
-                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" /> </div>
+                                                    class="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-600" /> </div>
                                                 <div class="text-sm leading-6"> <label for="comments" class="font-medium text-gray-900">Comments</label>
                                                     <p class="text-gray-500">Get notified when someones posts a comment on a posting.</p>
                                                 </div>
                                             </div>
                                             <div class="relative flex gap-x-3">
                                                 <div class="flex h-6 items-center"> <input id="candidates" name="candidates" type="checkbox"
-                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" /> </div>
+                                                    class="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-600" /> </div>
                                                 <div class="text-sm leading-6"> <label for="candidates"
                                                     class="font-medium text-gray-900">Instructor</label>
                                                     <p class="text-gray-500">Get notified when your instructor replies your assignment.</p>
@@ -252,7 +274,7 @@ export default function AccountSetting() {
                                             </div>
                                             <div class="relative flex gap-x-3">
                                                 <div class="flex h-6 items-center"> <input id="offers" name="offers" type="checkbox"
-                                                    class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" /> </div>
+                                                    class="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-600" /> </div>
                                                 <div class="text-sm leading-6"> <label for="offers" class="font-medium text-gray-900">Offers</label>
                                                     <p class="text-gray-500">Get notified when you get a discount for a course.</p>
                                                 </div>
@@ -264,13 +286,13 @@ export default function AccountSetting() {
                                     <p class="mt-1 text-sm leading-6 text-gray-600">These are delivered via SMS to your mobile phone.</p>
                                     <div class="mt-6 space-y-6">
                                         <div class="flex items-center gap-x-3"> <input id="push-everything" name="push-notifications" type="radio"
-                                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" /> <label for="push-everything"
+                                            class="h-4 w-4 border-gray-300 text-purple-600 focus:ring-purple-600" /> <label for="push-everything"
                                                 class="block text-sm font-medium leading-6 text-gray-900" >Everything</label> </div>
                                         <div class="flex items-center gap-x-3"> <input id="push-email" name="push-notifications" type="radio"
-                                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" /> <label for="push-email"
+                                            class="h-4 w-4 border-gray-300 text-purple-600 focus:ring-purple-600" /> <label for="push-email"
                                                 class="block text-sm font-medium leading-6 text-gray-900">Same as email</label> </div>
                                         <div class="flex items-center gap-x-3"> <input id="push-nothing" name="push-notifications" type="radio"
-                                            class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600" /> <label for="push-nothing"
+                                            class="h-4 w-4 border-gray-300 text-purple-600 focus:ring-purple-600" /> <label for="push-nothing"
                                                 class="block text-sm font-medium leading-6 text-gray-900">No push notifications</label> </div>
                                     </div>
                                 </fieldset> */}
@@ -279,7 +301,7 @@ export default function AccountSetting() {
                         </div>
                         <div class="mt-6 flex items-center justify-end gap-x-6"> <button type="button"
                             class="text-sm font-semibold leading-6 text-gray-900">Cancel</button> <button type="submit"
-                                class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                                class="rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">Save</button>
                         </div>
                     </form ></div>
             </main>
@@ -321,7 +343,7 @@ export default function AccountSetting() {
                                                 </Dialog.Title>
                                                 <div className="mt-2">
                                                     <p className="text-sm text-gray-500">
-                                                    We have updated your account information, please check your personal information.
+                                                        We have updated your account information, please check your personal information.
                                                     </p>
                                                 </div>
                                             </div>
@@ -330,7 +352,7 @@ export default function AccountSetting() {
                                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                         <button
                                             type="button"
-                                            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
                                             onClick={() => setOpen(false)}
                                         >
                                             Done

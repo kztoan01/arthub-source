@@ -17,12 +17,14 @@ function InstructorDashboard(props) {
     localStorage.removeItem("INS-authenticated");
     localStorage.removeItem("logined");
   }
+  const linkImg = 'http://localhost:8080//images//'
   const user = {
-    name: thisAccount.firstname + " " + thisAccount.lastname,
-    email: thisAccount.email,
-    imageUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+    name: thisAccount?.lastname + ' ' + thisAccount?.firstname,
+    email: thisAccount?.email,
+    imageUrl:
+      linkImg + thisAccount?.image,
   }
-
+console.log(linkImg + thisAccount?.image)
   const userNavigation = [
     { name: thisAccount.firstname + " " + thisAccount.lastname + " - " + thisAccount.email, href: '#' },
     { name: 'Settings', href: '#' },

@@ -121,7 +121,7 @@ export default function ManageAccount(props) {
         {
             name: 'Staff Account',
             message: <button type="submit" onClick={() => setOpen(true)}
-                class="mt-4 flex justify-center rounded-md bg-purple-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                class="mt-4 flex justify-center rounded-md bg-purple-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
                 Create new account</button>,
             user: staffs
         },
@@ -137,7 +137,7 @@ export default function ManageAccount(props) {
         }, {
             name: 'Admin Account',
             message: <button type="submit" onClick={() => setOpen(true)}
-                class="mt-4 flex justify-center rounded-md bg-purple-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                class="mt-4 flex justify-center rounded-md bg-purple-700 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
                 Create new account</button>,
             user: admins
         },
@@ -258,7 +258,7 @@ export default function ManageAccount(props) {
                                                         onChange={(e) => {
                                                             setFirstname(e.target.value);
                                                         }}
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                                                     </div>
                                                 </div>
                                                 <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Last Name</label>
@@ -267,7 +267,7 @@ export default function ManageAccount(props) {
                                                         onChange={(e) => {
                                                             setLastname(e.target.value);
                                                         }}
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                                                     </div>
                                                 </div>
                                                 <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">User Name</label>
@@ -276,7 +276,7 @@ export default function ManageAccount(props) {
                                                         onChange={(e) => {
                                                             setUsername(e.target.value);
                                                         }}
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                                                     </div>
                                                 </div>
                                                 <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
@@ -285,7 +285,7 @@ export default function ManageAccount(props) {
                                                         onChange={(e) => {
                                                             setEmail(e.target.value);
                                                         }}
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                                                     </div>
                                                 </div>
                                                 <div>
@@ -297,7 +297,7 @@ export default function ManageAccount(props) {
                                                         onChange={(e) => {
                                                             setPassword(e.target.value);
                                                         }}
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 text-center" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
                                                     </div>
                                                 </div>
                                                 <div>
@@ -309,12 +309,12 @@ export default function ManageAccount(props) {
                                                         onChange={(e) => {
                                                             setRoleId(e.target.value);
                                                         }}
-                                                        class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                                        class="mt-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6">
                                                         <option value={3}>Staff</option>
                                                         <option value={4}>Admin</option>
                                                     </select> </div>
                                                 <div> <button type="submit" onClick={save}
-                                                    class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                                    class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
                                                     Create</button> </div>
                                             </form>
                                         </div>
@@ -369,27 +369,27 @@ export default function ManageAccount(props) {
                                                     class="block text-sm font-medium leading-6 text-gray-900">First name</label>
                                                     <div class="mt-2"> <input type="text" name="first-name" id="first-name" autocomplete="given-name"
                                                     value={thisAccount?.firstname} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                                 <div class="sm:col-span-3"> <label for="last-name"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
                                                     <div class="mt-2"> <input type="text" name="last-name" id="last-name" autocomplete="family-name"
                                                     value={thisAccount?.lastname} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                                 <div class="sm:col-span-4"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
                                                     address</label>
                                                     <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email"
                                                     value={thisAccount?.email} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                                 <div class="sm:col-span-4"> <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
                                                     <div class="mt-2"> <input id="phone" name="phone" type="text" autocomplete=""
                                                     value={thisAccount?.phone} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                                 <div class="col-span-full"> <label for="street-address"
@@ -397,27 +397,27 @@ export default function ManageAccount(props) {
                                                     <div class="mt-2"> <input type="text" name="street-address" id="street-address"
                                                     value={thisAccount?.address} readOnly
                                                         autocomplete="street-address"
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                                 <div class="sm:col-span-2 sm:col-start-1"> <label for="city"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Facebook</label>
                                                     <div class="mt-2"> <input type="text" name="facebook" id="facebook" autocomplete="facebook"
                                                     value={thisAccount?.facebook} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                                 <div class="sm:col-span-2"> <label for="region"
                                                     class="block text-sm font-medium leading-6 text-gray-900">Twitter</label>
                                                     <div class="mt-2"> <input type="text" name="twitter" id="twitter" autocomplete="twitter"
                                                     value={thisAccount?.twitter} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                                 <div class="sm:col-span-2"> <label for="postal-code"
                                                     class="block text-sm font-medium leading-6 text-gray-900">GitHub</label>
                                                     <div class="mt-2"> <input type="text" name="github" id="github" autocomplete="github"
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -476,7 +476,7 @@ export default function ManageAccount(props) {
                                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                         <button
                                             type="button"
-                                            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
                                             onClick={(e) => deleteAccount(id, e)}
                                         >
                                             Accept
@@ -543,7 +543,7 @@ export default function ManageAccount(props) {
                                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                         <button
                                             type="button"
-                                            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
                                             onClick={() => setDeleteOpen(false)}
                                         >
                                             Done
@@ -610,7 +610,7 @@ export default function ManageAccount(props) {
                                     <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                         <button
                                             type="button"
-                                            className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
                                             onClick={() => setAddOpen(false)}
                                         >
                                             Done

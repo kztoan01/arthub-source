@@ -3,10 +3,14 @@ import { StarIcon } from '@heroicons/react/20/solid'
 import { PaperClipIcon } from '@heroicons/react/20/solid'
 import Video from "../learning/Video";
 import { PlayIcon } from "@heroicons/react/24/solid";
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import apiCourse from '../api/axiosCourseConfig'
 import { useNavigate } from 'react-router-dom';
 import img from '../assets/image/course-01.jpg'
+import axios from 'axios';
+import { Fragment, useRef } from 'react'
+import { Dialog, Transition } from '@headlessui/react'
+import { CheckCircleIcon } from '@heroicons/react/24/outline'
 const datas = [
     {
         img:
@@ -88,7 +92,7 @@ function classNames(...classes) {
 }
 
 export default function PreviewCourse(props) {
-    
+
     const [courses, setCourses] = useState()
     //get all courses
     const getCourses = async () => {
@@ -105,13 +109,16 @@ export default function PreviewCourse(props) {
         getCourses();
     }, []
     )
+    const [open, setOpen] = useState(false)
+
+    const cancelButtonRef = useRef(null)
     const { id } = useParams()
     const thisCourse = courses?.find((course) => String(course.id) === id)
 
     const navigate = useNavigate()
     const thisAccount = JSON.parse(localStorage.getItem("logined"))
     const isOwn = courses?.find((course) => course.accountId === thisAccount.id)
-    if(isOwn == null) {
+    if (isOwn == null) {
         navigate('/')
     }
     let price = '';
@@ -125,7 +132,7 @@ export default function PreviewCourse(props) {
             price = '$' + thisCourse?.price;
             return <button
                 type="button"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
                 Add to cart
             </button>
@@ -134,7 +141,7 @@ export default function PreviewCourse(props) {
             price = 'Free'
             return <button
                 type="submit"
-                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
                 Enroll now
             </button>
@@ -143,7 +150,55 @@ export default function PreviewCourse(props) {
     const [activeVid, setActiveVid] = useState("https://www.youtube.com/embed/Sv5yCzPCkv8?si=ZwqYBwnWohqcAtWH")
     const [actTitle, setActTitle] = useState("SZA - Snooze");
     const [description, setActiveDescription] = useState("My favorite song from my celebrity crush")
-    
+
+    //image
+
+    const [img1, setImg1] = useState("")
+    const [img2, setImg2] = useState("")
+    const [img3, setImg3] = useState("")
+    const [img4, setImg4] = useState("")
+
+    const handleIMG1 = (e) => {
+        const file = e.target.files[0];
+        console.log("img1")
+        setImg1(e.target.files[0])
+    }
+    const handleIMG2 = (e) => {
+        const file = e.target.files[0];
+        console.log("img2")
+        setImg2(e.target.files[0])
+    }
+    const handleIMG3 = (e) => {
+        const file = e.target.files[0];
+        console.log("img3")
+        setImg3(e.target.files[0])
+    }
+    const handleIMG4 = (e) => {
+        const file = e.target.files[0];
+        console.log("img4")
+        setImg4(e.target.files[0])
+    }
+
+    //save img
+    const formData = new FormData();
+    formData.append('one', img1);
+    formData.append('two', img2);
+    formData.append('three', img3);
+    formData.append('four', img4);
+    formData.append('courseId', thisCourse?.id);
+    async function save(e) {
+        e.preventDefault();
+        try {
+            await axios.post("http://localhost:8080/image/saveCourseImages", formData).then(response => {
+            setOpen(true)
+            });;
+        } catch (err) {
+            alert(err);
+        }
+    }
+   
+    const linkImg = 'http://localhost:8080//images//'
+    console.log(linkImg+thisCourse?.images?.two)
     return (
         <>
             <div className="bg-white">
@@ -180,42 +235,151 @@ export default function PreviewCourse(props) {
                     {/* Image gallery */}
                     <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
                         <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-                            <img
-                                // src={product.images[0].src}
-                                // alt={product.images[0].alt}
-                                src={thisCourse?.image}
-                                alt=""
-                                className="h-full w-full object-cover object-center"
-                            />
+                            {thisCourse?.images?.one == null ? (<>
+                                {img1 ? (<>
+                                        <img
+                                            // src={product.images[0].src}
+                                            // alt={product.images[0].alt}
+                                            src={URL.createObjectURL(img1)}
+                                            alt=""
+                                            className="h-full w-full object-cover object-center"
+                                        /></>)
+                                     : (<div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div class="text-center"> <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                            fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                            <div class="mt-4 flex text-sm leading-6 text-gray-600"> <label for="file-upload"
+                                                class="relative cursor-pointer rounded-md bg-white font-semibold text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 hover:text-purple-500">
+                                                <span>Upload a file</span> <input id="file-upload" name="file-upload" type="file" class="sr-only" onChange={handleIMG1} />
+                                            </label>
+                                                <p class="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>)}
+
+                            </>) : (<>
+                                <img
+                                    // src={product.images[0].src}
+                                    // alt={product.images[0].alt}
+                                    src={linkImg+thisCourse?.images?.one}
+                                    alt=""
+                                    className="h-full w-full object-cover object-center"
+                                /></>)}
+
                         </div>
                         <div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
                             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                                <img
-                                    // src={product.images[1].src}
-                                    // alt={product.images[1].alt}
-                                    src={thisCourse?.image}
-                                    alt=""
-                                    className="h-full w-full object-cover object-center"
-                                />
+                                {thisCourse?.images?.two == null ? (<>
+                                    {img2 ? (<>
+                                        <img
+                                            // src={product.images[0].src}
+                                            // alt={product.images[0].alt}
+                                            src={URL.createObjectURL(img2)}
+                                            alt=""
+                                            className="h-full w-full object-cover object-center"
+                                        /></>)
+                                     : (<div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div class="text-center"> <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                            fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                            <div class="mt-4 flex text-sm leading-6 text-gray-600"> <label for="file-upload"
+                                                class="relative cursor-pointer rounded-md bg-white font-semibold text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 hover:text-purple-500">
+                                                <span>Upload a file</span> <input id="file-upload" name="file-upload" type="file" class="sr-only" onChange={handleIMG2} />
+                                            </label>
+                                                <p class="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>)}
+
+                                </>) : (<>
+                                    <img
+                                        // src={product.images[0].src}
+                                        // alt={product.images[0].alt}
+                                        src={linkImg+thisCourse?.images?.two}
+                                        alt=""
+                                        className="h-full w-full object-cover object-center"
+                                    /></>)}
                             </div>
                             <div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-                                <img
-                                    // src={product.images[2].src}
-                                    // alt={product.images[2].alt}
-                                    src={thisCourse?.image}
-                                    alt=""
-                                    className="h-full w-full object-cover object-center"
-                                />
+                                {thisCourse?.images?.four == null ? (<>
+                                    {img4 ? (<>
+                                        <img
+                                            // src={product.images[0].src}
+                                            // alt={product.images[0].alt}
+                                            src={URL.createObjectURL(img4)}
+                                            alt=""
+                                            className="h-full w-full object-cover object-center"
+                                        /></>)
+                                     : (<div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div class="text-center"> <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                            fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                            <div class="mt-4 flex text-sm leading-6 text-gray-600"> <label for="file-upload"
+                                                class="relative cursor-pointer rounded-md bg-white font-semibold text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 hover:text-purple-500">
+                                                <span>Upload a file</span> <input id="file-upload" name="file-upload" type="file" class="sr-only" onChange={handleIMG4} />
+                                            </label>
+                                                <p class="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>)}
+
+                                </>) : (<>
+                                    <img
+                                        // src={product.images[0].src}
+                                        // alt={product.images[0].alt}
+                                        src={linkImg+thisCourse?.images?.four}
+                                        alt=""
+                                        className="h-full w-full object-cover object-center"
+                                    /></>)}
                             </div>
                         </div>
                         <div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-                            <img
-                                // src={product.images[3].src}
-                                // alt={product.images[3].alt}
-                                src={thisCourse?.image}
-                                alt=""
-                                className="h-full w-full object-cover object-center"
-                            />
+                            {thisCourse?.images?.three == null ? (<>
+                                {img3 ? (<>
+                                        <img
+                                            // src={product.images[0].src}
+                                            // alt={product.images[0].alt}
+                                            src={URL.createObjectURL(img3)}
+                                            alt=""
+                                            className="h-full w-full object-cover object-center"
+                                        /></>)
+                                     : (<div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div class="text-center"> <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                            fill="currentColor" aria-hidden="true">
+                                            <path fill-rule="evenodd"
+                                                d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                            <div class="mt-4 flex text-sm leading-6 text-gray-600"> <label for="file-upload"
+                                                class="relative cursor-pointer rounded-md bg-white font-semibold text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 hover:text-purple-500">
+                                                <span>Upload a file</span> <input id="file-upload" name="file-upload" type="file" class="sr-only" onChange={handleIMG3} />
+                                            </label>
+                                                <p class="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                        </div>
+                                    </div>)}
+
+                            </>) : (<>
+                                <img
+                                    // src={product.images[0].src}
+                                    // alt={product.images[0].alt}
+                                    src={linkImg+thisCourse?.images?.three}
+                                    alt=""
+                                    className="h-full w-full object-cover object-center"
+                                /></>)}
                         </div>
                     </div>
 
@@ -247,7 +411,7 @@ export default function PreviewCourse(props) {
                                         ))}
                                     </div>
                                     <p className="sr-only">{reviews.average} out of 5 stars</p>
-                                    <a href={reviews.href} className="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                                    <a href={reviews.href} className="ml-3 text-sm font-medium text-purple-600 hover:text-purple-500">
                                         {reviews.totalCount} reviews
                                     </a>
                                 </div>
@@ -272,7 +436,7 @@ export default function PreviewCourse(props) {
                 <div className="mt-10">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                    <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="#" className="text-sm font-medium text-purple-600 hover:text-purple-500">
                       Size guide
                     </a>
                   </div>
@@ -282,11 +446,18 @@ export default function PreviewCourse(props) {
                                       ) : <p className="text-sm font-medium text-gray-900">{product.price}</p>} */}
                                 {/* <Link to={`/learning/${id}`}> <button
                     type="submit"
-                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                   >
                     {enroll}
                   </button></Link> */}
                                 {displayMessage()}
+                                <button
+                                onClick={(e) => save(e)}
+                type="button"
+                className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+            >
+                Save Course
+            </button>
                             </form>
                         </div>
 
@@ -421,6 +592,12 @@ export default function PreviewCourse(props) {
                         </div>
                         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                             <dt className="text-sm font-medium leading-6 text-gray-900">About Instructor</dt>
+                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                {thisCourse?.bio}
+                            </dd>
+                        </div>
+                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <dt className="text-sm font-medium leading-6 text-gray-900">Extension Files</dt>
                             <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                                 <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
                                     <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
@@ -432,7 +609,7 @@ export default function PreviewCourse(props) {
                                             </div>
                                         </div>
                                         <div className="ml-4 flex-shrink-0">
-                                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                            <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
                                                 Download
                                             </a>
                                         </div>
@@ -446,7 +623,7 @@ export default function PreviewCourse(props) {
                                             </div>
                                         </div>
                                         <div className="ml-4 flex-shrink-0">
-                                            <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                            <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
                                                 Download
                                             </a>
                                         </div>
@@ -457,6 +634,73 @@ export default function PreviewCourse(props) {
                     </dl>
                 </div>
             </div>
+            {/* notification */}
+            <Transition.Root show={open} as={Fragment}>
+                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <div className="sm:flex sm:items-start">
+                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <CheckCircleIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                                            </div>
+                                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                                                    Course Update Successfully
+                                                </Dialog.Title>
+                                                {/* <div className="mt-2">
+                                                    <p className="text-sm text-gray-500">
+                                                    We have updated your account information, please check your personal information.
+                                                    </p>
+                                                </div> */}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
+                                            onClick={() => setOpen(false)}
+                                        >
+                                            Done
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                            onClick={() => setOpen(false)}
+                                            ref={cancelButtonRef}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
         </>
     )
 }

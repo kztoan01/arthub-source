@@ -4,8 +4,21 @@ import course1 from '../assets/image/course-01.jpg'
 import apiCourse from '../api/axiosCourseConfig.js'
 import { useState, useEffect } from 'react';
 function Course(props) {
-    const courses = props.courses;
-    const level = courses?.filter((course) =>  course.level === "Expert" && String(course.status) === "2");
+    const [courses, setCourses] = useState()
+    const getCourses = async () => {
+        try {
+            const response = await apiCourse.get("/getCourses");
+            setCourses(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getCourses();
+    }, []
+    )
+    const level = courses?.filter((course) => course.level === "Expert" && String(course.status) === "2");
     const english = courses?.filter((course) => course.language === "English" && String(course.status) === "2");
     const free = courses?.filter((course) => course.price === 0 && String(course.status) === "2");
     const vietnamese = courses?.filter((course) => course.language === "Vietnamese" && String(course.status) === "2");

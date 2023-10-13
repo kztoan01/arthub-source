@@ -1,19 +1,43 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import apiLearner from '../api/axiosLearnerConfig'
+import apiCourse from '../api/axiosCourseConfig'
 export default function AccountLearning(props) {
-    const navigate = useNavigate()
-    if(localStorage.getItem("STU-authenticated")){
-        console.log("permit")
-
-    }else{
-        navigate('/login')
+    // get learner
+    const [learner,setLearner] = useState()
+    const getLearner = async () => {
+      try {
+        const response = await apiLearner.get("/getLearners");
+        setLearner(response.data);
+      } catch (err) {
+        alert(err);
+      }
     }
+  
+    useEffect(() => {
+      getLearner();
+    }, []
+    )
+    // get courses
+    const [courses,setCourses] = useState()
+    const getCourses = async () => {
+        try {
+          const response = await apiCourse.get("/getCourses");
+          setCourses(response.data);
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    
+      useEffect(() => {
+        getCourses();
+      }, []
+      )
     const thisAccount = JSON.parse(localStorage.getItem("logined"))
-    const learner = props.learner
     const thisStudent = learner?.filter((learner) => learner.accountId === thisAccount?.id);
-    const courses = props.courses
     const learningCourses = courses?.filter((course) => {
-        return thisStudent.some((learn) => {
+        return thisStudent?.some((learn) => {
             return learn.courseId === course.id
         })
     })
