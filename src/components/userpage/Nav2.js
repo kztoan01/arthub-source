@@ -60,6 +60,7 @@ export default function Nav2(props) {
   let user = []
   const loginedUser = JSON.parse(localStorage.getItem("logined"));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const linkImg = 'http://localhost:8080//images//'
   if (localStorage.getItem("logined")) {
     userNavigation = [
       { name: loginedUser.lastname + " " + loginedUser.firstname, href: '#', link: '/account/setting' },
@@ -75,7 +76,7 @@ export default function Nav2(props) {
       name: loginedUser.lastname + " " + loginedUser.firstname,
       email: loginedUser.email,
       imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+        linkImg+loginedUser?.image,
     }
   } else {
     logStatus = props.login
@@ -205,7 +206,7 @@ export default function Nav2(props) {
                   <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span className="absolute -inset-1.5" />
                     <span className="sr-only">Open user menu</span>
-                    <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                    <img className="h-8 w-8 rounded-full  object-cover object-center" src={loginedUser?.image ? user.imageUrl : '../assets/image/default.jpg'} alt="" />
                   </Menu.Button>
                 </div>
                 <Transition
@@ -351,7 +352,7 @@ export default function Nav2(props) {
                     <Menu.Button className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       <span className="absolute -inset-1.5" />
                       <span className="sr-only">Open user menu</span>
-                      <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                      <img className="h-8 w-8 rounded-full  object-cover object-center" src={loginedUser?.image ? user.imageUrl : '../assets/image/default.jpg'} alt="" />
                     </Menu.Button>
                   </div>
                   <Transition

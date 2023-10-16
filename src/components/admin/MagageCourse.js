@@ -37,7 +37,7 @@ export default function ManageCourse(props) {
     const [loading, setLoading] = useState(false)
     const [courses, setCourses] = useState()
     const cancelButtonRef = useRef(null)
-    const courseNotApproved = courses?.filter((course) => String(course.status) === "0");
+    const courseNotApproved = courses?.filter((course) => String(course.status) === "1");
     const formData = new FormData();
     formData.append('courseId', courseId);
     formData.append('InstructorEmail', InstructorEmail);
@@ -113,7 +113,7 @@ export default function ManageCourse(props) {
                                         onClick={(e) => {
                                             setOpen(true)
                                             setCourseId(product.id)
-                                            setInstructorEmail('locnht1@gmail.com')
+                                            setInstructorEmail('kztoan01@gmail.com')
                                             setStaffMessages(StaffMessages)
                                             setAction(-1)
                                         }}
@@ -139,7 +139,7 @@ export default function ManageCourse(props) {
                                         onClick={(e) => {
                                             setOpen2(true)
                                             setCourseId(product.id)
-                                            setInstructorEmail('locnht1@gmail.com')
+                                            setInstructorEmail('kztoan01@gmail.com')
                                             setStaffMessages('Congrats! Your course has been approved!')
                                             setAction(2)
                                         }}

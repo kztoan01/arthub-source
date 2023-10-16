@@ -27,8 +27,8 @@ export const ShopContextProvider = (props) => {
     getCourses();
   }, []
   )
+ 
   const [cartItems, setCartItems] = useState(getDefaultCart(courses));
-
   const getTotalCartAmount = () => {
     let totalAmount = 0;
     for (const item in cartItems) {
@@ -39,7 +39,6 @@ export const ShopContextProvider = (props) => {
     }
     return totalAmount;
   };
-  console.log(cartItems)
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: true }));
   };

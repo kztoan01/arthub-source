@@ -112,28 +112,11 @@ export default function Search(props) {
   // const realprice = courses.map((course) => (course.coursePrice - (course.coursePrice * course.courseCoupon) / 100).toFixed(2));
   // console.log(realprice);
   // const renderPrice = realprice.map((price, index) => <p key={index} className="text-sm font-medium text-gray-900">${price}</p>)
-
+  const linkImg = 'http://localhost:8080//images//'
   const [search, setSearch] = useState('');
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
   const [price, setPrice] = useState('');
-  console.log(search)
-  // console.log(level)
-  // console.log(price)
-  // const handleChange = (e) => {
-  //   // to find out if it's checked or not; returns true or false
-  //   const checked = e.target.checked;
-
-  //   // to get the checked value
-  //   const checkedValue = e.target.value;
-
-  //   // to get the checked name
-  //   const checkedName = e.target.name;
-
-  //   //then you can do with the value all you want to do with it.
-
-  // };
-  //    console.log(checkedValue);
   return (
     <div className="bg-white">
       <div>
@@ -401,7 +384,7 @@ export default function Search(props) {
                     <Link to={`/${product.id}`}><div key={product.id} className="group relative">
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
-                          src={product.image}
+                          src={linkImg + product.image}
                           alt=""
                           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
                         />
@@ -420,7 +403,7 @@ export default function Search(props) {
                                       <p className="text-sm font-medium text-gray-900">${realprice}</p>
                                     ))} */}
                         {/* {renderPrice} */}
-                        <p className="text-sm font-medium text-gray-900">${product.price}</p>
+                        <p className="text-sm font-medium text-gray-900">{product.price > 0 ? "$"+product.price : "Free"}</p>
                       </div>
                     </div></Link>
                   ))}

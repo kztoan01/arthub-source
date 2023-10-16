@@ -15,7 +15,7 @@ export default function AccountSetting() {
         e.preventDefault();
         try {
             await axios.post("http://localhost:8080/api/updateAccountImage", formData).then(response => {
-                setOpen(true)
+                setDetail(false)
             });;
         } catch (err) {
             alert(err);
@@ -23,7 +23,6 @@ export default function AccountSetting() {
     }
     const linkImg = 'http://localhost:8080//images//'
     const [open, setOpen] = useState(false)
-    console.log(linkImg + thisAccount?.image)
     const cancelButtonRef = useRef(null)
 
 
@@ -46,6 +45,7 @@ export default function AccountSetting() {
                 lastname: lastname,
                 firstname: firstname,
                 email: email,
+                image: image.name,
                 phone: phone,
                 address: address,
                 facebook: facebook,
@@ -61,7 +61,17 @@ export default function AccountSetting() {
             alert(err);
         }
     }
-
+    const [detail, setDetail] = useState(false)
+    const inputRef = useRef(null);
+    const handleImageClick = () => {
+        inputRef?.current.click();
+    }
+    const handleIMG = (e) => {
+        const file = e.target.files[0];
+        // console.log(e.target.files[0])
+        setImage(e.target.files[0])
+    }
+    console.log(image.name)
     return (
         <>
             <header className="bg-white shadow">
@@ -122,19 +132,18 @@ export default function AccountSetting() {
                                     </div>
                                     <div class="col-span-full"> <label for="photo"
                                         class="block text-sm font-medium leading-6 text-gray-900">Photo</label>
-                                        <div class="mt-2 flex items-center gap-x-3"> 
-                                        {/* <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                        <div class="mt-2 flex items-center gap-x-3">
+                                            {/* <svg class="h-12 w-12 text-gray-300" viewBox="0 0 24 24"
                                             fill="currentColor" aria-hidden="true"> */}
                                             {thisAccount?.image ? (<>
-                                                <img className="h-12 w-12 rounded-full" src={linkImg + thisAccount?.image} alt="" />
+                                                <img className="h-12 w-12 object-cover object-center rounded-full" src={image ? URL.createObjectURL(image) : (linkImg + thisAccount?.image)} alt="" />
                                             </>) : (<>
-                                                <path fill-rule="evenodd"
-                                                    d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
-                                                    clip-rule="evenodd" />
+                                                <img className="h-12 w-12 object-cover object-center rounded-full" src={image ? URL.createObjectURL(image) : '../assets/image/default.jpg'} alt="" />
                                             </>)}
-                                        {/* </svg>  */}
-                                        <button type="button"
-                                            class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
+                                            {/* </svg>  */}
+                                            <button type="button"
+                                                onClick={() => setDetail(true)}
+                                                class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
                                         </div>
                                     </div>
                                     <div class="col-span-full"> <label for="cover-photo"
@@ -148,7 +157,7 @@ export default function AccountSetting() {
                                             </svg>
                                                 <div class="mt-4 flex text-sm leading-6 text-gray-600"> <label for="file-upload"
                                                     class="relative cursor-pointer rounded-md bg-white font-semibold text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 hover:text-purple-500">
-                                                    <span>Upload a file</span> <input id="file-upload" name="file-upload" type="file" class="sr-only" />
+                                                    <span>Upload a file</span>
                                                 </label>
                                                     <p class="pl-1">or drag and drop</p>
                                                 </div>
@@ -365,6 +374,83 @@ export default function AccountSetting() {
                                         >
                                             Cancel
                                         </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            {/* change image */}
+            <Transition.Root show={detail} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={setDetail}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                                enterTo="opacity-100 translate-y-0 md:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 md:scale-100"
+                                leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                            >
+                                <Dialog.Panel className="flex w-100 transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                                    <div className="relative flex w-100 items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                                        {/* content */}
+                                        <div onClick={handleImageClick} style={{ cursor: "pointer" }} className="rounded-lg h-full w-full">
+                                            <input ref={inputRef} type="file" class="sr-only" onChange={handleIMG} style={{ display: "none" }} />
+                                            {thisAccount?.image == null ? (<>
+                                                {image ? (<>
+                                                    <img
+                                                        src={URL.createObjectURL(image)}
+                                                        alt=""
+                                                        className="h-96 w-96 object-cover object-center rounded-full"
+                                                    /></>)
+                                                    : (
+                                                        <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                                            <div class="text-center"> <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24"
+                                                                fill="currentColor" aria-hidden="true">
+                                                                <path fill-rule="evenodd"
+                                                                    d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z"
+                                                                    clip-rule="evenodd" />
+                                                            </svg>
+                                                                <div class="mt-4 flex text-sm leading-6 text-gray-600"> <label for="file-upload"
+                                                                    class="relative cursor-pointer rounded-md bg-white font-semibold text-purple-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-purple-600 focus-within:ring-offset-2 hover:text-purple-500">
+                                                                    <span>Upload a file</span>
+                                                                </label>
+                                                                    <p class="pl-1">or drag and drop</p>
+                                                                </div>
+                                                                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                            </>) : (<>
+                                                <img
+                                                    // src={product.images[0].src}
+                                                    // alt={product.images[0].alt}
+                                                    src={image ? URL.createObjectURL(image) : (linkImg + thisAccount?.image)}
+                                                    alt=""
+                                                    className="h-96 w-96 object-cover object-center rounded-full"
+                                                />
+                                                </>)}
+                                        </div>
+                                        <button type="submit"
+                                        onClick={(e) => save(e)}
+                                class="rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 mt-96 ">Save</button>
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>

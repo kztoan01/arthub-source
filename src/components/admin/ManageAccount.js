@@ -142,6 +142,7 @@ export default function ManageAccount(props) {
             user: admins
         },
     ]
+    const linkImg = 'http://localhost:8080//images//'
     return (
 
         <>
@@ -161,7 +162,7 @@ export default function ManageAccount(props) {
                                         <div className="flex min-w-0 gap-x-4">
                                             {person.image == null ? (<img className="h-12 w-12 flex-none rounded-full bg-gray-50" src='../assets/image/default.jpg' alt="" />)
                                                 :
-                                                <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={person.image} alt="" />}
+                                                <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={linkImg + person.image} alt="" />}
 
                                             <div className="min-w-0 flex-auto">
                                                 <p className="text-sm font-semibold leading-6 text-gray-900">{person.lastname} {person.firstname}</p>

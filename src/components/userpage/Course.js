@@ -81,7 +81,7 @@ function Course(props) {
     //         courses
     //     },
     // ]
-
+    const linkImg = 'http://localhost:8080//images//'
     return (
         <>
             <div className="bg-gray-100">
@@ -122,7 +122,7 @@ function Course(props) {
                                 <Link to={`/${product.id}`}><div key={product.id} className="group relative">
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                         <img
-                                            src={product.image}
+                                            src={linkImg+product.image}
                                             // {product.imageSrc}
                                             alt=""
                                             className="h-full w-full object-cover object-center lg:h-full lg:w-full"
@@ -140,7 +140,7 @@ function Course(props) {
                                         </div>
                                         {product.price === 0 ? (
                                             <p className="text-sm font-medium text-gray-900">Free</p>
-                                        ) : <p className="text-sm font-medium text-gray-900">{product.price}</p>}
+                                        ) : <p className="text-sm font-medium text-gray-900">${product.price}</p>}
 
                                     </div>
                                 </div></Link>

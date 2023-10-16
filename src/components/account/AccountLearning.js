@@ -41,6 +41,7 @@ export default function AccountLearning(props) {
             return learn.courseId === course.id
         })
     })
+    const linkImg = 'http://localhost:8080//images//'
     return (
         <>
             <header className="bg-white shadow">
@@ -59,7 +60,7 @@ export default function AccountLearning(props) {
                                 <Link to={`/learning/${product.id}`}><div key={product.id} className="group relative">
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                         <img
-                                            src={product.image}
+                                            src={linkImg + product.image}
                                             // {product.imageSrc}
                                             alt=""
                                             className="h-full w-full object-cover object-center lg:h-full lg:w-full"

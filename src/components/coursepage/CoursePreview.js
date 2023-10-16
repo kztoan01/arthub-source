@@ -13,6 +13,9 @@ import { useContext } from 'react'
 import { ShopContext } from './shop-context'
 import { PlayIcon } from "@heroicons/react/24/solid";
 import ceo from '../assets/image/toan.jpg'
+import {Disclosure, Menu } from '@headlessui/react'
+import { XMarkIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 const includes = [
   '15.5 hours on-demand video.',
   '1 article.',
@@ -55,75 +58,10 @@ const posts = [
         'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
   },
- 
+
 
   // More posts...
 ]
-const datas = [
-  {
-    img:
-      "https://i.ytimg.com/vi/Sv5yCzPCkv8/maxresdefault.jpg",
-    link: "https://www.youtube.com/embed/Sv5yCzPCkv8?si=ZwqYBwnWohqcAtWH",
-    title: "SZA - Snooze",
-    description: "My favorite song from my celebrity crush",
-  },
-  {
-    img:
-      "https://i.ytimg.com/vi/TzECmqe61_g/maxresdefault.jpg",
-    link:
-      "https://www.youtube.com/embed/TzECmqe61_g?si=fLiVfe0jvk0kSV3w",
-    title: "Zola - Belles Femmes",
-    description: "Belles Femmes - nouveau titre de Zola.",
-  },
-  {
-    img:
-      "https://i.ytimg.com/vi/l5M64JuiZAE/maxresdefault.jpg",
-    link:
-      "https://www.youtube.com/embed/l5M64JuiZAE?si=bXwI1IYcPmpRTPTm",
-    title: "21 Savage - Can't Leave Without It",
-    description: "The best rap song. Indeed",
-  },
-  {
-    img:
-      "https://i.ytimg.com/vi/arB4LBg_80M/maxresdefault.jpg",
-    link:
-      "https://www.youtube.com/embed/xvDPtb6_IoM?si=yBYeibWoRJfrz9zl",
-    title: "No Auto Durk",
-    description: "My favorite of Lil Durk",
-  },
-  {
-    img:
-      "https://i.ytimg.com/vi/51vVIvPl_EA/maxresdefault.jpg",
-    link:
-      "https://www.youtube.com/embed/u0LaoQks5mY?si=39iqnpzjauJqiooR",
-    title: "Migos - Need It (Official Video) ft. YoungBoy Never Broke Again",
-    description: "I said I neededdddd",
-  },
-  {
-    img:
-      "https://i.ytimg.com/vi/nCglrp951YI/maxresdefault.jpg",
-    link:
-      "https://www.youtube.com/embed/nCglrp951YI?si=ZE7bCg30MCvhyYUO",
-    title: "Offset - Legacy ft. Travis Scott, 21 Savage",
-    description: "ft. 21 Savage on top",
-  },
-  {
-    img:
-      "https://images.genius.com/31496d46a302dd9b55416525688ac9d9.1000x1000x1.png",
-    link:
-      "https://www.youtube.com/embed/I4DjHHVHWAE?si=kPxOXPWjIdLEJoLb",
-    title: "Drake, 21 Savage - Rich Flex",
-    description: "Can 21 do something for Drake?",
-  },
-  {
-    img:
-      "https://i.ytimg.com/vi/vpubBZdPbtg/maxresdefault.jpg",
-    link:
-      "https://www.youtube.com/embed/vpubBZdPbtg?si=etXFyjCSBOzCISAw",
-    title: "Cảm ơn - Ngài ft Rush",
-    description: "Ngài comeback",
-  },
-];
 
 const reviews = { href: '#', average: 4, totalCount: 117 }
 
@@ -144,20 +82,20 @@ export default function CoursePreview(props) {
   // const cartItemCount = cartItems[id];
 
   //---------
-  const [courses, setCourses] = useState()
-  const getCourses = async () => {
-    try {
-      const response = await apiCourse.get("/getCourses");
-      setCourses(response.data);
-    } catch (err) {
-      console.log(err);
-    }
-  }
+  // const [courses, setCourses] = useState()
+  // const getCourses = async () => {
+  //   try {
+  //     const response = await apiCourse.get("/getCourses");
+  //     setCourses(response.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // }
 
-  useEffect(() => {
-    getCourses();
-  }, []
-  )
+  // useEffect(() => {
+  //   getCourses();
+  // }, []
+  // )
   const [learner, setLearner] = useState()
   const getLearner = async () => {
     try {
@@ -178,11 +116,27 @@ export default function CoursePreview(props) {
   const thisAccount = JSON.parse(localStorage.getItem("logined"))
   const thisStudent = learner?.filter((learner) => learner.accountId === thisAccount?.id);
   const { id } = useParams()
-  const thisCourse = courses?.find((course) => String(course.id) === id)
+  //const thisCourse = courses?.find((course) => String(course.id) === id)
+  //get this course
+  const formCourseData = new FormData();
+  formCourseData.append('id', id);
+
+  const [thisCourse, setThisCourse] = useState()
+  const getThisCourse = async () => {
+    try {
+      const response = await apiCourse.post("/showSectionAndVideo", formCourseData);
+      setThisCourse(response.data)
+    } catch (e) {
+      alert(e)
+    }
+  }
+
+  useEffect(() => {
+    getThisCourse();
+  }, [])
   const isLearn = thisStudent?.find((course) => course.courseId === thisCourse?.id)
   let price = '';
   const navigate = useNavigate();
-  console.log(thisCourse?.id)
   if (thisCourse?.price > 0) {
     price = '$' + thisCourse?.price
   } else {
@@ -262,7 +216,7 @@ export default function CoursePreview(props) {
   // }, []
   // )
   const linkImg = 'http://localhost:8080//images//'
-    console.log(linkImg+thisCourse?.images?.two)
+  const linkVid = 'http://localhost:8080//videos//'
   return (
     <>
       <div className="bg-white">
@@ -302,7 +256,7 @@ export default function CoursePreview(props) {
               <img
                 // src={product.images[0].src}
                 // alt={product.images[0].alt}
-                src={linkImg+thisCourse?.images?.one}
+                src={linkImg + thisCourse?.images?.one}
                 alt=""
                 className="h-full w-full object-cover object-center"
               />
@@ -312,7 +266,7 @@ export default function CoursePreview(props) {
                 <img
                   // src={product.images[1].src}
                   // alt={product.images[1].alt}
-                  src={linkImg+thisCourse?.images?.two}
+                  src={linkImg + thisCourse?.images?.two}
                   alt=""
                   className="h-full w-full object-cover object-center"
                 />
@@ -321,7 +275,7 @@ export default function CoursePreview(props) {
                 <img
                   // src={product.images[2].src}
                   // alt={product.images[2].alt}
-                  src={linkImg+thisCourse?.images?.four}
+                  src={linkImg + thisCourse?.images?.four}
                   alt=""
                   className="h-full w-full object-cover object-center"
                 />
@@ -331,7 +285,7 @@ export default function CoursePreview(props) {
               <img
                 // src={product.images[3].src}
                 // alt={product.images[3].alt}
-                src={linkImg+thisCourse?.images?.three}
+                src={linkImg + thisCourse?.images?.three}
                 alt=""
                 className="h-full w-full object-cover object-center"
               />
@@ -458,54 +412,100 @@ export default function CoursePreview(props) {
               {/* gallery */}
               <div className="mt-10">
                 <h2 className="text-xl font-medium text-gray-900">Course content</h2>
-                <div
+                {thisCourse?.sections?.map((section) => (
+                      <Disclosure as="div" key={section.id} className="mt-8 border-t border-gray-200 px-4 py-6">
+                        {({ open }) => (
+                          <>
+                            <h3 className="-mx-2 -my-3 flow-root">
+                              <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                                <span className="font-medium text-gray-900">{section.section_name}</span>
+                                <span className="ml-6 flex items-center">
+                                  {open ? (
+                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                  ) : (
+                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                  )}
+                                </span>
+                              </Disclosure.Button>
+                            </h3>
+                            <Disclosure.Panel className="pt-6">
+                              <div className="space-y-6">
+                              {section.videos.map((video) => (
+                                  <div key={video.id} className="flex items-center"
+                                  onClick={() => {
+                                    if (video.trial === true) {
+                                      setDetail(true)
+                                      setActiveVid(video.data);
+                                    }
+                                  }}>
+                                    {/* <input
+                                      id={`filter-mobile-${section.id}-${optionIdx}`}
+                                      name={`${section.id}[]`}
+                                      defaultValue={option.value}
+                                      type="checkbox"
+                                      defaultChecked={option.checked}
+                                      className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                                    /> */}
+                                     <PlayIcon class="h-6 w-6 text-gray-500" />
+                                    <label
+                                      // htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                      className="hover:bg-gray-200 p-2
+                                      rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500"
+                                    >
+                                       {video.trial === true ? video.name + " - Preview Available": video.name}
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                    ))}
+               {/* <div
                   className="mt-8  
                            overflow-y-scroll flex flex-col 
                            mt-4 mr-20 border-slate-200 
                            border-2 rounded-lg"
                   style={{ height: "min(38vw, 650px)" }}
                 >
-
-                  <h3 className="text-xl p-2 font-semibold">Section 1</h3>
-                  <p className="px-2">Introduction</p>
-                  {datas.map((data) => (
-                    <div key={data.title}
-                      className="hover:bg-gray-300 p-2
+                  {thisCourse?.sections?.map((section) => (
+                    <>
+                      <h3 className="text-xl p-2 font-semibold">{section.section_name}</h3>
+                      {section.videos.map((video) => (
+                        <div key={video.id}
+                          className="hover:bg-gray-300 p-2
                                        border-2 rounded-xl h-2/6 
                                        "
-                      onClick={() => {
-                        if (data.title === "SZA - Snooze") {
-                          setDetail(true)
-                          setActiveVid(data.link);
-                          setActTitle(data.title);
-                          setActiveDescription(data.description);
-                        }
-                      }}
-                    >
-                      <PlayIcon class="h-6 w-6 text-gray-500" />
-                      {/* <img
-                                    className="w-1/2 h-20 my-4 
-                                           mx-2 float-left"
-                                    src={data.img}
-                                    // {"." + thisCourse?.image}
-                                /> */}
-                      {data.title === "SZA - Snooze" ? (
-                      <p
-                        className="ml-2 font-semibold 
+                          onClick={() => {
+                            if (video.trial === true) {
+                              setDetail(true)
+                              setActiveVid(video.data);
+                            }
+                          }}
+                        >
+                          <PlayIcon class="h-6 w-6 text-gray-500" />
+                          {video.trial === true ? (
+                            <p
+                              className="ml-2 font-semibold 
                                           pl-6 text-sm"
-                      >
-                        {data.title} - Preview Available
-                      </p>) : (<p
-                        className="ml-2 font-semibold 
+                            >
+                              {video.name} - Preview Available
+                            </p>) : (
+                            <p
+                              className="ml-2 font-semibold 
                                           pl-6 text-sm"
-                      >
-                        {data.title}
-                      </p>)}
+                            >
+                              {video.name}
+                            </p>
+                          )}
 
-                      <p className="px-2 text-sm">{data.description}</p>
-                    </div>
-                  ))}
-                </div>
+                          <p className="px-2 text-sm">{video.script}</p>
+                        </div>
+                      ))}
+                    </>))}
+
+                </div> */}
               </div>
               {/* reviews */}
               <div className="bg-white py-24 sm:py-32">
@@ -649,86 +649,14 @@ export default function CoursePreview(props) {
                 >
                   <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
                     <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-                      <div className="w-screen flex h-screen flex-row mx-12">
-                        <div className="w-full h-full  px-2 pt-2 
-                            rounded-xl">
-                          <iframe src={activeVid} className="w-full h-5/6"></iframe>
-                          <div className="pt-4 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                            Title: {actTitle}
-                            <p className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                              Description:{description}
-                            </p>
-                          </div>
-                        </div>
+                    <div className="rounded-lg h-full w-full">
+                    <h3 className="text-xl font-medium text-gray-900">{thisCourse?.name}</h3>
+                    <p className="mt-2 font-medium text-gray-900">Preview Video</p>
+                      <div className="pt-12 pr-32 px-2 pt-2 rounded-xl" style={{ width: "920px", height: "500px" }}>
+                        <iframe allowFullScreen={true} src={linkVid + activeVid} className="w-full h-5/6"></iframe>
                       </div>
-                      {/* <div class="border-b border-gray-900/10 pb-12">
-                                            <h2 class="text-base font-semibold leading-7 text-gray-900">Personal Information</h2>
-                                            {String(thisAccount?.roleId) === "4" ? <p class="mt-1 text-sm leading-6 text-gray-600">Administrator</p>
-                                            : <></>}
-                                            {String(thisAccount?.roleId) === "3" ? <p class="mt-1 text-sm leading-6 text-gray-600">Staff</p>
-                                            : <></>}
-                                            {String(thisAccount?.roleId) === "2" ? <p class="mt-1 text-sm leading-6 text-gray-600">Student</p>
-                                            : <></>}
-                                            {String(thisAccount?.roleId) === "1" ? <p class="mt-1 text-sm leading-6 text-gray-600">Instructor</p>
-                                            : <></>}
-                                            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                                                <div class="sm:col-span-3"> <label for="first-name"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">First name</label>
-                                                    <div class="mt-2"> <input type="text" name="first-name" id="first-name" autocomplete="given-name"
-                                                    value={thisAccount?.firstname} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                                <div class="sm:col-span-3"> <label for="last-name"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
-                                                    <div class="mt-2"> <input type="text" name="last-name" id="last-name" autocomplete="family-name"
-                                                    value={thisAccount?.lastname} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                                <div class="sm:col-span-4"> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email
-                                                    address</label>
-                                                    <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email"
-                                                    value={thisAccount?.email} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                                <div class="sm:col-span-4"> <label for="phone" class="block text-sm font-medium leading-6 text-gray-900">Phone Number</label>
-                                                    <div class="mt-2"> <input id="phone" name="phone" type="text" autocomplete=""
-                                                    value={thisAccount?.phone} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                                <div class="col-span-full"> <label for="street-address"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">Address</label>
-                                                    <div class="mt-2"> <input type="text" name="street-address" id="street-address"
-                                                    value={thisAccount?.address} readOnly
-                                                        autocomplete="street-address"
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                                <div class="sm:col-span-2 sm:col-start-1"> <label for="city"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">Facebook</label>
-                                                    <div class="mt-2"> <input type="text" name="facebook" id="facebook" autocomplete="facebook"
-                                                    value={thisAccount?.facebook} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                                <div class="sm:col-span-2"> <label for="region"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">Twitter</label>
-                                                    <div class="mt-2"> <input type="text" name="twitter" id="twitter" autocomplete="twitter"
-                                                    value={thisAccount?.twitter} readOnly
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                                <div class="sm:col-span-2"> <label for="postal-code"
-                                                    class="block text-sm font-medium leading-6 text-gray-900">GitHub</label>
-                                                    <div class="mt-2"> <input type="text" name="github" id="github" autocomplete="github"
-                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div> */}
+                     
+                    </div>
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>
