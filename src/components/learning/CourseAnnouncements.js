@@ -116,18 +116,6 @@ export default function CourseAnnouncements() {
     const [sucopen, setSucOpen] = useState(false)
     const formDeleteAnn = new FormData();
     formDeleteAnn.append('id', annId);
-    // async function handleDeleteRate(e) {
-    //     e.preventDefault();
-    //     try {
-    //         await axios.delete("http://localhost:8080/rate/deleteCourseRate", formDeleteAnn).then(response => {
-    //             setDeleteOpen(false)
-    //             setSucOpen(true)
-    //             getThisCourseRating();
-    //         });
-    //     } catch (err) {
-    //         alert(err);
-    //     }
-    // }
     async function handleDeleteRate(e) {
         e.preventDefault();
         try {
@@ -142,7 +130,6 @@ export default function CourseAnnouncements() {
         }
 
     }
-    console.log(annId)
     return (
         <>
             <div className="isolate bg-white px-6 py-24 sm:py-0 lg:px-24 ">

@@ -36,6 +36,7 @@ export default function ManageCourse(props) {
     const [action, setAction] = useState('')
     const [loading, setLoading] = useState(false)
     const [courses, setCourses] = useState()
+    const [attachment,setAttachment] = useState('')
     const cancelButtonRef = useRef(null)
     const courseNotApproved = courses?.filter((course) => String(course.status) === "1");
     const formData = new FormData();
@@ -43,6 +44,7 @@ export default function ManageCourse(props) {
     formData.append('InstructorEmail', InstructorEmail);
     formData.append('StaffMessages', StaffMessages);
     formData.append('action', action);
+    formData.append('attachment', attachment);
     const getCourses = async () => {
         try {
             const response = await apiCourse.get("/getCourses");

@@ -830,6 +830,13 @@ export default function PreviewCourse(props) {
                 ) : (<></>)}
 
             </div> */}
+            
+             {thisCourse?.status == 0 ? (
+                    <button type="submit"
+                        onClick={() => setCheckOpen(true)}
+                        class="ml-60 mb-4 mt-4 flex w-2/3 justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                        Save course</button>
+                ) : (<></>)}
             {/* notification */}
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
