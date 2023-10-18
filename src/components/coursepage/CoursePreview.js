@@ -13,8 +13,9 @@ import { useContext } from 'react'
 import { ShopContext } from './shop-context'
 import { PlayIcon } from "@heroicons/react/24/solid";
 import ceo from '../assets/image/toan.jpg'
-import {Disclosure, Menu } from '@headlessui/react'
+import { Disclosure, Menu } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
+import api from '../api/axiosAccountConfig'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
 const includes = [
   '15.5 hours on-demand video.',
@@ -217,6 +218,40 @@ export default function CoursePreview(props) {
   // )
   const linkImg = 'http://localhost:8080//images//'
   const linkVid = 'http://localhost:8080//videos//'
+  //get this course rating
+  const formCourseRating = new FormData();
+  formCourseRating.append('courseId', id);
+  const [thisCourseRating, setThisCourseRating] = useState()
+  const getThisCourseRating = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/rate/getCourseRate", formCourseRating);
+      setThisCourseRating(response.data)
+    } catch (e) {
+      alert(e)
+    }
+  }
+
+  useEffect(() => {
+    getThisCourseRating();
+  }, [])
+  const [users, setUsers] = useState()
+  const getUsers = async () => {
+    try {
+      const response = await api.get("/accounts");
+      // console.log(response.data)
+      setUsers(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  useEffect(() => {
+    getUsers();
+  }, []
+  )
+  const findAccountById = (id) => {
+    return users?.find((user) => user.id === id)
+  }
   return (
     <>
       <div className="bg-white">
@@ -413,32 +448,32 @@ export default function CoursePreview(props) {
               <div className="mt-10">
                 <h2 className="text-xl font-medium text-gray-900">Course content</h2>
                 {thisCourse?.sections?.map((section) => (
-                      <Disclosure as="div" key={section.id} className="mt-8 border-t border-gray-200 px-4 py-6">
-                        {({ open }) => (
-                          <>
-                            <h3 className="-mx-2 -my-3 flow-root">
-                              <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                <span className="font-medium text-gray-900">{section.section_name}</span>
-                                <span className="ml-6 flex items-center">
-                                  {open ? (
-                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                  ) : (
-                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                  )}
-                                </span>
-                              </Disclosure.Button>
-                            </h3>
-                            <Disclosure.Panel className="pt-6">
-                              <div className="space-y-6">
-                              {section.videos.map((video) => (
-                                  <div key={video.id} className="flex items-center"
-                                  onClick={() => {
-                                    if (video.trial === true) {
-                                      setDetail(true)
-                                      setActiveVid(video.data);
-                                    }
-                                  }}>
-                                    {/* <input
+                  <Disclosure as="div" key={section.id} className="mt-8 border-t border-gray-200 px-4 py-6">
+                    {({ open }) => (
+                      <>
+                        <h3 className="-mx-2 -my-3 flow-root">
+                          <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                            <span className="font-medium text-gray-900">{section.section_name}</span>
+                            <span className="ml-6 flex items-center">
+                              {open ? (
+                                <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                              ) : (
+                                <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                              )}
+                            </span>
+                          </Disclosure.Button>
+                        </h3>
+                        <Disclosure.Panel className="pt-6">
+                          <div className="space-y-6">
+                            {section.videos.map((video) => (
+                              <div key={video.id} className="flex items-center"
+                                onClick={() => {
+                                  if (video.trial === true) {
+                                    setDetail(true)
+                                    setActiveVid(video.data);
+                                  }
+                                }}>
+                                {/* <input
                                       id={`filter-mobile-${section.id}-${optionIdx}`}
                                       name={`${section.id}[]`}
                                       defaultValue={option.value}
@@ -446,23 +481,23 @@ export default function CoursePreview(props) {
                                       defaultChecked={option.checked}
                                       className="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
                                     /> */}
-                                     <PlayIcon class="h-6 w-6 text-gray-500" />
-                                    <label
-                                      // htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                      className="hover:bg-gray-200 p-2
+                                <PlayIcon class="h-6 w-6 text-gray-500" />
+                                <label
+                                  // htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                  className="hover:bg-gray-200 p-2
                                       rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500"
-                                    >
-                                       {video.trial === true ? video.name + " - Preview Available": video.name}
-                                    </label>
-                                  </div>
-                                ))}
+                                >
+                                  {video.trial === true ? video.name + " - Preview Available" : video.name}
+                                </label>
                               </div>
-                            </Disclosure.Panel>
-                          </>
-                        )}
-                      </Disclosure>
-                    ))}
-               {/* <div
+                            ))}
+                          </div>
+                        </Disclosure.Panel>
+                      </>
+                    )}
+                  </Disclosure>
+                ))}
+                {/* <div
                   className="mt-8  
                            overflow-y-scroll flex flex-col 
                            mt-4 mr-20 border-slate-200 
@@ -512,41 +547,92 @@ export default function CoursePreview(props) {
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                   <h2 className="text-xl font-medium text-gray-900">Reviews</h2>
                   <div className="mt-4 space-y-6">
-                    {posts.map((post) => (
+                    {thisCourseRating?.slice(0).reverse().map((post) => (
                       <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
                         <div className="flex items-center gap-x-4 text-xs mt-4">
-                          <time dateTime={post.datetime} className="text-gray-500">
-                            {post.date}
+                          <time dateTime={post.timeRate} className="text-gray-500">
+                            {post.timeRate.split('T')[0]}
                           </time>
-                          <a
-                            href={post.category.href}
-                            className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                          {/* <a
+                              // href={post.category.href}
+                              className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
                           >
-                            {post.category.title}
-                          </a>
+                              {post.rate} star
+                          </a> */}
+                          <div className="flex items-center">
+                            {[0, 1, 2, 3, 4].map((rating) => (
+                              <StarIcon
+                                key={rating}
+                                className={classNames(
+                                  post.rate > rating ? 'text-gray-900' : 'text-gray-200',
+                                  'h-5 w-5 flex-shrink-0'
+                                )}
+                                aria-hidden="true"
+                              />
+                            ))}
+                          </div>
                         </div>
                         <div className="group relative">
-                          <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                            <a href={post.href}>
-                              <span className="absolute inset-0" />
-                              {post.title}
-                            </a>
-                          </h3>
-                          <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
+                          {/* <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                              <a 
+                              href=""
+                              >
+                                  <span className="absolute inset-0" />
+                                  {post.title}
+                              </a>
+                          </h3> */}
+
+                          <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.comment}</p>
                         </div>
                         <div className="relative mt-8 flex items-center gap-x-4">
-                          <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
+                          <img src={findAccountById(post.accountId)?.image ? linkImg + findAccountById(post.accountId)?.image : '../assets/image/default.jpg'} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
                           <div className="text-sm leading-6">
                             <p className="font-semibold text-gray-900">
-                              <a href={post.author.href}>
+                              <a
+                                href=""
+                              >
                                 <span className="absolute inset-0" />
-                                {post.author.name}
+                                {findAccountById(post.accountId)?.firstname + " " + findAccountById(post.accountId)?.lastname}
                               </a>
                             </p>
-                            <p className="text-gray-600">{post.author.role}</p>
+                            {/* <p className="text-gray-600">{post.author.role}</p> */}
                           </div>
                         </div>
                       </article>
+                      // <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
+                      //   <div className="flex items-center gap-x-4 text-xs mt-4">
+                      //     <time dateTime={post.datetime} className="text-gray-500">
+                      //       {post.date}
+                      //     </time>
+                      //     <a
+                      //       href={post.category.href}
+                      //       className="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100"
+                      //     >
+                      //       {post.category.title}
+                      //     </a>
+                      //   </div>
+                      //   <div className="group relative">
+                      //     <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+                      //       <a href={post.href}>
+                      //         <span className="absolute inset-0" />
+                      //         {post.title}
+                      //       </a>
+                      //     </h3>
+                      //     <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">{post.description}</p>
+                      //   </div>
+                      //   <div className="relative mt-8 flex items-center gap-x-4">
+                      //     <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" />
+                      //     <div className="text-sm leading-6">
+                      //       <p className="font-semibold text-gray-900">
+                      //         <a href={post.author.href}>
+                      //           <span className="absolute inset-0" />
+                      //           {post.author.name}
+                      //         </a>
+                      //       </p>
+                      //       <p className="text-gray-600">{post.author.role}</p>
+                      //     </div>
+                      //   </div>
+                      // </article>
                     ))}
                   </div>
                 </div>
@@ -649,14 +735,14 @@ export default function CoursePreview(props) {
                 >
                   <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
                     <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-                    <div className="rounded-lg h-full w-full">
-                    <h3 className="text-xl font-medium text-gray-900">{thisCourse?.name}</h3>
-                    <p className="mt-2 font-medium text-gray-900">Preview Video</p>
-                      <div className="pt-12 pr-32 px-2 pt-2 rounded-xl" style={{ width: "920px", height: "500px" }}>
-                        <iframe allowFullScreen={true} src={linkVid + activeVid} className="w-full h-5/6"></iframe>
+                      <div className="rounded-lg h-full w-full">
+                        <h3 className="text-xl font-medium text-gray-900">{thisCourse?.name}</h3>
+                        <p className="mt-2 font-medium text-gray-900">Preview Video</p>
+                        <div className="pt-12 pr-32 px-2 pt-2 rounded-xl" style={{ width: "920px", height: "500px" }}>
+                          <iframe allowFullScreen={true} src={linkVid + activeVid} className="w-full h-5/6"></iframe>
+                        </div>
+
                       </div>
-                     
-                    </div>
                     </div>
                   </Dialog.Panel>
                 </Transition.Child>

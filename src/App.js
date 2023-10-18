@@ -47,214 +47,229 @@ import PreviewCourse from './components/dashboard/PreviewCourse.js';
 import ProtectedStudentInfo from './components/protect/ProtectedStudentInfo.js';
 import PreviewPendingCourse from './components/admin/PreviewPendingCourse.js';
 import ArthubPerformance from './components/admin/ArthubPerformance.js';
-import {ShopContextProvider} from './components/coursepage/shop-context.js'
+import CourseOverview  from './components/learning/CourseOverview.js';
+import { ShopContextProvider } from './components/coursepage/shop-context.js'
 import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
+import Checkout from './components/userpage/Checkout.js';
+import Transactions from './components/admin/Transactions.js';
 function App() {
   return (
     <BrowserRouter>
-    <ShopContextProvider>
-      <ScrollToTop />
+      <ShopContextProvider>
+        <ScrollToTop />
 
-      <Routes>
+        <Routes>
 
-        <Route path="/game" element={
-          <>
-            <Banner />
-            <Nav2 login="" signup="Sign Up" />
-            <div
-              style={{
-                width: '100vw',
-                height: '100vh',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: 'white'
-              }}>
-              <Tictactoe /></div>
-            <Footer />
-          </>
-        }>
-        </Route>
-        <Route path="/login" element={
-          <>
-            <Banner />
-            <Nav2 login="" signup="Sign Up" />
-            <Login />
-            <Footer />
-          </>
-        }>
-        </Route>
-        <Route path="/signup" element={
-          <>
-            <Banner />
-            <Nav2 login="Login" signup="" />
-            <Signup />
-            <Footer />
-          </>
-        }>
-        </Route>
-
-        <Route path="/" element={
-          <>
-            <ProtectedRouteSTU>
+          <Route path="/game" element={
+            <>
               <Banner />
-              <Nav2 login="Login" signup="Sign Up" />
-              <Cover />
-              <Course />
-              <Feature />
+              <Nav2 login="" signup="Sign Up" />
+              <div
+                style={{
+                  width: '100vw',
+                  height: '100vh',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'white'
+                }}>
+                <Tictactoe /></div>
               <Footer />
-            </ProtectedRouteSTU>
-          </>}>
-        </Route>
-        <Route path="/search" element={
-          <>
-            <ProtectedRouteSTU>
+            </>
+          }>
+          </Route>
+          <Route path="/login" element={
+            <>
               <Banner />
-              <Nav2 login="Login" signup="Sign Up" />
-              <Search />
+              <Nav2 login="" signup="Sign Up" />
+              <Login />
               <Footer />
-            </ProtectedRouteSTU>
-          </>
-        }>
-        </Route>
-        <Route path="/aboutus" element={
-          <>
-            <Banner />
-            <Nav2 login="" signup="Sign Up" />
-            <Company />
-            <Testimonials />
-            <Blog />
-            <Team />
-            <Footer />
-          </>
-        }></Route>
-        <Route exact path="/:id"
-          element={
+            </>
+          }>
+          </Route>
+          <Route path="/signup" element={
+            <>
+              <Banner />
+              <Nav2 login="Login" signup="" />
+              <Signup />
+              <Footer />
+            </>
+          }>
+          </Route>
+
+          <Route path="/" element={
             <>
               <ProtectedRouteSTU>
                 <Banner />
                 <Nav2 login="Login" signup="Sign Up" />
-                <CoursePreview />
+                <Cover />
+                <Course />
+                <Feature />
+                <Footer />
+              </ProtectedRouteSTU>
+            </>}>
+          </Route>
+          <Route path="/search" element={
+            <>
+              <ProtectedRouteSTU>
+                <Banner />
+                <Nav2 login="Login" signup="Sign Up" />
+                <Search />
                 <Footer />
               </ProtectedRouteSTU>
             </>
-          }
-        >
-        </Route>
+          }>
+          </Route>
+          <Route path="/checkout" element={
+            <>
+              <ProtectedRouteSTU>
+                <Banner />
+                <Nav2 login="Login" signup="Sign Up" />
+                <Checkout />
+                <Footer />
+              </ProtectedRouteSTU>
+            </>
+          }>
+          </Route>
+          <Route path="/aboutus" element={
+            <>
+              <Banner />
+              <Nav2 login="" signup="Sign Up" />
+              <Company />
+              <Testimonials />
+              <Blog />
+              <Team />
+              <Footer />
+            </>
+          }></Route>
+          <Route exact path="/:id"
+            element={
+              <>
+                <ProtectedRouteSTU>
+                  <Banner />
+                  <Nav2 login="Login" signup="Sign Up" />
+                  <CoursePreview />
+                  <Footer />
+                </ProtectedRouteSTU>
+              </>
+            }
+          >
+          </Route>
 
-        <Route path='/instructordashboard'
-          element={<>
+          <Route path='/instructordashboard'
+            element={<>
+              <ProtectedRouteINS>
+                <InstructorDashboard />
+                <Feature create="true" />
+              </ProtectedRouteINS>
+            </>}
+          />
+          <Route path='/instructordashboard/dashboard' element={<>
             <ProtectedRouteINS>
-              <InstructorDashboard />
-              <Feature create="true" />
-            </ProtectedRouteINS>
-          </>}
-        />
-        <Route path='/instructordashboard/dashboard' element={<>
-          <ProtectedRouteINS>
-            <InstructorDashboard dashboard="true" />
-            <DashboardContent />
-          </ProtectedRouteINS></>} />
-        <Route path='/instructordashboard/courses' element={<>
-          <ProtectedRouteINS>
-            <InstructorDashboard course="true" />
-            <CoursesContent />
-            <CreateCourse />
-          </ProtectedRouteINS></>} />
-        <Route path='/instructordashboard/student' element={<>
-          <ProtectedRouteINS>
-            <InstructorDashboard student="true" />
-            <StudentContent />
-          </ProtectedRouteINS></>} />
-        <Route path='/instructordashboard/reports' element={<>
-          <ProtectedRouteINS>
-            <InstructorDashboard report="true" />
-            <ReportsContent />
-          </ProtectedRouteINS></>} />
-        <Route path='/instructordashboard/performance' element={<>
-          <ProtectedRouteINS>
-            <InstructorDashboard perform="true" />
-            <PerformanceContent />
-          </ProtectedRouteINS></>} />
-        {/* <Route path='/instructordashboard/courses/createcourse' element={<>
+              <InstructorDashboard dashboard="true" />
+              <DashboardContent />
+            </ProtectedRouteINS></>} />
+          <Route path='/instructordashboard/courses' element={<>
+            <ProtectedRouteINS>
+              <InstructorDashboard course="true" />
+              <CoursesContent />
+              <CreateCourse />
+            </ProtectedRouteINS></>} />
+          <Route path='/instructordashboard/student' element={<>
+            <ProtectedRouteINS>
+              <InstructorDashboard student="true" />
+              <StudentContent />
+            </ProtectedRouteINS></>} />
+          <Route path='/instructordashboard/reports' element={<>
+            <ProtectedRouteINS>
+              <InstructorDashboard report="true" />
+              <ReportsContent />
+            </ProtectedRouteINS></>} />
+          <Route path='/instructordashboard/performance' element={<>
+            <ProtectedRouteINS>
+              <InstructorDashboard perform="true" />
+              <PerformanceContent />
+            </ProtectedRouteINS></>} />
+          {/* <Route path='/instructordashboard/courses/createcourse' element={<>
           <ProtectedRouteINS>
             <InstructorDashboard course="true" />
             <CoursesContent courses = {courses}/>
             <CreateCourse />
           </ProtectedRouteINS></>} /> */}
-        <Route path='/instructordashboard/account'
-          element={<>
+          <Route path='/instructordashboard/account'
+            element={<>
+              <ProtectedRouteINS>
+                <InstructorDashboard account="true" />
+                <AccountSetting />
+              </ProtectedRouteINS>
+            </>}
+          />
+          <Route path='/instructordashboard/preview/:id' element={<>
             <ProtectedRouteINS>
-              <InstructorDashboard account="true" />
-              <AccountSetting />
-            </ProtectedRouteINS>
-          </>}
-        />
-        <Route path='/instructordashboard/preview/:id' element={<>
-          <ProtectedRouteINS>
-            <InstructorDashboard course="true" />
-            <PreviewCourse />
-            <Footer />
-          </ProtectedRouteINS></>} />
-        <Route path='/account' element={<><ProtectedStudentInfo><Account /></ProtectedStudentInfo></>} />
-        <Route path='/account/setting' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account setting="true" /><AccountSetting /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
-        <Route path='/account/learning' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account learning="true" /><AccountLearning /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
-        <Route path='/account/notification' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account noti="true" /><AccountNotification /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
-        <Route path='/account/purchase' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account history="true" /><AccountPurchase /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
-        <Route path='/account/assignment' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account assignment="true" /><AccountAssignment /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+              <InstructorDashboard course="true" />
+              <PreviewCourse />
+              <Footer />
+            </ProtectedRouteINS></>} />
+          <Route path='/account' element={<><ProtectedStudentInfo><Account /></ProtectedStudentInfo></>} />
+          <Route path='/account/setting' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account setting="true" /><AccountSetting /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+          <Route path='/account/learning' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account learning="true" /><AccountLearning /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+          <Route path='/account/notification' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account noti="true" /><AccountNotification /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
+          <Route path='/account/purchase' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account history="true" /><AccountPurchase /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
+          <Route path='/account/assignment' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account assignment="true" /><AccountAssignment /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
 
-        <Route path='/learning/:id' element={<>
-          <ProtectedCourseData>
-            <Nav2 login="Login" signup="Sign Up" />
-            <Gallery />
-            <CourseDetails />
-            <Footer />
-          </ProtectedCourseData>
-        </>} />
+          <Route path='/learning/:id' element={<>
+            <ProtectedCourseData>
+              <Nav2 login="Login" signup="Sign Up" />
+              <Gallery />
+              <CourseOverview />
+              <Footer />
+            </ProtectedCourseData>
+          </>} />
 
-        {/* admin dashboard */}
-        <Route path='/admindashboard' element={<>
-          <ProtectedAdmin>
-            <AdminDashboard dashboard="true" />
-          </ProtectedAdmin></>} />
-        <Route path='/admindashboard/courses' element={<>
-          <ProtectedAdmin>
-            <AdminDashboard course="true" />
-            <ManageCourse  />
-          </ProtectedAdmin></>} />
+          {/* admin dashboard */}
+          <Route path='/admindashboard' element={<>
+            <ProtectedAdmin>
+              <AdminDashboard dashboard="true" />
+            </ProtectedAdmin></>} />
+          <Route path='/admindashboard/courses' element={<>
+            <ProtectedAdmin>
+              <AdminDashboard course="true" />
+              <ManageCourse />
+            </ProtectedAdmin></>} />
           <Route path='/pendingcourse/:id' element={<>
             <ProtectedAdmin>
-            <AdminDashboard course="true" />
-            <PreviewPendingCourse />
-            <Footer />
+              <AdminDashboard course="true" />
+              <PreviewPendingCourse />
+              <Footer />
             </ProtectedAdmin></>} />
-        <Route path='/admindashboard/account' element={<>
-          <ProtectedAdmin>
-            <AdminDashboard account="true" />
-            <ManageAccount />
-          </ProtectedAdmin>
-        </>} />
-        <Route path='/admindashboard/reports' element={<>
-          <ProtectedAdmin>
-            <AdminDashboard report="true" />
-            <ManageNotify />
-          </ProtectedAdmin>
-        </>} />
-        <Route path='/admindashboard/performance' element={<>
-          <ProtectedAdmin>
-            <AdminDashboard perform="true" />
-            <ArthubPerformance />
-          </ProtectedAdmin>
-        </>} />
-        <Route path='/admindashboard/setting' element={<>
-          <ProtectedAdmin>
-            <AdminDashboard setting="true" />
-            <AccountSetting />
-          </ProtectedAdmin>
-        </>} />
+          <Route path='/admindashboard/account' element={<>
+            <ProtectedAdmin>
+              <AdminDashboard account="true" />
+              <ManageAccount />
+            </ProtectedAdmin>
+          </>} />
+          <Route path='/admindashboard/reports' element={<>
+            <ProtectedAdmin>
+              <AdminDashboard report="true" />
+              <ManageNotify />
+            </ProtectedAdmin>
+          </>} />
+          <Route path='/admindashboard/performance' element={<>
+            <ProtectedAdmin>
+              <AdminDashboard perform="true" />
+              <ArthubPerformance />
+              <Transactions />
+            </ProtectedAdmin>
+          </>} />
+          <Route path='/admindashboard/setting' element={<>
+            <ProtectedAdmin>
+              <AdminDashboard setting="true" />
+              <AccountSetting />
+            </ProtectedAdmin>
+          </>} />
 
-      </Routes>
+        </Routes>
       </ShopContextProvider>
     </BrowserRouter>
 

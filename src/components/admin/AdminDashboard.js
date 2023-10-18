@@ -26,7 +26,7 @@ function AdminDashboard(props) {
   }
 
   const userNavigation = [
-    { name: thisAccount?.firstname + " " + thisAccount?.lastname + " - " + thisAccount?.email, href: '#' },
+    { name: thisAccount?.firstname + " " + thisAccount?.lastname, href: '#' },
     { name: 'Settings', href: '#' },
   ]
   const navigation = [

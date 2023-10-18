@@ -15,6 +15,7 @@ import logo from '../assets/image/ArtHub-logos_black.png'
 import { Disclosure, Menu } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import CourseOverview from '../learning/CourseOverview';
 const includes = [
     '15.5 hours on-demand video.',
     '1 article.',
@@ -32,21 +33,21 @@ function classNames(...classes) {
 
 export default function PreviewCourse(props) {
     const { id } = useParams()
-    const [courses, setCourses] = useState()
-    //get all courses
-    const getCourses = async () => {
-        try {
-            const response = await apiCourse.get("/getCourses");
-            setCourses(response.data);
-        } catch (err) {
-            console.log(err);
-        }
-    }
+    // const [courses, setCourses] = useState()
+    // //get all courses
+    // const getCourses = async () => {
+    //     try {
+    //         const response = await apiCourse.get("/getCourses");
+    //         setCourses(response.data);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
 
-    useEffect(() => {
-        getCourses();
-    }, []
-    )
+    // useEffect(() => {
+    //     getCourses();
+    // }, []
+    // )
     //get this course info
 
 
@@ -199,7 +200,6 @@ export default function PreviewCourse(props) {
         const file = e.target.files[0];
         setVideo(e.target.files[0])
     }
-    console.log(video)
     const [name, setName] = useState()
     const [description, setDescription] = useState()
     const [isTrial, setIsTrial] = useState(1)
@@ -749,7 +749,8 @@ export default function PreviewCourse(props) {
             </div>
 
             {/* details */}
-            <div className="isolate bg-white px-6 py-24 sm:py-0 lg:px-24">
+            <CourseOverview />
+            {/* <div className="isolate bg-white px-6 py-24 sm:py-0 lg:px-24">
                 <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">About this course</h3>
                     <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{thisCourse?.name}</p>
@@ -828,7 +829,7 @@ export default function PreviewCourse(props) {
                         Save course</button>
                 ) : (<></>)}
 
-            </div>
+            </div> */}
             {/* notification */}
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>

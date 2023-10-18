@@ -251,7 +251,7 @@ export default function ManageAccount(props) {
                                 <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
                                     <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
                                         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                                            <h3 class="mb-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create Staff Account
+                                            <h3 class="mb-8 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create Account
                                             </h3>
                                             <form class="space-y-6" action="#" method="POST">
                                                 <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
