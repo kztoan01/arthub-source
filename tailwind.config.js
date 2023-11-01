@@ -7,7 +7,9 @@ module.exports = {
     extend: {
       gridTemplateRows: {
         '[auto,auto,1fr]': 'auto auto 1fr',
-      },
+      },transitionDuration: {
+        '2000': '2000ms',
+      }
     },
   },
   plugins: [

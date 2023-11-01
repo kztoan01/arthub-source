@@ -19,7 +19,7 @@ export default function CoursesContent(props) {
     const [search, setSearch] = useState('')
     const thisAccount = JSON.parse(localStorage.getItem("logined"))
     const courseOwn = courses?.filter((courses) => courses.accountId === thisAccount.id);
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     return (
         <>
             <header className="bg-white shadow">

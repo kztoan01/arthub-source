@@ -17,14 +17,14 @@ function InstructorDashboard(props) {
     localStorage.removeItem("INS-authenticated");
     localStorage.removeItem("logined");
   }
-  const linkImg = 'http://localhost:8080//images//'
+  const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
   const user = {
     name: thisAccount?.lastname + ' ' + thisAccount?.firstname,
     email: thisAccount?.email,
     imageUrl:
       linkImg + thisAccount?.image,
   }
-console.log(linkImg + thisAccount?.image)
+  console.log(linkImg + thisAccount?.image)
   const userNavigation = [
     { name: thisAccount?.firstname + " " + thisAccount?.lastname, href: '#' },
     { name: 'Settings', href: '#' },
@@ -32,9 +32,7 @@ console.log(linkImg + thisAccount?.image)
   const navigation = [
     { name: 'Dashboard', href: '#', current: props.dashboard, link: '/instructordashboard/dashboard' },
     { name: 'Courses', href: '#', current: props.course, link: '/instructordashboard/courses' },
-    { name: 'Student', href: '#', current: props.student, link: '/instructordashboard/student' },
-    { name: 'Reports', href: '#', current: props.report, link: '/instructordashboard/reports' },
-    { name: 'Performance', href: '#', current: props.perform, link: '/instructordashboard/performance' },
+    { name: 'Performance', href: '#', current: props.report, link: '/instructordashboard/reports' },
     { name: 'Account', href: '#', current: props.account, link: '/instructordashboard/account' },
   ]
   return (

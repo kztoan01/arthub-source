@@ -1,10 +1,30 @@
+import { Link } from "react-router-dom";
 export default function Video(props) {
-    const linkVid = 'http://localhost:8080//videos//'
+    const linkVid = 'https://storage.cloud.google.com/arthub-bucket/'
     return (
         <div className="w-screen flex h-screen flex-row mx-12">
-            <div className="w-full h-full  px-2 pt-2 
+            <div className="w-full h-full px-2 pt-2 
                             rounded-xl">
-                <iframe allowFullScreen={true} src={linkVid+props.link} className="w-full h-5/6"></iframe>
+                {props.link ? <iframe allowFullScreen={true} src={linkVid + props.link} className="w-full h-4/5"></iframe> :
+                    <main className="grid place-items-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+                        <div className="text-center">
+                            <p className="text-base font-semibold text-purple-600">404</p>
+                            <h1 className="mt-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-5xl">Course not found</h1>
+                            <p className="mt-6 text-base leading-7 text-gray-600">Sorry, we couldn’t find the course you’re looking for.</p>
+                            <div className="mt-10 flex items-center justify-center gap-x-6">
+                                <Link
+                                    to="/"
+                                    className="rounded-md bg-purple-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600"
+                                >
+                                    Go back home
+                                </Link>
+                                <Link to="/" className="text-sm font-semibold text-gray-900">
+                                    Contact support <span aria-hidden="true">&rarr;</span>
+                                </Link>
+                            </div>
+                        </div>
+                    </main>}
+
             </div>
         </div>
     );

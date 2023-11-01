@@ -81,13 +81,13 @@ function Course(props) {
     //         courses
     //     },
     // ]
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     return (
         <>
             <div className="bg-gray-100">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
-                        <h2 className="text-2xl font-bold text-gray-900">Categories - What you want to learn</h2>
+                        <h2 className="bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-fuchsia-500 text-2xl font-bold text-gray-900">Categories - What you want to learn</h2>
 
                         <div className="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
                             {callouts?.map((callout) => (
@@ -115,11 +115,14 @@ function Course(props) {
             {types?.map((type) => (
                 <div key={type.name} className="bg-white">
                     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                        <h2 className="text-2xl font-bold tracking-tight text-gray-900">{type.name}</h2>
+                        <h2 
+                        className="bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-fuchsia-500 text-2xl font-bold text-gray-900"
+                        // className="text-2xl font-bold tracking-tight text-gray-900"
+                        >{type.name}</h2>
 
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                             {type.courses?.map((product) => (
-                                <Link to={`/${product.id}`}><div key={product.id} className="group relative">
+                                <Link to={`/course/${product.id}`}><div key={product.id} className="group relative">
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                         <img
                                             src={linkImg+product.image}

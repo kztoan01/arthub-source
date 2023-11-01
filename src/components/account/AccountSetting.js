@@ -21,7 +21,7 @@ export default function AccountSetting() {
             alert(err);
         }
     }
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     const [open, setOpen] = useState(false)
     const cancelButtonRef = useRef(null)
 
@@ -51,7 +51,8 @@ export default function AccountSetting() {
                 facebook: facebook,
                 twitter: twitter,
                 password: thisAccount.password,
-                roleId: thisAccount.roleId
+                roleId: thisAccount.roleId,
+                isActive : 1
             }).then(response => {
                 const updatedAccount = response.data;
                 localStorage.setItem("logined", JSON.stringify(updatedAccount));

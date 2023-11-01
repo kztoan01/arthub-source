@@ -27,7 +27,9 @@ export const ShopContextProvider = (props) => {
     getCourses();
   }, []
   )
- 
+  const [countCart,setCountCart] = useState(0);
+
+  console.log(countCart)
   const [cartItems, setCartItems] = useState(getDefaultCart(courses));
   const getTotalCartAmount = () => {
     let totalAmount = 0;
@@ -41,10 +43,12 @@ export const ShopContextProvider = (props) => {
   };
   const addToCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: true }));
+    setCountCart(countCart+1)
   };
 
   const removeFromCart = (itemId) => {
     setCartItems((prev) => ({ ...prev, [itemId]: false }));
+    setCountCart(countCart - 1)
   };
 
   const updateCartItemCount = (newAmount, itemId) => {
@@ -56,6 +60,7 @@ export const ShopContextProvider = (props) => {
   };
 
   const contextValue = {
+    countCart,
     cartItems,
     addToCart,
     updateCartItemCount,

@@ -10,6 +10,7 @@ import img from '../assets/image/course-01.jpg'
 import { Disclosure, Menu } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import CourseOverview from '../learning/CourseOverview';
 const includes = [
     '15.5 hours on-demand video.',
     '1 article.',
@@ -44,25 +45,25 @@ export default function PreviewPendingCourse(props) {
     }, []
     )
     const { id } = useParams()
-     //get this course info
+    //get this course info
 
 
-     const formCourseData = new FormData();
-     formCourseData.append('id', id);
- 
-     const [thisCourse, setThisCourse] = useState()
-     const getThisCourse = async () => {
-         try {
-             const response = await apiCourse.post("/showSectionAndVideo", formCourseData);
-             setThisCourse(response.data)
-         } catch (e) {
-             alert(e)
-         }
-     }
- 
-     useEffect(() => {
-         getThisCourse();
-     }, [])
+    const formCourseData = new FormData();
+    formCourseData.append('id', id);
+
+    const [thisCourse, setThisCourse] = useState()
+    const getThisCourse = async () => {
+        try {
+            const response = await apiCourse.post("/showSectionAndVideo", formCourseData);
+            setThisCourse(response.data)
+        } catch (e) {
+            alert(e)
+        }
+    }
+
+    useEffect(() => {
+        getThisCourse();
+    }, [])
 
     const navigate = useNavigate()
     const thisAccount = JSON.parse(localStorage.getItem("logined"))
@@ -96,16 +97,53 @@ export default function PreviewPendingCourse(props) {
             </button>
         }
     }
-    const [activeVid, setActiveVid] = useState("https://www.youtube.com/embed/Sv5yCzPCkv8?si=ZwqYBwnWohqcAtWH")
-    const [actTitle, setActTitle] = useState("SZA - Snooze");
-    const [description, setActiveDescription] = useState("My favorite song from my celebrity crush")
+    const linkVid = 'https://storage.cloud.google.com/arthub-bucket/'
+    const firstVid = String(thisCourse?.sections[0]?.videos[0]?.data);
+    const [activeVid, setActiveVid] = useState()
+    useEffect(() => {
+        if (!activeVid) {
+            setActiveVid(thisCourse?.sections[0]?.videos[0]?.data)
+        }
+    }, [thisCourse])
+
     //img config
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     console.log(linkImg + thisCourse?.images?.two)
     return (
         <>
             <div className="bg-white">
+                <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                <h2 className="text-purple-600 text-2xl font-bold tracking-tight text-gray-900">Main and Search Page</h2>
+                    <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                        <div className="group relative">
+                            <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                <img
+                                    src={linkImg + thisCourse?.image}
+                                    // {product.imageSrc}
+                                    alt=""
+                                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                />
+                            </div>
+                            <div className="mt-4 flex justify-between">
+                                <div>
+                                    <h3 className="text-sm text-gray-700">
+                                        <a href="">
+                                            <span aria-hidden="true" className="absolute inset-0" />
+                                            {thisCourse?.name}
+                                        </a>
+                                    </h3>
+                                    <p className="mt-1 text-sm text-gray-500">Instructor: {thisCourse?.instructorName}</p>
+                                </div>
+                                {thisCourse?.price === 0 ? (
+                                    <p className="text-sm font-medium text-gray-900">Free</p>
+                                ) : <p className="text-sm font-medium text-gray-900">${thisCourse?.price}</p>}
+
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 <div className="pt-6">
+
                     <nav aria-label="Breadcrumb">
                         <ol role="list" className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
                             {thisCourse?.categories?.map((cate) => (
@@ -160,7 +198,7 @@ export default function PreviewPendingCourse(props) {
                                 <img
                                     // src={product.images[2].src}
                                     // alt={product.images[2].alt}
-                                    src={linkImg + thisCourse?.images?.three}
+                                    src={linkImg + thisCourse?.images?.four}
                                     alt=""
                                     className="h-full w-full object-cover object-center"
                                 />
@@ -170,7 +208,7 @@ export default function PreviewPendingCourse(props) {
                             <img
                                 // src={product.images[3].src}
                                 // alt={product.images[3].alt}
-                                src={linkImg + thisCourse?.images?.four}
+                                src={linkImg + thisCourse?.images?.three}
                                 alt=""
                                 className="h-full w-full object-cover object-center"
                             />
@@ -290,7 +328,7 @@ export default function PreviewPendingCourse(props) {
 
                                 <div className="mt-4 space-y-6">
                                     {/* {thisCourse.descriptions.map((description) => ( */}
-                                    <p className="text-sm text-gray-600">{thisCourse?.description}</p>
+                                    <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: thisCourse?.description }}></p>
                                     {/* ))} */}
                                 </div>
                             </div>
@@ -305,60 +343,59 @@ export default function PreviewPendingCourse(props) {
             <div className="flex flex-row w-full h-full pt-4 ">
                 <Video
                     link={activeVid}
-                    title={actTitle}
-                    description={description}
                 />
                 <div
-                  className="w-3/6 bg-white
+                    className="w-3/6 bg-white
                   overflow-y-scroll flex flex-col 
                   mt-4 mr-20 border-slate-200 
                   border-2 rounded-lg"
-                  style={{ height: "min(38vw, 650px)" }}
+                    style={{ height: "min(38vw, 650px)" }}
                 >
-                   <h3 className="ml-2 text-xl p-2 font-semibold">Course Content</h3>
-                 {thisCourse?.sections?.map((section) => (
-                      <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6"> 
-                        {({ open }) => (
-                          <>
-                            <h3 className="-mx-2 -my-3 flow-root">
-                              <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
-                                <span className="font-medium text-gray-900">{section.section_name}</span>
-                                <span className="ml-6 flex items-center">
-                                  {open ? (
-                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
-                                  ) : (
-                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
-                                  )}
-                                </span>
-                              </Disclosure.Button>
-                            </h3>
-                            <Disclosure.Panel className="pt-6">
-                              <div className="space-y-6">
-                              {section.videos.map((video) => (
-                                  <div key={video.id} className="flex items-center"
-                                  onClick={() => {
-                                      setActiveVid(video.data);
-                                  }}>
-                                     <PlayIcon class="h-6 w-6 text-gray-500" />
-                                    <label
-                                      // htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                                      className={video.data === activeVid ? ("bg-gray-200 p-2 rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500") : ("hover:bg-gray-200 p-2 rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500")}
-                                    >
-                                       {video.name}
-                                    </label>
-                                  </div>
-                                ))}
-                              </div>
-                            </Disclosure.Panel>
-                          </>
-                        )}
-                      </Disclosure>
+                    <h3 className="ml-2 text-xl p-2 font-semibold">Course Content</h3>
+                    {thisCourse?.sections?.map((section) => (
+                        <Disclosure as="div" key={section.id} className="border-t border-gray-200 px-4 py-6">
+                            {({ open }) => (
+                                <>
+                                    <h3 className="-mx-2 -my-3 flow-root">
+                                        <Disclosure.Button className="flex w-full items-center justify-between bg-white px-2 py-3 text-gray-400 hover:text-gray-500">
+                                            <span className="font-medium text-gray-900">{section.section_name}</span>
+                                            <span className="ml-6 flex items-center">
+                                                {open ? (
+                                                    <MinusIcon className="h-5 w-5" aria-hidden="true" />
+                                                ) : (
+                                                    <PlusIcon className="h-5 w-5" aria-hidden="true" />
+                                                )}
+                                            </span>
+                                        </Disclosure.Button>
+                                    </h3>
+                                    <Disclosure.Panel className="pt-6">
+                                        <div className="space-y-6">
+                                            {section.videos.map((video) => (
+                                                <div key={video.id} className="flex items-center"
+                                                    onClick={() => {
+                                                        setActiveVid(video.data);
+                                                    }}>
+                                                    <PlayIcon class="h-6 w-6 text-gray-500" />
+                                                    <label
+                                                        // htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
+                                                        className={video.data === activeVid ? ("bg-gray-200 p-2 rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500") : ("hover:bg-gray-200 p-2 rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500")}
+                                                    >
+                                                        {video.name}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </Disclosure.Panel>
+                                </>
+                            )}
+                        </Disclosure>
                     ))}
-                    </div>
+                </div>
             </div>
 
             {/* details */}
-            <div className="isolate bg-white px-6 py-24 sm:py-0 lg:px-24">
+            <CourseOverview />
+            {/* <div className="isolate bg-white px-6 py-24 sm:py-0 lg:px-24">
                 <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">About this course</h3>
                     <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{thisCourse?.name}</p>
@@ -424,7 +461,7 @@ export default function PreviewPendingCourse(props) {
                         </div>
                     </dl>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }

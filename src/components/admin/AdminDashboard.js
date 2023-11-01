@@ -17,7 +17,7 @@ function AdminDashboard(props) {
     localStorage.removeItem("AD-authenticated");
     localStorage.removeItem("logined");
   }
-  const linkImg = 'http://localhost:8080//images//'
+  const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
   const user = {
     name: thisAccount?.lastname + ' ' + thisAccount?.firstname,
     email: thisAccount?.email,

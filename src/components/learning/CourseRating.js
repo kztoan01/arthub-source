@@ -7,16 +7,18 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import apiCourse from '../api/axiosCourseConfig'
 import {
-    CheckCircleIcon,ExclamationTriangleIcon
+    CheckCircleIcon, ExclamationTriangleIcon
 } from '@heroicons/react/20/solid'
 import api from '../api/axiosAccountConfig'
 import defaultImg from '../assets/image/default.jpg'
+import { useNavigate } from 'react-router-dom';
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
+
 export default function CourseRating() {
     const thisAccount = JSON.parse(localStorage.getItem("logined"));
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     const [rated, setRated] = React.useState(5);
     const [ratemes, setRatemes] = React.useState("Amazing, above expectations!")
     //save rating
@@ -64,7 +66,7 @@ export default function CourseRating() {
             const response = await axios.post("http://localhost:8080/rate/getCourseRate", formCourseRating);
             setThisCourseRating(response.data)
         } catch (e) {
-            alert(e)
+            alert("no course")
         }
     }
 
@@ -91,14 +93,14 @@ export default function CourseRating() {
     }
     const formCourseData = new FormData();
     formCourseData.append('id', id);
-
+    const navigate = useNavigate();
     const [thisCourse, setThisCourse] = useState()
     const getThisCourse = async () => {
         try {
             const response = await apiCourse.post("/showSectionAndVideo", formCourseData);
             setThisCourse(response.data)
         } catch (e) {
-            alert(e)
+            alert("no course")
         }
     }
 
@@ -112,7 +114,7 @@ export default function CourseRating() {
     //delete rating
     const [deleteopen, setDeleteOpen] = useState(false)
     const [sucopen, setSucOpen] = useState(false)
-    const[annId,setAnnId] = useState()
+    const [annId, setAnnId] = useState()
     const formDeleteAnn = new FormData();
     formDeleteAnn.append('id', annId);
     async function handleDeleteRate(e) {
@@ -161,7 +163,7 @@ export default function CourseRating() {
                                                     <StarIcon
                                                         key={rating}
                                                         className={classNames(
-                                                            isRated.rate > rating ? 'text-gray-900' : 'text-gray-200',
+                                                            isRated.rate > rating ? 'text-purple-600' : 'text-purple-200',
                                                             'h-5 w-5 flex-shrink-0'
                                                         )}
                                                         aria-hidden="true"
@@ -194,11 +196,13 @@ export default function CourseRating() {
                                                 {/* <p className="text-gray-600">{post.author.role}</p> */}
                                             </div>
                                         </div>
-                                        <Button className='mt-4' onClick={(e) => {setEditOpen(true)
-                                        setComment(isRated?.comment)
+                                        <Button className='mt-4 bg-purple-600' onClick={(e) => {
+                                            setEditOpen(true)
+                                            setComment(isRated?.comment)
                                         }}>Edit</Button>
-                                        <Button className='mt-4' onClick={(e) => {setDeleteOpen(true)
-                                        setAnnId(isRated.id)
+                                        <Button className='mt-4 bg-purple-600' onClick={(e) => {
+                                            setDeleteOpen(true)
+                                            setAnnId(isRated.id)
                                         }}>Delete</Button>
                                     </article>
                                 </div>
@@ -217,7 +221,7 @@ export default function CourseRating() {
                                 <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about this course.</p>
                                 <div className="mt-8 flex items-center gap-2 font-bold text-blue-gray-500">
                                     {rated}
-                                    <Rating value={5} onChange={(value) => {
+                                    <Rating className='text-purple-600' value={5} onChange={(value) => {
                                         if (value == 5) {
                                             setRatemes("Amazing, above expectations!")
                                         } else if (value == 4) {
@@ -238,8 +242,8 @@ export default function CourseRating() {
                                         {ratemes}
                                     </Typography>
                                 </div>
-                                <Button className='mt-4' 
-                                onClick={(e) => handleRate(e)}
+                                <Button className='mt-4 bg-purple-600'
+                                    onClick={(e) => handleRate(e)}
                                 >Save Rating</Button>
                             </div>
                             <div className="relative flex items-center gap-x-4">
@@ -277,7 +281,7 @@ export default function CourseRating() {
                                                 <StarIcon
                                                     key={rating}
                                                     className={classNames(
-                                                        post.rate > rating ? 'text-gray-900' : 'text-gray-200',
+                                                        post.rate > rating ? 'text-purple-600' : 'text-purple-200',
                                                         'h-5 w-5 flex-shrink-0'
                                                     )}
                                                     aria-hidden="true"
@@ -415,7 +419,7 @@ export default function CourseRating() {
                                             <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about this course.</p>
                                             <div className="mt-8 flex items-center gap-2 font-bold text-blue-gray-500">
                                                 {rated}
-                                                <Rating value={rated} onChange={(value) => {
+                                                <Rating className='text-purple-600' value={rated} onChange={(value) => {
                                                     if (value == 5) {
                                                         setRatemes("Amazing, above expectations!")
                                                     } else if (value == 4) {
@@ -436,8 +440,8 @@ export default function CourseRating() {
                                                     {ratemes}
                                                 </Typography>
                                             </div>
-                                            <Button className='mt-4' 
-                                            onClick={(e) => handleEditRate(e)}
+                                            <Button className='mt-4 bg-purple-600'
+                                                onClick={(e) => handleEditRate(e)}
                                             >Save Rating</Button>
                                         </div>
                                         {/* <div className="relative flex items-center gap-x-4">

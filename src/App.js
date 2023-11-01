@@ -47,23 +47,47 @@ import PreviewCourse from './components/dashboard/PreviewCourse.js';
 import ProtectedStudentInfo from './components/protect/ProtectedStudentInfo.js';
 import PreviewPendingCourse from './components/admin/PreviewPendingCourse.js';
 import ArthubPerformance from './components/admin/ArthubPerformance.js';
-import CourseOverview  from './components/learning/CourseOverview.js';
+import CourseOverview from './components/learning/CourseOverview.js';
 import { ShopContextProvider } from './components/coursepage/shop-context.js'
 import { BrowerRoute as Router, Routes, Route, Link, Navigate, useNavigate, redirect } from 'react-router-dom'
 import { BrowserRouter } from 'react-router-dom'
-import Checkout from './components/userpage/Checkout.js';
 import Transactions from './components/admin/Transactions.js';
+import ProtectedLearning from './components/protect/ProtectedLearning.js';
+import Checkout from './components/payment/Checkout.js';
+import ProtectedCheckout from './components/protect/ProtectedCheckout.js';
+import Instructor from './components/userpage/Instructor.js';
+import ErrorPage from './components/error/ErrorPage.js';
 function App() {
+  const [learner, setLearner] = useState()
+  const getLearner = async () => {
+    try {
+      const response = await apiLearner.get("/getLearners");
+      setLearner(response.data);
+    } catch (err) {
+      alert(err);
+    }
+  }
+  useEffect(() => {
+    getLearner();
+  }, []
+  )
   return (
     <BrowserRouter>
       <ShopContextProvider>
         <ScrollToTop />
 
         <Routes>
-
+          {/* <Route path="*" element={<PageNotFound />} /> */}
+          <Route path="*" element={
+            <>
+              <Nav2 login="" signup="Sign Up" />
+              <ErrorPage />
+              <Footer />
+            </>
+          }>
+          </Route>
           <Route path="/game" element={
             <>
-              <Banner />
               <Nav2 login="" signup="Sign Up" />
               <div
                 style={{
@@ -79,9 +103,16 @@ function App() {
             </>
           }>
           </Route>
+          <Route path="/instructor/:id" element={
+            <>
+              <Nav2 login="" signup="Sign Up" />
+              <Instructor />
+              <Footer />
+            </>
+          }>
+          </Route>
           <Route path="/login" element={
             <>
-              <Banner />
               <Nav2 login="" signup="Sign Up" />
               <Login />
               <Footer />
@@ -90,7 +121,6 @@ function App() {
           </Route>
           <Route path="/signup" element={
             <>
-              <Banner />
               <Nav2 login="Login" signup="" />
               <Signup />
               <Footer />
@@ -101,7 +131,6 @@ function App() {
           <Route path="/" element={
             <>
               <ProtectedRouteSTU>
-                <Banner />
                 <Nav2 login="Login" signup="Sign Up" />
                 <Cover />
                 <Course />
@@ -113,7 +142,6 @@ function App() {
           <Route path="/search" element={
             <>
               <ProtectedRouteSTU>
-                <Banner />
                 <Nav2 login="Login" signup="Sign Up" />
                 <Search />
                 <Footer />
@@ -123,18 +151,16 @@ function App() {
           </Route>
           <Route path="/checkout" element={
             <>
-              <ProtectedRouteSTU>
-                <Banner />
+              <ProtectedCheckout>
                 <Nav2 login="Login" signup="Sign Up" />
                 <Checkout />
                 <Footer />
-              </ProtectedRouteSTU>
+              </ProtectedCheckout>
             </>
           }>
           </Route>
           <Route path="/aboutus" element={
             <>
-              <Banner />
               <Nav2 login="" signup="Sign Up" />
               <Company />
               <Testimonials />
@@ -143,11 +169,10 @@ function App() {
               <Footer />
             </>
           }></Route>
-          <Route exact path="/:id"
+          <Route exact path="/course/:id"
             element={
               <>
                 <ProtectedRouteSTU>
-                  <Banner />
                   <Nav2 login="Login" signup="Sign Up" />
                   <CoursePreview />
                   <Footer />
@@ -220,10 +245,12 @@ function App() {
 
           <Route path='/learning/:id' element={<>
             <ProtectedCourseData>
+              {/* <ProtectedLearning> */}
               <Nav2 login="Login" signup="Sign Up" />
-              <Gallery />
+              <Gallery learner={learner} />
               <CourseOverview />
               <Footer />
+              {/* </ProtectedLearning> */}
             </ProtectedCourseData>
           </>} />
 

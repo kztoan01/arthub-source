@@ -74,6 +74,7 @@ export default function ManageCourse(props) {
             alert(err);
         }
     }
+    
    
     return (
         <>

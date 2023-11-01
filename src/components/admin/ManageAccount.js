@@ -66,7 +66,8 @@ export default function ManageAccount(props) {
                 firstname: firstname,
                 email: email,
                 password: password,
-                roleId: roleId
+                roleId: roleId,
+                isActive: 1
             });
             setOpen(false)
             setAddOpen(true)
@@ -142,7 +143,7 @@ export default function ManageAccount(props) {
             user: admins
         },
     ]
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     return (
 
         <>
@@ -417,7 +418,7 @@ export default function ManageAccount(props) {
                                                 </div>
                                                 <div class="sm:col-span-2"> <label for="postal-code"
                                                     class="block text-sm font-medium leading-6 text-gray-900">GitHub</label>
-                                                    <div class="mt-2"> <input type="text" name="github" id="github" autocomplete="github"
+                                                    <div class="mt-2"> <input type="text" name="github" id="github" autocomplete="github" readOnly
                                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
                                                     </div>
                                                 </div>

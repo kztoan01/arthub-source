@@ -19,7 +19,8 @@ function Signup() {
                 firstname: firstname,
                 email: email,
                 password: password,
-                roleId : roleId
+                roleId : roleId,
+                isActive : 1
             });
             alert("Employee Registation Successfully");
 
@@ -29,7 +30,13 @@ function Signup() {
     }
   
     return (
-        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 pt-0">
+        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 pt-0  relative isolate px-6 lg:px-8">
+            <div className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl" aria-hidden="true">
+                <div className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30" ></div>
+            </div>
+            <div className="absolute left-[max(45rem,calc(50%+8rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl" aria-hidden="true">
+                <div className="aspect-[577/310] w-[36.0625rem] bg-gradient-to-r from-[#ff80b5] to-[#9089fc] opacity-30" ></div>
+            </div>
             <div class="sm:mx-auto sm:w-full sm:max-w-sm"> <img class="mx-auto h-21 w-auto"
                 src={logo} alt="ArtHub" />
                 <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign up and start learning

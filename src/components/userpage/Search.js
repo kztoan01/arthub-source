@@ -112,7 +112,7 @@ export default function Search(props) {
   // const realprice = courses.map((course) => (course.coursePrice - (course.coursePrice * course.courseCoupon) / 100).toFixed(2));
   // console.log(realprice);
   // const renderPrice = realprice.map((price, index) => <p key={index} className="text-sm font-medium text-gray-900">${price}</p>)
-  const linkImg = 'http://localhost:8080//images//'
+  const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
   const [search, setSearch] = useState('');
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
@@ -381,7 +381,7 @@ export default function Search(props) {
 
                     // return  ? product : 
                   }).map((product) => (
-                    <Link to={`/${product.id}`}><div key={product.id} className="group relative">
+                    <Link to={`/course/${product.id}`}><div key={product.id} className="group relative">
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
                           src={linkImg + product.image}

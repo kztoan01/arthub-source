@@ -101,10 +101,16 @@ export default function PreviewCourse(props) {
             </button>
         }
     }
-    const linkVid = 'http://localhost:8080//videos//'
+    const linkVid = 'https://storage.cloud.google.com/arthub-bucket/'
     const firstVid = String(thisCourse?.sections[0]?.videos[0]?.data);
-    const [activeVid, setActiveVid] = useState(firstVid)
-    // console.log(firstVid)
+    const [activeVid, setActiveVid] = useState()
+    useEffect(() => {
+        if(!activeVid){
+            setActiveVid(thisCourse?.sections[0]?.videos[0]?.data)
+        }
+    }, [thisCourse])
+   
+    console.log(activeVid)
     // console.log(linkVid + activeVid)
     //image
 
@@ -172,7 +178,7 @@ export default function PreviewCourse(props) {
 
 
     //
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     const inputRef1 = useRef(null);
     const handleImage1Click = () => {
         inputRef1?.current.click();
@@ -200,8 +206,8 @@ export default function PreviewCourse(props) {
         const file = e.target.files[0];
         setVideo(e.target.files[0])
     }
-    const [name, setName] = useState()
-    const [description, setDescription] = useState()
+    const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
     const [isTrial, setIsTrial] = useState(1)
     const [sectionId, setSectionId] = useState()
     const formVideoData = new FormData();
@@ -210,22 +216,28 @@ export default function PreviewCourse(props) {
     formVideoData.append('script', description);
     formVideoData.append('isTrial', isTrial);
     formVideoData.append('sectionId', sectionId);
+    const [alert, setAlert] = useState(false)
     async function addVideo(e) {
-        e.preventDefault();
-        try {
-            await axios.post("http://localhost:8080/video/add", formVideoData)
-                .then(response => {
-                    setDetail(false)
-                    getThisCourse();
-                    setName();
-                    setDescription();
-                    setIsTrial();
-                    setSectionId();
-                    setVideo();
-                });
-        } catch (err) {
-            alert(err);
+        if (video == null || name == '' || description == '') {
+            setAlert(true)
+        } else {
+            e.preventDefault();
+            try {
+                await axios.post("http://localhost:8080/video/add", formVideoData)
+                    .then(response => {
+                        setDetail(false)
+                        getThisCourse();
+                        setName('');
+                        setDescription('');
+                        setIsTrial();
+                        setSectionId();
+                        setVideo();
+                    });
+            } catch (err) {
+                alert(err);
+            }
         }
+
 
     }
 
@@ -265,6 +277,7 @@ export default function PreviewCourse(props) {
             alert(err);
         }
     }
+    console.log(linkImg + thisCourse?.image)
     return (
         <>
             <div className="bg-white">
@@ -635,7 +648,7 @@ export default function PreviewCourse(props) {
 
                                 <div className="mt-4 space-y-6">
                                     {/* {thisCourse.descriptions.map((description) => ( */}
-                                    <p className="text-sm text-gray-600">{thisCourse?.description}</p>
+                                    <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{__html: thisCourse?.description}}></p>
                                     {/* ))} */}
                                 </div>
                             </div>
@@ -830,13 +843,13 @@ export default function PreviewCourse(props) {
                 ) : (<></>)}
 
             </div> */}
-            
-             {thisCourse?.status == 0 ? (
-                    <button type="submit"
-                        onClick={() => setCheckOpen(true)}
-                        class="ml-60 mb-4 mt-4 flex w-2/3 justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
-                        Save course</button>
-                ) : (<></>)}
+
+            {thisCourse?.status == 0 ? (
+                <button type="submit"
+                    onClick={() => setCheckOpen(true)}
+                    class="ml-60 mb-4 mt-4 flex w-2/3 justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                    Save course</button>
+            ) : (<></>)}
             {/* notification */}
             <Transition.Root show={open} as={Fragment}>
                 <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
@@ -1207,6 +1220,63 @@ export default function PreviewCourse(props) {
                                             ref={cancelButtonRef}
                                         >
                                             Cancel
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            {/* alert */}
+            <Transition.Root show={alert} as={Fragment}>
+                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setAlert}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <div className="sm:flex sm:items-start">
+                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                            </div>
+                                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                                                    Please input all fields including video!
+                                                </Dialog.Title>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
+                                            onClick={() => {
+                                                setAlert(false)
+                                                setDetail(true)
+                                            }}
+                                        >
+                                            Accept
                                         </button>
                                     </div>
                                 </Dialog.Panel>

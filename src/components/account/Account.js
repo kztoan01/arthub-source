@@ -6,7 +6,7 @@ import logo from '../assets/image/ArtHub-only-logo-white.png'
 
 
 const thisAccount = JSON.parse(localStorage.getItem("logined"))
-const linkImg = 'http://localhost:8080//images//'
+const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
 const user = {
   name: thisAccount?.lastname + ' ' + thisAccount?.firstname,
   email: thisAccount?.email,

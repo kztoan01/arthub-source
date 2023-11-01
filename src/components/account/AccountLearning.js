@@ -41,7 +41,7 @@ export default function AccountLearning(props) {
             return learn.courseId === course.id
         })
     })
-    const linkImg = 'http://localhost:8080//images//'
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     return (
         <>
             <header className="bg-white shadow">
@@ -78,7 +78,7 @@ export default function AccountLearning(props) {
                                         </div>
                                         {product.price === 0 ? (
                                             <p className="text-sm font-medium text-gray-900">Free</p>
-                                        ) : <p className="text-sm font-medium text-gray-900">{product.price}</p>}
+                                        ) : <p className="text-sm font-medium text-gray-900">${product.price}</p>}
 
                                     </div>
                                 </div></Link>
