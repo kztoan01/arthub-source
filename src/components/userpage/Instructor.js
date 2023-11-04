@@ -63,12 +63,12 @@ export default function Instructor() {
                             <div key={feature.name} className="border-t border-gray-200 pt-4 mt-4">
                                 <dt className="font-medium text-xl text-gray-900">{feature.name}</dt>
                                 <dd className="mt-2 text-lg text-gray-900 mb-8">{feature.description}</dd>
-                                {thisInstructor?.facebook ? <button href={thisInstructor?.facebook} target="_blank" className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none">
+                                {thisInstructor?.facebook ?<a href={thisInstructor?.facebook} target="_blank"> <button target="_blank" className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none">
                                     Facebook
-                                </button>: <></>}
-                                {thisInstructor?.twitter ? <button className="ml-4 rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none">
+                                </button></a>: <></>}
+                                {thisInstructor?.twitter ?<a href={thisInstructor?.twitter} target="_blank">  <button className="ml-4 rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none">
                                     Twitter
-                                </button>: <></>}
+                                </button></a>: <></>}
                                 
                             </div>
                         ))}

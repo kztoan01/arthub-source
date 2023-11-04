@@ -58,6 +58,7 @@ import ProtectedCheckout from './components/protect/ProtectedCheckout.js';
 import Instructor from './components/userpage/Instructor.js';
 import ErrorPage from './components/error/ErrorPage.js';
 import { AuthContextProvider } from './components/authConfig/AuthContext.js';
+import Student from './components/userpage/Student.js';
 function App() {
   const [learner, setLearner] = useState()
   const getLearner = async () => {
@@ -109,6 +110,14 @@ function App() {
             <>
               <Nav2 login="" signup="Sign Up" />
               <Instructor />
+              <Footer />
+            </>
+          }>
+          </Route>
+          <Route path="/student/:id" element={
+            <>
+              <Nav2 login="" signup="Sign Up" />
+              <Student />
               <Footer />
             </>
           }>

@@ -29,7 +29,6 @@ export const ShopContextProvider = (props) => {
   )
   const [countCart,setCountCart] = useState(0);
 
-  console.log(countCart)
   const [cartItems, setCartItems] = useState(getDefaultCart(courses));
   const getTotalCartAmount = () => {
     let totalAmount = 0;

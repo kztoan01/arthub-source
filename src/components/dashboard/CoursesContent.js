@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import apiCourse from '../api/axiosCourseConfig'
 import { Link } from "react-router-dom";
+import Paginate from "../extension/Paginate";
 export default function CoursesContent(props) {
     const [courses, setCourses] = useState()
     const getCourses = async () => {
@@ -20,6 +21,26 @@ export default function CoursesContent(props) {
     const thisAccount = JSON.parse(localStorage.getItem("logined"))
     const courseOwn = courses?.filter((courses) => courses.accountId === thisAccount.id);
     const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
+    const [currentPage, setCurrentPage] = useState(1);
+    const [coursesPerPage] = useState(4);
+    const indexOfLastPost = currentPage * coursesPerPage;
+    const indexOfFirstPost = indexOfLastPost - coursesPerPage;
+    const currentPosts = courseOwn?.slice(indexOfFirstPost, indexOfLastPost);
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const previousPage = () => {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const nextPage = () => {
+        if (currentPage !== Math.ceil(courseOwn?.length / coursesPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+    
     return (
         <>
             <header className="bg-white shadow">
@@ -47,7 +68,7 @@ export default function CoursesContent(props) {
                                         return product.name?.toLowerCase().includes(search.toLowerCase())
                                     }
                                 }
-                            }).map((product) => (
+                            }).slice(indexOfFirstPost, indexOfLastPost).map((product) => (
                                 <Link to={`/instructordashboard/preview/${product.id}`}><div key={product.id} className="group relative">
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                         <img
@@ -75,7 +96,17 @@ export default function CoursesContent(props) {
                                 </div></Link>
                                
                             ))}
+                          
                         </div>
+                        <div className="mt-16">
+                  <Paginate
+                    postsPerPage={coursesPerPage}
+                    totalPosts={courseOwn?.length}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                    previousPage={previousPage}
+                    nextPage={nextPage}
+                  /></div>
                         <h2 className="text-2xl font-bold text-gray-900 mt-20">Awaiting moderation</h2>
                         <h4 className="font-bold text-gray-900 mt-8">The courses are waiting to be approved by ArtHub</h4>
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">

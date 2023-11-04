@@ -6,6 +6,7 @@ import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from
 import { BrowerRoute as Router, Switch, Route, Link, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 import apiCourse from '../api/axiosCourseConfig'
+import Paginate from '../extension/Paginate'
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
   { name: 'Best Rating', href: '#', current: false },
@@ -92,18 +93,43 @@ function classNames(...classes) {
 
 export default function Search(props) {
   const [courses, setCourses] = useState()
+  const [currentPage, setCurrentPage] = useState(1);
+  const [coursesPerPage] = useState(8);
   const getCourses = async () => {
-      try {
-          const response = await apiCourse.get("/getCourses");
-          setCourses(response.data);
-      } catch (err) {
-          console.log(err);
-      }
+    try {
+      const response = await apiCourse.get("/getCourses");
+      setCourses(response.data);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
-      getCourses();
+    getCourses();
   }, []
+  )
+
+  const indexOfLastPost = currentPage * coursesPerPage;
+  const indexOfFirstPost = indexOfLastPost - coursesPerPage;
+  const currentPosts = courses?.slice(indexOfFirstPost, indexOfLastPost);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+  const previousPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== Math.ceil(courses?.length / coursesPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const [totalPosts, setTotalPosts] = useState()
+  useEffect(() => {
+    setTotalPosts(courses?.length)
+  }, [courses]
   )
   const location = useLocation();
   const state = location.state;
@@ -377,10 +403,8 @@ export default function Search(props) {
                         // || product.courseCategories.toLowerCase().includes(search)
                       }
                     }
-
-
                     // return  ? product : 
-                  }).map((product) => (
+                  }).slice(indexOfFirstPost, indexOfLastPost).map((product) => (
                     <Link to={`/course/${product.id}`}><div key={product.id} className="group relative">
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
@@ -403,12 +427,22 @@ export default function Search(props) {
                                       <p className="text-sm font-medium text-gray-900">${realprice}</p>
                                     ))} */}
                         {/* {renderPrice} */}
-                        <p className="text-sm font-medium text-gray-900">{product.price > 0 ? "$"+product.price : "Free"}</p>
+                        <p className="text-sm font-medium text-gray-900">{product.price > 0 ? "$" + product.price : "Free"}</p>
                       </div>
                     </div></Link>
                   ))}
                 </div>
+                <div className="mt-16">
+                  <Paginate
+                    postsPerPage={coursesPerPage}
+                    totalPosts={totalPosts}
+                    paginate={paginate}
+                    currentPage={currentPage}
+                    previousPage={previousPage}
+                    nextPage={nextPage}
+                  /></div>
               </div>
+
             </div>
           </section>
         </main>

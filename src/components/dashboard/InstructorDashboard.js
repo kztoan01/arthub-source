@@ -24,7 +24,6 @@ function InstructorDashboard(props) {
     imageUrl:
       linkImg + thisAccount?.image,
   }
-  console.log(linkImg + thisAccount?.image)
   const userNavigation = [
     { name: thisAccount?.firstname + " " + thisAccount?.lastname, href: '#' },
     { name: 'Settings', href: '#' },

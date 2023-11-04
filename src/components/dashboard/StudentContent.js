@@ -2,9 +2,9 @@ import axios from "axios"
 import { Link } from "react-router-dom"
 import { Fragment, useState, useEffect } from 'react'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
-import { XMarkIcon,LinkIcon,TrashIcon } from '@heroicons/react/24/outline'
+import { XMarkIcon, LinkIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { StarIcon } from '@heroicons/react/20/solid'
-
+import Paginate from "../extension/Paginate"
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -14,6 +14,8 @@ export default function StudentContent() {
     const thisAccount = JSON.parse(localStorage.getItem("logined"))
 
     const [courseStudent, setCourseStudent] = useState()
+    const [currentPage, setCurrentPage] = useState(1);
+    const [studentsPerPage] = useState(5);
     const getCourses = async () => {
         try {
             const response = await axios.get(`http://localhost:8080/course/GetCourseByInstructorID/${thisAccount?.id}`);
@@ -28,6 +30,23 @@ export default function StudentContent() {
     }, []
     )
 
+    const indexOfLastPost = currentPage * studentsPerPage;
+    const indexOfFirstPost = indexOfLastPost - studentsPerPage;
+    const currentPosts = courseStudent?.slice(indexOfFirstPost, indexOfLastPost);
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const previousPage = () => {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const nextPage = (id) => {
+        if (currentPage !== Math.ceil(courseStudent[id]?.length / studentsPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
     return (
         <>
             <header className="bg-white shadow">
@@ -51,52 +70,49 @@ export default function StudentContent() {
                                             Product information
                                         </h3>
                                     </section>
-
+                                    <Paginate
+                                        postsPerPage={studentsPerPage}
+                                        totalPosts={product?.students?.length}
+                                        paginate={paginate}
+                                        currentPage={currentPage}
+                                        previousPage={previousPage}
+                                        nextPage={()=>nextPage(product?.id)}
+                                    />
                                     <ul role="list" className="divide-y divide-gray-100">
-                                        {product.students?.map((person) => (
-                                            <li key={person.email} className="flex justify-between gap-x-6 py-5">
-                                                <div className="flex min-w-0 gap-x-4">
-                                                    {/* {person.image == null ? (<img className="h-12 w-12 flex-none rounded-full bg-gray-50" src='../assets/image/default.jpg' alt="" />)
+                                        {product.students?.slice(indexOfFirstPost, indexOfLastPost).map((person) => (
+                                            <>
+                                                <li key={person.email} className="flex justify-between gap-x-6 py-5">
+                                                    <div className="flex min-w-0 gap-x-4">
+                                                        {/* {person.image == null ? (<img className="h-12 w-12 flex-none rounded-full bg-gray-50" src='../assets/image/default.jpg' alt="" />)
                                                         :
                                                         <img className="h-12 w-12 flex-none rounded-full bg-gray-50" src={linkImg + person.image} alt="" />} */}
 
-                                                    <div className="min-w-0 flex-auto">
-                                                        <p className="text-sm font-semibold leading-6 text-gray-900">{person.lastname} {person.firstname}</p>
-                                                        <p className="mt-1 truncate text-xs leading-5 text-gray-500">{person.email}</p>
-                                                    </div>
-                                                    {/* <div className="mt-5 flex lg:ml-4 lg:mt-0 float-left">
+                                                        <div className="min-w-0 flex-auto">
+                                                            <p className="text-sm font-semibold leading-6 text-gray-900">{person.lastname} {person.firstname}</p>
+                                                            <p className="mt-1 truncate text-xs leading-5 text-gray-500">{person.email}</p>
+                                                        </div>
+                                                        {/* <div className="mt-5 flex lg:ml-4 lg:mt-0 float-left">
                                                 
                                             </div> */}
-                                                </div>
-                                                <div className="mt-5 flex lg:ml-4 lg:mt-0 ">
-                                                    <span className="hidden sm:block">
-                                                        <button
+                                                    </div>
+                                                    <div className="mt-5 flex lg:ml-4 lg:mt-0 ">
+                                                        <span className="ml-3 hidden sm:block"><Link to={`/student/${person.id}`}><button
                                                             // onClick={(e) => {
-                                                            //     setIsOpen(true)
+                                                            //     setDetail(true)
                                                             //     setId(person.id)
                                                             // }}
                                                             type="button"
                                                             className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                                                         >
-                                                            <TrashIcon className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                            Delete
-                                                        </button>
-                                                    </span>
-                                                    <span className="ml-3 hidden sm:block"><button
-                                                        // onClick={(e) => {
-                                                        //     setDetail(true)
-                                                        //     setId(person.id)
-                                                        // }}
-                                                        type="button"
-                                                        className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                                    >
-                                                        <LinkIcon className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                                        View
-                                                    </button>
-                                                    </span>
-                                                </div>
-                                            </li>
+                                                            <LinkIcon className="-ml-0.5 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                            View
+                                                        </button></Link>
+                                                        </span>
+                                                    </div>
+
+                                                </li></>
                                         ))}
+
                                     </ul>
                                 </div> </>
                         ))}
