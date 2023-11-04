@@ -57,6 +57,7 @@ import Checkout from './components/payment/Checkout.js';
 import ProtectedCheckout from './components/protect/ProtectedCheckout.js';
 import Instructor from './components/userpage/Instructor.js';
 import ErrorPage from './components/error/ErrorPage.js';
+import { AuthContextProvider } from './components/authConfig/AuthContext.js';
 function App() {
   const [learner, setLearner] = useState()
   const getLearner = async () => {
@@ -72,6 +73,7 @@ function App() {
   }, []
   )
   return (
+    <AuthContextProvider>
     <BrowserRouter>
       <ShopContextProvider>
         <ScrollToTop />
@@ -299,7 +301,7 @@ function App() {
         </Routes>
       </ShopContextProvider>
     </BrowserRouter>
-
+    </AuthContextProvider>
   );
 }
 

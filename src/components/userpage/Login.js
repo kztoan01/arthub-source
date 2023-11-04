@@ -6,12 +6,15 @@ import { Dialog, Transition } from '@headlessui/react'
 import { ExclamationTriangleIcon, FingerPrintIcon } from '@heroicons/react/24/outline'
 import api from '../api/axiosAccountConfig'
 import axios from 'axios';
+import GoogleButton from 'react-google-button';
+import { UserAuth } from '../authConfig/AuthContext';
 // import api from '../api/axiosAccountConfig'
 // import { users } from '../data/ListOfCategories.js'
 function Login(props) {
     const [isopen, setIsOpen] = useState(false)
     const [users, setUsers] = useState();
     const [open, setOpen] = useState(false)
+    const [mailopen, setMailOpen] = useState(false)
     const cancelButtonRef = useRef(null)
     /////////////
     const [firstname, setFirstname] = useState()
@@ -38,6 +41,66 @@ function Login(props) {
         getUsers();
     }, []
     )
+
+    //check user login
+    const formLogin = new FormData();
+    formLogin.append('email', email);
+    formLogin.append('password', password);
+    console.log(email)
+    console.log(password)
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        try {
+            const response = await axios.post("http://localhost:8080/api/accounts/login", formLogin).
+                then(response => {
+                    if (response.status == 200) {
+                        if (response.data?.roleId === "1") {
+                            if (localStorage.getItem("STU-authenticated")) {
+                                localStorage.removeItem("STU-authenticated")
+                            }
+                            setauthenticated(true)
+                            localStorage.setItem("INS-authenticated", true);
+                            localStorage.setItem("logined", JSON.stringify(response.data));
+                            navigate("/instructordashboard");
+                        } else if (response.data?.roleId === "2") {
+                            if (localStorage.getItem("INS-authenticated")) {
+                                localStorage.removeItem("INS-authenticated")
+                            }
+                            if (response.data?.isActive == 0) {
+                                setId(response.data?.id)
+                                setFirstname(response.data?.firstname)
+                                setLastname(response.data?.lastname)
+                                setUsername(response.data?.username)
+                                setpassword(response.data?.password)
+                                setIsOpen(true)
+                            } else {
+                                setauthenticated(true)
+                                localStorage.setItem("STU-authenticated", true);
+                                localStorage.setItem("logined", JSON.stringify(response.data));
+                                navigate("/");
+                            }
+                        } else if (response.data?.roleId === "3") {
+                            navigate("/3");
+                        } else {
+                            if (localStorage.getItem("INS-authenticated") || localStorage.getItem("STU-authenticated")) {
+                                localStorage.removeItem("INS-authenticated")
+                                localStorage.removeItem("STU-authenticated")
+                            }
+                            setauthenticated(true)
+                            localStorage.setItem("AD-authenticated", true);
+                            localStorage.setItem("logined", JSON.stringify(response.data));
+                            navigate("/admindashboard");
+                        }
+                    } else if (response.status == 403 || response.status == 404) {
+                        setOpen(true);
+                    }
+                })
+        } catch (e) {
+            if (e.response.status == 403 || e.response.status == 404) {
+                setOpen(true);
+            }
+        }
+    }
     const handleSubmit = (e) => {
         e.preventDefault()
         // const thisCourse = props.courses?.find((course) => String(course.id) === id)
@@ -69,9 +132,6 @@ function Login(props) {
                     localStorage.setItem("logined", JSON.stringify(account));
                     navigate("/");
                 }
-
-                // console.log(account)
-
             } else if (account && account.roleId === "3") {
                 navigate("/3");
             } else {
@@ -84,7 +144,6 @@ function Login(props) {
                 localStorage.setItem("logined", JSON.stringify(account));
                 navigate("/admindashboard");
             }
-
         } else {
             setOpen(true);
         }
@@ -120,7 +179,20 @@ function Login(props) {
             alert(err);
         }
     }
-
+    //login google
+    // const { googleSignIn, user } = UserAuth();
+    // const handleGoogleSignIn = async () => {
+    //     try {
+    //         await googleSignIn();
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // };
+    // useEffect(() => {
+    //     if (user != null) {
+    //         navigate('/dashboard')
+    //     }
+    // }, [user])
     return (
         <>
             <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 pt-0 relative isolate px-6 lg:px-8">
@@ -130,7 +202,7 @@ function Login(props) {
                     </h2>
                 </div>
                 <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form class="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
+                    <form class="space-y-6" action="#" method="POST" onSubmit={handleLogin}>
                         <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
                             <div class="mt-2"> <input id="email" name="email" type="email" autocomplete="email" required value={email} onChange={(e) => setemail(e.target.value)}
                                 class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
@@ -158,7 +230,13 @@ function Login(props) {
                         <div> <button type="submit"
                             class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">Log
                             in</button> </div>
-                    </form>
+                        <div className="flex flex-row justify-center items-center mt-6">
+                            <hr className="border w-full" />
+                            <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or</p>
+                            <hr className="border w-full" />
+                        </div>
+
+                    </form> <GoogleButton class="ml-16 mt-4"/>
                     <p class="mt-10 text-center text-sm text-gray-500"> Not a member? <Link to="/signup" ><a href="#"
                         class="font-semibold leading-6 text-purple-600 hover:text-purple-500">Sign up Now</a></Link> </p>
                 </div>
@@ -274,7 +352,7 @@ function Login(props) {
                                                                 It looks like you're logging into an account we created automatically.
                                                             </p>
                                                             <p className="text-sm text-gray-500">
-                                                               Please change your password and personal information to ensure security.
+                                                                Please change your password and personal information to ensure security.
                                                             </p>
                                                         </div>
                                                     </div>

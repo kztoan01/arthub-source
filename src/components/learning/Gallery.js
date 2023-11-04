@@ -47,6 +47,7 @@ export default function Gallery(props) {
       setActiveVid(thisCourse?.sections[0]?.videos[0]?.data)
     }
   }, [thisCourse])
+  console.log(activeVid)
   return (
     <>
       <nav aria-label="Breadcrumb">
@@ -96,7 +97,7 @@ export default function Gallery(props) {
                           <PlayIcon class="h-6 w-6 text-gray-500" />
                           <label
                             // htmlFor={`filter-mobile-${section.id}-${optionIdx}`}
-                            className={video.data === activeVid ? ("bg-gray-200 p-2 rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500") : ("hover:bg-gray-200 p-2 rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500")}
+                            className="hover:bg-gray-200 p-2 rounded-xl h-2/6 cursor-pointer ml-3 min-w-0 flex-1 text-gray-500"
                           >
                             {video.name}
                           </label>

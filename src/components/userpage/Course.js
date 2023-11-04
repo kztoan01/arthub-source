@@ -18,6 +18,7 @@ function Course(props) {
         getCourses();
     }, []
     )
+    const caricature = courses?.filter((course) => course.level === "Expert" && String(course.status) === "2");
     const level = courses?.filter((course) => course.level === "Expert" && String(course.status) === "2");
     const english = courses?.filter((course) => course.language === "English" && String(course.status) === "2");
     const free = courses?.filter((course) => course.price === 0 && String(course.status) === "2");

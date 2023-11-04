@@ -37,8 +37,7 @@ export default function Instructor() {
     )
 
     const thisInstructor = users?.find((user) => user.id == id)
-    const instructorCourses = courses?.filter((course) => course.accountId == id)
-    console.log(instructorCourses)
+    const instructorCourses = courses?.filter((course) => course.accountId == id && course.status ==2)
     const features = [
         { name: 'About me', description: thisInstructor?.bio },
     ]
