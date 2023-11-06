@@ -128,7 +128,7 @@ export default function Nav2(props) {
   )
   // cart
 
-  const { countCart,cartItems, addToCart, removeFromCart, updateCartItemCount, getTotalCartAmount, checkout } =
+  const { countCart, cartItems, addToCart, removeFromCart, updateCartItemCount, getTotalCartAmount, checkout } =
     useContext(ShopContext);
   const totalAmount = getTotalCartAmount();
   const cartproducts = courses?.filter((course) => cartItems[course.id] === true);
@@ -285,26 +285,26 @@ export default function Nav2(props) {
             >
               Notifications
             </a>
-         
+
           </Popover.Group>
           <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
-                    <span className="sr-only">Search</span>
-                    <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
-                  </a>
-                </div>
+            <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+              <span className="sr-only">Search</span>
+              <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
+            </a>
+          </div>
 
-                {/* Cart */}
-                <div className="ml-4 flow-root lg:ml-6">
-                  <a href="#" className="group -m-2 flex items-center p-2">
-                    <ShoppingBagIcon onClick={(e) => setOpen(true)}
-                      className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{countCart}</span>
-                    <span className="sr-only">items in cart, view bag</span>
-                  </a>
-                </div>
+          {/* Cart */}
+          <div className="ml-4 flow-root lg:ml-6">
+            <a href="#" className="group -m-2 flex items-center p-2">
+              <ShoppingBagIcon onClick={(e) => setOpen(true)}
+                className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                aria-hidden="true"
+              />
+              <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{countCart}</span>
+              <span className="sr-only">items in cart, view bag</span>
+            </a>
+          </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link to="/login"><a href="#" className="text-sm font-semibold leading-6 text-gray-900 mr-5">
               {logStatus}
@@ -349,6 +349,20 @@ export default function Nav2(props) {
                           )}
                         </Menu.Item>
                       ))}
+                      {thisAccount?.roleId == "4" ? <Menu.Item>
+                        {({ active }) => (
+                          <Link to="/admindashboard">
+                            <a
+                              href=""
+                              className={classNames(
+                                active ? 'bg-gray-100' : '',
+                                'block px-4 py-2 text-sm text-gray-700'
+                              )}
+                            >
+                              Dashboard
+                            </a>
+                          </Link>)}
+                      </Menu.Item> : <></>}
                       <Menu.Item>
                         {({ active }) => (
                           <Link to="/login">
@@ -364,6 +378,7 @@ export default function Nav2(props) {
                             </a>
                           </Link>)}
                       </Menu.Item>
+
                     </Menu.Items>
                   </Transition>
                 </Menu>
@@ -451,10 +466,10 @@ export default function Nav2(props) {
                     <span className="sr-only">Search</span>
                     <MagnifyingGlassIcon className="h-6 w-6" aria-hidden="true" />
                   </a>
-                {/* </div> */}
+                  {/* </div> */}
 
-                {/* Cart */}
-                {/* <div className="ml-4 flow-root lg:ml-6"> */}
+                  {/* Cart */}
+                  {/* <div className="ml-4 flow-root lg:ml-6"> */}
                   <a href="#" className="group -m-2 flex items-center p-2">
                     <ShoppingBagIcon onClick={(e) => setOpen(true)}
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -463,7 +478,7 @@ export default function Nav2(props) {
                     <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">{countCart}</span>
                     <span className="sr-only">items in cart, view bag</span>
                   </a>
-                {/* </div> */}
+                  {/* </div> */}
                 </div>
                 <div className="py-6">
                   <Link to="/login"><a

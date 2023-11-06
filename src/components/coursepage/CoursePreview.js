@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom'
 import { StarIcon } from '@heroicons/react/20/solid'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
@@ -16,12 +16,16 @@ import ceo from '../assets/image/toan.jpg'
 import { Disclosure, Menu } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import api from '../api/axiosAccountConfig'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, ChevronUpIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, ChevronUpIcon, ShareIcon,GiftIcon,ShoppingCartIcon,WalletIcon } from '@heroicons/react/20/solid'
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
 import { EditorState } from 'draft-js';
 import { CLIENT_ID } from '../../config/Config'
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { FacebookShareButton, TwitterShareButton } from "react-share";
+import { FacebookIcon, TwitterIcon } from "react-share";
+import { LearnerContext } from '../../App'
+
 const includes = [
   '15.5 hours on-demand video.',
   '1 article.',
@@ -43,6 +47,7 @@ function generateString(length) {
 }
 
 export default function CoursePreview(props) {
+  const { getLearners } = useContext(LearnerContext);
   const navigate = useNavigate();
   const [send, setSend] = useState(false)
   //galgry
@@ -109,7 +114,7 @@ export default function CoursePreview(props) {
   }, [])
   const isLearn = thisStudent?.find((course) => course.courseId === thisCourse?.id)
   let price = '';
- 
+
   if (thisCourse?.price > 0) {
     price = '$' + thisCourse?.price
   } else {
@@ -128,7 +133,7 @@ export default function CoursePreview(props) {
       try {
         await axios.post("http://localhost:8080/course/enrol", formData).then(response => {
           setOpen(true)
-          getLearner()
+          getLearners()
         })
       } catch (err) {
         alert(err);
@@ -153,14 +158,14 @@ export default function CoursePreview(props) {
         </button></Link>
           <div className="flex flex-row justify-center items-center mt-6">
             <hr className="border w-full" />
-            <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or gift this course</p>
+            <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or</p>
             <hr className="border w-full" />
           </div>
           <button onClick={() => setGift(true)}
             type="button"
             className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
           >
-            Send Course as gift
+           <GiftIcon className='w-6 h-6 mr-4'/>Gift this course
           </button></>
       } else {
         if (thisAccount?.roleId == 2 || thisAccount?.roleId == 4) {
@@ -173,50 +178,50 @@ export default function CoursePreview(props) {
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              Add to cart
+             <ShoppingCartIcon className='w-6 h-6 mr-4'/> Add to cart
             </button>
               <button
                 onClick={() => setShow(true)}
                 type="button"
-                className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                Buy now
+                <WalletIcon className='w-6 h-6 mr-4'/>Buy now
               </button>
               <div className="flex flex-row justify-center items-center mt-6">
                 <hr className="border w-full" />
-                <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or gift this course</p>
+                <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or</p>
                 <hr className="border w-full" />
               </div>
               <button onClick={() => setGift(true)}
                 type="button"
                 className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                Send Course as gift
+                <GiftIcon className='w-6 h-6 mr-4'/>Gift this course
               </button></>
           } else {
             return <><button
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              Go to cart
+              <ShoppingCartIcon className='w-6 h-6 mr-4'/>Go to cart
             </button>
               <button
                 onClick={() => setShow(true)}
                 type="button"
-                className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                Buy now
+                <WalletIcon className='w-6 h-6 mr-4'/>Buy now
               </button>
               <div className="flex flex-row justify-center items-center mt-6">
                 <hr className="border w-full" />
-                <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or gift this course</p>
+                <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or</p>
                 <hr className="border w-full" />
               </div>
               <button onClick={() => setGift(true)}
                 type="button"
                 className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                Send Course as gift
+                <GiftIcon className='w-6 h-6 mr-4'/>Gift this course
               </button></>
           }
 
@@ -230,14 +235,14 @@ export default function CoursePreview(props) {
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              Add to cart
+              <ShoppingCartIcon className='w-6 h-6 mr-4'/>Add to cart
             </button>
           } else {
             return <button
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              Go to cart
+              <ShoppingCartIcon className='w-6 h-6 mr-4'/>Go to cart
             </button>
           }
 
@@ -316,7 +321,7 @@ export default function CoursePreview(props) {
   }
   const courseRate = thisCourseRating?.filter((rate) => rate.accountId != thisCourse?.accountId)
 
-  //send course as gift
+  //Gift this course
   const [receiverPassword, setReceiverPassword] = useState(generateString(20))
   const [gift, setGift] = useState(false)
   const [isopen, setIsOpen] = useState(false)
@@ -363,7 +368,7 @@ export default function CoursePreview(props) {
       });
       await axios.post("http://localhost:8080/course/enrol", formReceiverData).then(response => {
         //setOpen(true)
-        getLearner()
+        getLearners()
       })
       await axios.post("http://localhost:8080/course/sendMailToReceiver", formMailData).then(response => {
         setLoading(false)
@@ -400,7 +405,7 @@ export default function CoursePreview(props) {
         } else {
           save3(e)
         }
-        getLearner()
+        getLearners()
       })
     } catch (err) {
       alert(err);
@@ -424,13 +429,13 @@ export default function CoursePreview(props) {
       if (receiverMailCheck?.roleId == 2) {
         if (receiverMailCheck?.id == thisAccount?.id) {
           setRoleOpen(true)
-        }else if(isReceiverCheckLearn){
+        } else if (isReceiverCheckLearn) {
           setFalseOpen(true)
         }
-        else{
+        else {
           setShownow(true)
-        // setLoading(true)
-        //save2(e)
+          // setLoading(true)
+          //save2(e)
         }
       } else {
         setRoleOpen(true)
@@ -495,7 +500,7 @@ export default function CoursePreview(props) {
       try {
         setAction(2)
         axios.post("http://localhost:8080/course/enrol", formReceiver).then(response => {
-          getLearner()
+          getLearners()
           axios.post("http://localhost:8080/course/sendMailToReceiver", formMail).then(response => {
             setLoading(false)
             setSend(true)
@@ -572,7 +577,7 @@ export default function CoursePreview(props) {
           formReceiverData.append('message', senderMessages);
           axios.post("http://localhost:8080/course/enrol", formReceiverData).then(response => {
             //setOpen(true)
-            getLearner()
+            getLearners()
             axios.post("http://localhost:8080/course/sendMailToReceiver", formMailData).then(response => {
               setLoading(false)
               setSend(true)
@@ -621,7 +626,7 @@ export default function CoursePreview(props) {
       if (localStorage.getItem("STU-authenticated")) {
         try {
           axios.post("http://localhost:8080/course/enrol", formData).then(response => {
-            getLearner();
+            getLearners();
             setOpen(true)
             setShow(false)
 
@@ -636,7 +641,7 @@ export default function CoursePreview(props) {
     }
   }, [success]);
 
-  console.log(linkImg + thisCourse?.images?.two)
+  const [share, setShare] = useState(false)
   return (
     <>
       <PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>
@@ -781,6 +786,13 @@ export default function CoursePreview(props) {
                   {enroll}
                 </button></Link> */}
                   {displayMessage()}
+                  <button
+                    onClick={() => setShare(true)}
+                    type="button"
+                    className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                  >
+                    <ShareIcon className='w-6 h-6 mr-4'/>Share this course
+                  </button>
                   {show ? (
                     <PayPalButtons className='mt-8'
                       style={{ layout: "vertical" }}
@@ -1118,7 +1130,7 @@ export default function CoursePreview(props) {
                           type="button"
                           className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
                           onClick={() => {
-                            getLearner()
+                            getLearners()
                             setOpen(false)
                           }}
                         >
@@ -1621,7 +1633,7 @@ export default function CoursePreview(props) {
                         </div>
                         <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                           <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
-                            Send Course as gift success!
+                            Gift this course success!
                           </Dialog.Title>
                           <div className="mt-2">
                             <p className="text-sm text-gray-500">
@@ -1729,6 +1741,110 @@ export default function CoursePreview(props) {
                         Go to Cart
                       </button>
                     </div>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </div>
+            </div>
+          </Dialog>
+        </Transition.Root>
+        <Transition.Root show={share} as={Fragment}>
+          <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setShare}>
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
+
+            <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+              <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <Transition.Child
+                  as={Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  enterTo="opacity-100 translate-y-0 sm:scale-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                  leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                >
+                  <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                      <div className="sm:flex sm:items-start">
+                        <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
+                          <ShareIcon className="h-6 w-6 text-blue-600" aria-hidden="true" />
+                        </div>
+                        <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                          <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900 mt-2">
+                            Share this course
+                          </Dialog.Title>
+                          {/* <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8"> */}
+
+                          {/* </div> */}
+                        </div>
+                      </div>
+                      <Link to={`/${thisCourse?.id}`}><div className="group relative mt-4">
+                        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                          <img
+                            src={linkImg + thisCourse?.image}
+                            // {product.imageSrc}
+                            alt=""
+                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                          />
+                        </div>
+                        <div className="mt-4 flex justify-between">
+                          <div>
+                            <h3 className="text-sm text-gray-700">
+                              <a href="">
+                                <span aria-hidden="true" className="absolute inset-0" />
+                                {thisCourse?.name}
+                              </a>
+                            </h3>
+                            <p className="mt-1 text-sm text-gray-500">Instructor: {thisCourse?.instructorName}</p>
+                          </div>
+                          {thisCourse?.price === 0 ? (
+                            <p className="text-sm font-medium text-gray-900">Free</p>
+                          ) : <p className="text-sm font-medium text-gray-900">${thisCourse?.price}</p>}
+
+                        </div>
+                      </div></Link>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <FacebookShareButton
+                        className="w-full"
+                        url={"https://www.facebook.com/toan.tranbao.22082003/"}
+                        quote={"フェイスブックはタイトルが付けれるようです"}
+                        hashtag={"#arthub"}
+                        description={"aiueo"}
+                      >
+                        <button
+                          type="button"
+                          className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-blue-500 hover:bg-gray-300 duration-300 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-blue-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                        >
+                          Share on Facebook
+                        </button>
+                      </FacebookShareButton>
+                    </div>
+                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                      <TwitterShareButton
+                        className="w-full"
+                        title={"test"}
+                        url={"https://peing.net/ja/"}
+                        hashtags={["hashtag1", "hashtag2"]}
+                      >
+                        <button
+                          type="button"
+                          className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-black-500 hover:bg-gray-300 duration-300 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-black-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+                        >
+                          Share on Twitter
+                        </button>
+                      </TwitterShareButton>
+                    </div>
+
                   </Dialog.Panel>
                 </Transition.Child>
               </div>
