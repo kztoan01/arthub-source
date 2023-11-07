@@ -18,6 +18,7 @@ const userNavigation = [
   { name: thisAccount?.lastname + ' ' + thisAccount?.firstname, href: '#' },
   { name: 'Settings', href: '#' },
 ]
+console.log(thisAccount?.lastname + ' ' + thisAccount?.firstname)
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
