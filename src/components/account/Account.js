@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import logo from '../assets/image/ArtHub-only-logo-white.png'
-
+import { UserAuth } from '../authConfig/AuthContext';
 
 const thisAccount = JSON.parse(localStorage.getItem("logined"))
 const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
@@ -24,6 +24,15 @@ function classNames(...classes) {
 }
 
 function InstructorDashboard(props) {
+  
+  const {logOut} = UserAuth()
+  const handleLogOutGoogle = async () => {
+    try {
+        await logOut();
+    } catch (error) {
+        console.log(error)
+    }
+};
   const handleLogout = (e) => {
     localStorage.removeItem("STU-authenticated");
     localStorage.removeItem("logined");
@@ -126,7 +135,10 @@ function InstructorDashboard(props) {
                               {({ active }) => (
                                 <Link to="/login"><a
                                   href="#"
-                                  onClick={handleLogout}
+                                  onClick={() => {
+                                    handleLogout()
+                                    handleLogOutGoogle()
+                                  }}
                                   className={classNames(
                                     active ? 'bg-gray-100' : '',
                                     'block px-4 py-2 text-sm text-gray-700'

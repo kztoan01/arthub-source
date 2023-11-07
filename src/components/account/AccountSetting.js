@@ -3,7 +3,7 @@ import axios from 'axios';
 import api from '../api/axiosAccountConfig'
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { CheckCircleIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, PencilSquareIcon, ExclamationTriangleIcon, EyeIcon } from '@heroicons/react/24/outline'
 export default function AccountSetting() {
     const thisAccount = JSON.parse(localStorage.getItem("logined"))
     const [image, setImage] = useState('')
@@ -50,9 +50,8 @@ export default function AccountSetting() {
                 address: address,
                 facebook: facebook,
                 twitter: twitter,
-                password: thisAccount.password,
                 roleId: thisAccount.roleId,
-                isActive : 1
+                isActive: 1
             }).then(response => {
                 const updatedAccount = response.data;
                 localStorage.setItem("logined", JSON.stringify(updatedAccount));
@@ -72,7 +71,61 @@ export default function AccountSetting() {
         // console.log(e.target.files[0])
         setImage(e.target.files[0])
     }
-    console.log(image.name)
+    const [openPass, setOpenPass] = useState(false)
+    const [oldPassword, setOldPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [Eropen, setErOpen] = useState(false)
+    const [mainMessage, setMainMessage] = useState()
+    const [message, setMessage] = useState()
+    const formChangePassword = new FormData();
+    formChangePassword.append('email', thisAccount?.email)
+    formChangePassword.append('newPassword', newPassword)
+    formChangePassword.append('oldPassword', oldPassword)
+    function containsUppercase(str) {
+        return /[A-Z]/.test(str);
+    }
+    const handleChangePassword = async (e) => {
+        e.preventDefault()
+        if (confirmPassword != newPassword) {
+            setMainMessage("Confirmed wrong password.")
+            setMessage("Please confirm your new password.")
+            setErOpen(true)
+            setOpenPass(true)
+        } else if (newPassword == oldPassword) {
+            setMainMessage("Look like you enter the old password.")
+            setMessage("Please enter a new password different from the current one.")
+            setErOpen(true)
+            setOpenPass(true)
+        } else if (containsUppercase(newPassword) == false) {
+            setMainMessage("Password must contain uppercase characters.")
+            setMessage("Please re-enter your new password.")
+            setErOpen(true)
+            setOpenPass(true)
+        } else if (newPassword.length < 8) {
+            setMainMessage("Password must contain more than 8 characters.")
+            setMessage("Please re-enter your new password.")
+            setErOpen(true)
+            setOpenPass(true)
+        }
+        else {
+            try {
+                const response = await axios.post("http://localhost:8080/api/accounts/changePassword", formChangePassword).
+                    then(response => {
+                        setOpenPass(false)
+                        setOpen(true)
+                    })
+            } catch (e) {
+                if (e.response.status == 403 || e.response.status == 404) {
+                    setMainMessage("Your password was incorrect.")
+                    setMessage("Please re-enter your correct password.")
+                    setErOpen(true)
+                    setOpenPass(true)
+                }
+            }
+        }
+
+    }
     return (
         <>
             <header className="bg-white shadow">
@@ -95,8 +148,10 @@ export default function AccountSetting() {
                                 </div>
                                 <div class="sm:col-span-3"> <label for="first-name"
                                     class="block text-sm font-medium leading-6 text-gray-900">Password</label>
-                                    <div class="mt-2"> <input type="password" name="password" id="password" autocomplete="" value={thisAccount?.password} readOnly
+                                    {/* <div class="mt-2"> <input type="password" name="password" id="password" autocomplete="" value={thisAccount?.password} readOnly
                                         class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                                    </div> */}
+                                    <div class="mt-2"> <PencilSquareIcon className="w-8 h-8 cursor-pointer" onClick={() => setOpenPass(true)} />
                                     </div>
                                 </div>
                             </div>
@@ -447,11 +502,189 @@ export default function AccountSetting() {
                                                     alt=""
                                                     className="h-96 w-96 object-cover object-center rounded-full"
                                                 />
-                                                </>)}
+                                            </>)}
                                         </div>
                                         <button type="submit"
-                                        onClick={(e) => save(e)}
-                                class="rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 mt-96 ">Save</button>
+                                            onClick={(e) => save(e)}
+                                            class="rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600 mt-96 ">Save</button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <Transition.Root show={openPass} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={setOpenPass}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                                enterTo="opacity-100 translate-y-0 md:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 md:scale-100"
+                                leaveTo="opacity-0 translate-y-4 md:translate-y-0 md:scale-95"
+                            >
+                                <Dialog.Panel className="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                                    <div className="relative flex w-full items-center overflow-hidden bg-white px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+                                        <div class="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
+                                            <h3 class="mb-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Change password
+                                            </h3>
+                                            <form class="space-y-6" onSubmit={(e) => handleChangePassword(e)}>
+
+                                                {/* <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Current password</label>
+                                                <div class="text-sm"> <a href="#" class="font-semibold text-purple-600 hover:text-purple-500"><EyeIcon className="w-6 h-6"/></a> </div>
+                                                    <div class="mt-2"> <input id="username" name="username" type="password" autocomplete="text" required
+                                                        value={oldPassword}
+                                                        onChange={(e) => {
+                                                            setOldPassword(e.target.value);
+                                                        }}
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
+                                                   
+                                                    </div>
+                                                </div> */}
+                                                <div>
+                                                    <div class="flex items-center justify-between"> <label for="password"
+                                                        class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                                        {/* <div class="text-sm"> <div class="font-semibold text-purple-600 hover:text-purple-500"><EyeIcon className="w-6 h-6"/></div> </div> */}
+                                                    </div>
+                                                    <div class="mt-2"> <input id="password" name="password" type="password" autocomplete="current-password"
+                                                        value={oldPassword}
+                                                        onChange={(e) => {
+                                                            setOldPassword(e.target.value);
+                                                        }}
+                                                        required
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="flex items-center justify-between"> <label for="password"
+                                                        class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                                        {/* <div class="text-sm"> <div class="font-semibold text-purple-600 hover:text-purple-500"><EyeIcon className="w-6 h-6"/></div> </div> */}
+                                                    </div>
+                                                    <div class="mt-2"> <input id="password" name="password" type="password" autocomplete="current-password"
+                                                       value={newPassword}
+                                                       onChange={(e) => {
+                                                           setNewPassword(e.target.value);
+                                                       }}
+                                                        required
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="flex items-center justify-between"> <label for="password"
+                                                        class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                                        {/* <div class="text-sm"> <div class="font-semibold text-purple-600 hover:text-purple-500"><EyeIcon className="w-6 h-6"/></div> </div> */}
+                                                    </div>
+                                                    <div class="mt-2"> <input id="password" name="password" type="password" autocomplete="current-password"
+                                                        required value={confirmPassword}
+                                                        onChange={(e) => {
+                                                            setConfirmPassword(e.target.value);
+                                                        }}
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
+                                                    </div>
+                                                </div>
+                                                {/* <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">New password</label>
+                                                    <div class="mt-2"> <input id="email" name="email" type="password" autocomplete="email" required
+                                                        value={newPassword}
+                                                        onChange={(e) => {
+                                                            setNewPassword(e.target.value);
+                                                        }}
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <div class="flex items-center justify-between"> <label for="password"
+                                                        class="block text-sm font-medium leading-6 text-gray-900">Confirm new password</label>
+                                                    </div>
+                                                    <div class="mt-2"> <input id="password" name="password" type="password" autocomplete="current-password"
+                                                        required value={confirmPassword}
+                                                        onChange={(e) => {
+                                                            setConfirmPassword(e.target.value);
+                                                        }}
+                                                        class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6 text-center" />
+                                                    </div>
+                                                </div> */}
+                                                <div className="mt-16"> <button type="submit"
+                                                    class="flex w-full justify-center rounded-md bg-purple-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-purple-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-600">
+                                                    Change password</button> </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <Transition.Root show={Eropen} as={Fragment}>
+                <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setErOpen}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <div className="sm:flex sm:items-start">
+                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                            </div>
+                                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                                                    {mainMessage}
+                                                </Dialog.Title>
+                                                <div className="mt-2">
+                                                    <p className="text-sm text-gray-500">
+                                                        {message}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <button
+                                            type="button"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
+                                            onClick={() => {
+                                                setErOpen(false)
+                                                setOpenPass(true)
+                                            }}
+                                        >
+                                            Done
+                                        </button>
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>

@@ -16,7 +16,7 @@ import ceo from '../assets/image/toan.jpg'
 import { Disclosure, Menu } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import api from '../api/axiosAccountConfig'
-import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, ChevronUpIcon, ShareIcon,GiftIcon,ShoppingCartIcon,WalletIcon } from '@heroicons/react/20/solid'
+import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon, ChevronUpIcon, ShareIcon, GiftIcon, ShoppingCartIcon, WalletIcon } from '@heroicons/react/20/solid'
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
 import { EditorState } from 'draft-js';
@@ -141,7 +141,6 @@ export default function CoursePreview(props) {
     } else {
       navigate('/login')
     }
-
   }
   const [cart, setCart] = useState(false)
   const displayMessage = () => {
@@ -165,7 +164,7 @@ export default function CoursePreview(props) {
             type="button"
             className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
           >
-           <GiftIcon className='w-6 h-6 mr-4'/>Gift this course
+            <GiftIcon className='w-6 h-6 mr-4' />Gift this course
           </button></>
       } else {
         if (thisAccount?.roleId == 2 || thisAccount?.roleId == 4) {
@@ -178,14 +177,14 @@ export default function CoursePreview(props) {
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-             <ShoppingCartIcon className='w-6 h-6 mr-4'/> Add to cart
+              <ShoppingCartIcon className='w-6 h-6 mr-4' /> Add to cart
             </button>
               <button
                 onClick={() => setShow(true)}
                 type="button"
                 className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                <WalletIcon className='w-6 h-6 mr-4'/>Buy now
+                <WalletIcon className='w-6 h-6 mr-4' />Buy now
               </button>
               <div className="flex flex-row justify-center items-center mt-6">
                 <hr className="border w-full" />
@@ -196,21 +195,21 @@ export default function CoursePreview(props) {
                 type="button"
                 className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                <GiftIcon className='w-6 h-6 mr-4'/>Gift this course
+                <GiftIcon className='w-6 h-6 mr-4' />Gift this course
               </button></>
           } else {
             return <><button
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              <ShoppingCartIcon className='w-6 h-6 mr-4'/>Go to cart
+              <ShoppingCartIcon className='w-6 h-6 mr-4' />Go to cart
             </button>
               <button
                 onClick={() => setShow(true)}
                 type="button"
                 className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                <WalletIcon className='w-6 h-6 mr-4'/>Buy now
+                <WalletIcon className='w-6 h-6 mr-4' />Buy now
               </button>
               <div className="flex flex-row justify-center items-center mt-6">
                 <hr className="border w-full" />
@@ -221,13 +220,13 @@ export default function CoursePreview(props) {
                 type="button"
                 className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
               >
-                <GiftIcon className='w-6 h-6 mr-4'/>Gift this course
+                <GiftIcon className='w-6 h-6 mr-4' />Gift this course
               </button></>
           }
 
         } else {
           if (cartItems[thisCourse?.id] === undefined || cartItems[thisCourse?.id] === false) {
-            return <button
+            return <><button
               onClick={() => {
                 addToCart(parseInt(thisCourse?.id))
                 setCart(true)
@@ -235,15 +234,29 @@ export default function CoursePreview(props) {
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              <ShoppingCartIcon className='w-6 h-6 mr-4'/>Add to cart
+              <ShoppingCartIcon className='w-6 h-6 mr-4' />Add to cart
             </button>
+              <button
+                onClick={() => setShow(true)}
+                type="button"
+                className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+              >
+                <WalletIcon className='w-6 h-6 mr-4' />Buy now
+              </button></>
           } else {
-            return <button
+            return <> <button
               type="button"
               className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
             >
-              <ShoppingCartIcon className='w-6 h-6 mr-4'/>Go to cart
+              <ShoppingCartIcon className='w-6 h-6 mr-4' />Go to cart
             </button>
+              <button
+                onClick={() => setShow(true)}
+                type="button"
+                className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
+              >
+                <WalletIcon className='w-6 h-6 mr-4' />Buy now
+              </button></>
           }
 
         }
@@ -791,7 +804,7 @@ export default function CoursePreview(props) {
                     type="button"
                     className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                   >
-                    <ShareIcon className='w-6 h-6 mr-4'/>Share this course
+                    <ShareIcon className='w-6 h-6 mr-4' />Share this course
                   </button>
                   {show ? (
                     <PayPalButtons className='mt-8'

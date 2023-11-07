@@ -17,33 +17,47 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [roleId, setRoleId] = useState("2");
+    function containsUppercase(str) {
+        return /[A-Z]/.test(str);
+    }
     async function save(e) {
         e.preventDefault();
-        try {
-            await axios.post("http://localhost:8080/api/accounts", {
-                username: username,
-                lastname: lastname,
-                firstname: firstname,
-                email: email,
-                password: password,
-                roleId: roleId,
-                isActive: 1
-            }).then(response => {
-                if (response.status == 201) {
-                    setSuccessOpen(true)
-                } else if (response.status == 204) {
-                    setMessage("Username already exists")
-                    setDetailMessage("Please enter another username")
+        if (containsUppercase(password) == false) {
+            setMessage("Password must contain uppercase characters.")
+            setDetailMessage("Please re-enter your new password.")
+            setOpen(true)
+        } else if (password.length < 8) {
+            setMessage("Password must contain more than 8 characters.")
+            setDetailMessage("Please re-enter your new password.")
+            setOpen(true)
+        } else {
+            try {
+                await axios.post("http://localhost:8080/api/accounts", {
+                    username: username,
+                    lastname: lastname,
+                    firstname: firstname,
+                    email: email,
+                    password: password,
+                    roleId: roleId,
+                    isActive: 1
+                }).then(response => {
+                    if (response.status == 201) {
+                        setSuccessOpen(true)
+                    } else if (response.status == 204) {
+                        setMessage("Username already exists")
+                        setDetailMessage("Please enter another username")
+                        setOpen(true)
+                    }
+                })
+            } catch (err) {
+                if (err.response.status == 403) {
+                    setMessage("Email already exists")
+                    setDetailMessage("Please enter another email or login")
                     setOpen(true)
                 }
-            })
-        } catch (err) {
-            if (err.response.status == 403) {
-                setMessage("Email already exists")
-                setDetailMessage("Please enter another email or login")
-                setOpen(true)
             }
         }
+
     }
 
     return (

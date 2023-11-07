@@ -26,6 +26,7 @@ import apiLearner from '../api/axiosLearnerConfig'
 import { users } from '../data/ListOfCategories'
 import api from '../api/axiosAccountConfig'
 import { setSelectionRange } from '@testing-library/user-event/dist/utils'
+import { UserAuth } from '../authConfig/AuthContext';
 const products = [
   { name: 'Caricature', state: 'Caricature', description: 'Get a better understanding of your traffic', href: '#', icon: PaintBrushIcon },
   { name: 'Cartoon', state: 'Cartoon', description: 'Speak directly to your customers', href: '#', icon: BugAntIcon },
@@ -62,6 +63,14 @@ function classNames(...classes) {
 
 
 export default function Nav2(props) {
+  const {logOut} = UserAuth()
+  const handleLogOutGoogle = async () => {
+    try {
+        await logOut();
+    } catch (error) {
+        console.log(error)
+    }
+};
   //banner
   const [banner, setBanner] = useState(true)
   //get user
@@ -110,7 +119,6 @@ export default function Nav2(props) {
     sigStatus = props.signup
   }
 
-  console.log(linkImg + loginedUser?.image)
   //get courses
   const [courses, setCourses] = useState()
   const getCourses = async () => {
@@ -368,7 +376,10 @@ export default function Nav2(props) {
                           <Link to="/login">
                             <a
                               href=""
-                              onClick={handleLogout}
+                              onClick={ () => {
+                                handleLogout()
+                                handleLogOutGoogle()
+                              }}
                               className={classNames(
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm text-gray-700'
