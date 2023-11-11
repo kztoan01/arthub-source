@@ -41,6 +41,7 @@ function InstructorDashboard(props) {
     { name: 'Courses', href: '#', current: props.course, link: '/instructordashboard/courses' },
     { name: 'Performance', href: '#', current: props.report, link: '/instructordashboard/reports' },
     { name: 'Account', href: '#', current: props.account, link: '/instructordashboard/account' },
+    { name: 'Premium', href: '#', current: props.premium, link: '/instructordashboard/premium' },
   ]
   return (
     <>

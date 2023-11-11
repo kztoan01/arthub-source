@@ -53,7 +53,7 @@ export default function AccountLearning(props) {
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                     {/*content */}
                     {learningCourses?.length === 0 ? (
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Vous n'avez encore participé à aucun cours. S'inscrire maintenant!</h1>
+                        <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 mb-96">You have not enrolled for any courses yet.</h1>
                     ) : <div className="bg-white">
                         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                             {learningCourses?.map((product) => (

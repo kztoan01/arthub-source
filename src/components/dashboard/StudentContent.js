@@ -56,7 +56,7 @@ export default function StudentContent() {
             </header>
             <main>
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">{/*content */}
-                    <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
+                    {courseStudent?.length > 0 ? <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                         {courseStudent?.map((product) => (
                             <>
                                 <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
@@ -76,7 +76,7 @@ export default function StudentContent() {
                                         paginate={paginate}
                                         currentPage={currentPage}
                                         previousPage={previousPage}
-                                        nextPage={()=>nextPage(product?.id)}
+                                        nextPage={() => nextPage(product?.id)}
                                     />
                                     <ul role="list" className="divide-y divide-gray-100">
                                         {product.students?.slice(indexOfFirstPost, indexOfLastPost).map((person) => (
@@ -117,11 +117,7 @@ export default function StudentContent() {
                                 </div> </>
                         ))}
 
-                    </div>
-
-
-
-
+                    </div> : <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 mb-96">You dont have any student enroll in your course</h1>}
                 </div>
             </main>
         </>

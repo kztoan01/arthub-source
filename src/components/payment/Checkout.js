@@ -4,12 +4,13 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import apiCourse from '../api/axiosCourseConfig'
 import { ShopContext } from '../coursepage/shop-context'
 import { useContext } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { StarIcon } from '@heroicons/react/20/solid'
 import apiLearner from '../api/axiosLearnerConfig'
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { CheckCircleIcon, ExclamationTriangleIcon, CodeBracketIcon } from '@heroicons/react/24/outline'
+import axios from 'axios';
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -102,18 +103,41 @@ function Checkout() {
     const onError = (data, actions) => {
         setErrorMessage("An Error occured with your payment ");
     };
-
+    const formData = new FormData();
+    formData.append('accountId', thisAccount?.id);
+    formData.append('status', 0);
+    formData.append('senderId', thisAccount?.id);
+    formData.append('message', '');
+    const navigate = useNavigate()
+    let c = {}
     useEffect(() => {
         if (success) {
-            setShow(false)
+            for (var key in cartproducts) {
+                var obj = cartproducts[key]
+                formData.append('courseId', obj?.id);
+                axios.post("http://localhost:8080/course/enrol", formData)
+                formData.delete('courseId')
+            }
             setOpen(true)
+            setShow(false)
             checkout()
             console.log('Order successful . Your order id is--', orderID);
         }
     }, [success]);
-
+    const check = () => {
+        for (var key in cartproducts) {
+            var obj = cartproducts[key]
+            formData.append('courseId', obj?.id);
+            for (const value of formData.values()) {
+                console.log(value);
+            }
+            formData.delete('courseId')
+            // console.log(formData)
+        }
+    };
     return (
         <PayPalScriptProvider options={{ "client-id": CLIENT_ID }}>
+            {/* <button onClick={() => check()}>check</button> */}
             <div className='mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8'>
                 <div className="flex justify-center items-center">
                     <div className="py-16 px-4 md:px-6 2xl:px-0 flex justify-center items-center 2xl:mx-auto 2xl:container">
@@ -229,14 +253,14 @@ function Checkout() {
                                         <p className="flex flex-shrink-0 px-4 text-base leading-4 text-gray-600">or pay with Paypal</p>
                                         <hr className="border w-full" />
                                     </div>
-                                    <button onClick={() =>{
-                                        if(show) {
-                                           setShow(false) 
-                                        }else{
+                                    <button onClick={() => {
+                                        if (show) {
+                                            setShow(false)
+                                        } else {
                                             setShow(true)
                                         }
-                                        
-                                        } } className="mt-4 border border-transparent hover:border-gray-300 bg-gray-900 hover:bg-white text-white hover:text-gray-900 flex flex-row justify-center items-center space-x-2 py-4 rounded w-full">
+
+                                    }} className="mt-4 border border-transparent hover:border-gray-300 bg-gray-900 hover:bg-white text-white hover:text-gray-900 flex flex-row justify-center items-center space-x-2 py-4 rounded w-full">
                                         <div>
                                             {/* <svg className="fill-current" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                 <path

@@ -8,6 +8,7 @@ export default function AccountAssignment() {
             </header>
             <main>
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 mb-96">You don't have any assignment.</h1>
                 </div>
             </main>
         </>

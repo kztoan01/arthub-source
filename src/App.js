@@ -59,6 +59,7 @@ import Instructor from './components/userpage/Instructor.js';
 import ErrorPage from './components/error/ErrorPage.js';
 import { AuthContextProvider } from './components/authConfig/AuthContext.js';
 import Student from './components/userpage/Student.js';
+import PremiumInstructor from './components/dashboard/PremiumInstructor.js'; 
 import { createContext } from 'react';
 export const LearnerContext = createContext(null);
 function App() {
@@ -205,6 +206,7 @@ function App() {
                 <ProtectedRouteINS>
                   <InstructorDashboard />
                   <Feature create="true" />
+                  <Footer />
                 </ProtectedRouteINS>
               </>}
             />
@@ -212,27 +214,32 @@ function App() {
               <ProtectedRouteINS>
                 <InstructorDashboard dashboard="true" />
                 <DashboardContent />
+                <Footer />
               </ProtectedRouteINS></>} />
             <Route path='/instructordashboard/courses' element={<>
               <ProtectedRouteINS>
                 <InstructorDashboard course="true" />
                 <CoursesContent />
                 <CreateCourse />
+                <Footer />
               </ProtectedRouteINS></>} />
             <Route path='/instructordashboard/student' element={<>
               <ProtectedRouteINS>
                 <InstructorDashboard student="true" />
                 <StudentContent />
+                <Footer />
               </ProtectedRouteINS></>} />
             <Route path='/instructordashboard/reports' element={<>
               <ProtectedRouteINS>
                 <InstructorDashboard report="true" />
                 <ReportsContent />
+                <Footer />
               </ProtectedRouteINS></>} />
             <Route path='/instructordashboard/performance' element={<>
               <ProtectedRouteINS>
                 <InstructorDashboard perform="true" />
                 <PerformanceContent />
+                <Footer />
               </ProtectedRouteINS></>} />
             {/* <Route path='/instructordashboard/courses/createcourse' element={<>
           <ProtectedRouteINS>
@@ -245,6 +252,16 @@ function App() {
                 <ProtectedRouteINS>
                   <InstructorDashboard account="true" />
                   <AccountSetting />
+                  <Footer />
+                </ProtectedRouteINS>
+              </>}
+            />
+            <Route path='/instructordashboard/premium'
+              element={<>
+                <ProtectedRouteINS>
+                  <InstructorDashboard premium="true" />
+                  <PremiumInstructor />
+                  <Footer />
                 </ProtectedRouteINS>
               </>}
             />
@@ -254,12 +271,12 @@ function App() {
                 <PreviewCourse />
                 <Footer />
               </ProtectedRouteINS></>} />
-            <Route path='/account' element={<><ProtectedStudentInfo><Account /></ProtectedStudentInfo></>} />
-            <Route path='/account/setting' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account setting="true" /><AccountSetting /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
-            <Route path='/account/learning' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account learning="true" /><AccountLearning /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
-            <Route path='/account/notification' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account noti="true" /><AccountNotification /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
-            <Route path='/account/purchase' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account history="true" /><AccountPurchase /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
-            <Route path='/account/assignment' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account assignment="true" /><AccountAssignment /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+            <Route path='/account' element={<><ProtectedStudentInfo><Account /><Footer /></ProtectedStudentInfo></>} />
+            <Route path='/account/setting' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account setting="true" /><AccountSetting /><Footer /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+            <Route path='/account/learning' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account learning="true" /><AccountLearning /><Footer /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
+            <Route path='/account/notification' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account noti="true" /><AccountNotification /><Footer /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
+            <Route path='/account/purchase' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account history="true" /><AccountPurchase /><Footer /> </ProtectedStudentInfo></ProtectedRouteSTU></>} />
+            <Route path='/account/assignment' element={<> <ProtectedRouteSTU><ProtectedStudentInfo><Account assignment="true" /><AccountAssignment /><Footer /></ProtectedStudentInfo> </ProtectedRouteSTU></>} />
 
             <Route path='/learning/:id' element={<>
               <ProtectedCourseData>
@@ -304,7 +321,6 @@ function App() {
               <ProtectedAdmin>
                 <AdminDashboard perform="true" />
                 <ArthubPerformance />
-                <Transactions />
               </ProtectedAdmin>
             </>} />
             <Route path='/admindashboard/setting' element={<>

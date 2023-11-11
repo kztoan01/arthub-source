@@ -4,11 +4,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon, CheckCircleIcon,FingerPrintIcon } from '@heroicons/react/24/outline'
+import { ExclamationTriangleIcon, CheckCircleIcon, FingerPrintIcon } from '@heroicons/react/24/outline'
 function generateString(length) {
     const result = Math.random().toString(36).substring(2, length + 2)
     return result;
-  }
+}
 function Signup() {
     const [open, setOpen] = useState(false)
     const [successopen, setSuccessOpen] = useState(false)
@@ -21,8 +21,8 @@ function Signup() {
     const [password, setPassword] = useState("");
     const [username, setUsername] = useState("");
     const [roleId, setRoleId] = useState("2");
-    const [token,setToken] = useState()
-    const [isopen,setIsOpen] = useState(false)
+    const [token, setToken] = useState()
+    const [isopen, setIsOpen] = useState(false)
 
     function containsUppercase(str) {
         return /[A-Z]/.test(str);
@@ -40,7 +40,7 @@ function Signup() {
         } else {
             try {
                 setIsOpen(true)
-                localStorage.setItem('refreshtoken',true)
+                localStorage.setItem('refreshtoken', true)
                 await axios.post("http://localhost:8080/api/accounts", {
                     username: username,
                     lastname: lastname,
@@ -52,11 +52,12 @@ function Signup() {
                     token: generateString(5)
                 }).then(response => {
                     if (response.status == 201) {
-                        localStorage.setItem('_id',response.data.id)
+                        localStorage.setItem('_id', response.data.id)
                         localStorage.removeItem('refreshtoken')
                         //setSuccessOpen(true)
                         setIsOpen(true)
                     } else if (response.status == 204) {
+                        setIsOpen(false)
                         setMessage("Username already exists")
                         setDetailMessage("Please enter another username")
                         setOpen(true)
@@ -71,17 +72,17 @@ function Signup() {
             }
         }
     }
-    const [ertoken,setErtoken] = useState(false)
+    const [ertoken, setErtoken] = useState(false)
     const formCheckToken = new FormData();
-    formCheckToken.append('id',localStorage.getItem('_id'))
-    formCheckToken.append('token',token)
+    formCheckToken.append('id', localStorage.getItem('_id'))
+    formCheckToken.append('token', token)
     const handleCheckToken = async (e) => {
         e.preventDefault()
-        if(localStorage.getItem('refreshtoken')){
+        if (localStorage.getItem('refreshtoken')) {
             setMessage("Something went wrong!")
             setDetailMessage("Maybe the token hasn't been created yet or you haven't received the email yet. Please wait a moment.")
             setErtoken(true)
-        }else{
+        } else {
             try {
                 const response = await axios.post("http://localhost:8080/api/accounts/checkToken", formCheckToken).
                     then(response => {
@@ -96,7 +97,7 @@ function Signup() {
                 }
             }
         }
-            
+
 
     }
     return (
@@ -339,10 +340,10 @@ function Signup() {
                                                         </Dialog.Title>
                                                         <div className="mt-2">
                                                             <p className="text-sm text-gray-500">
-                                                            We have sent you a confirmation email.
+                                                                We have sent you a confirmation email.
                                                             </p>
                                                             <p className="text-sm text-gray-500">
-                                                            Please check. If not received within 30 minutes. Check your spam mailbox. The email address is arthub.edu@gmail.com
+                                                                Please check. If not received within 30 minutes. Check your spam mailbox. The email address is arthub.edu@gmail.com
                                                             </p>
                                                         </div>
                                                     </div>

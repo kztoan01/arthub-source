@@ -8,7 +8,9 @@ import {
     CurrencyDollarIcon,
     UserIcon,
     LanguageIcon,
+    HeartIcon
 } from '@heroicons/react/20/solid'
+import { Dialog, Disclosure, Popover, Transition, Menu } from '@headlessui/react'
 import axios from "axios";
 import api from '../api/axiosAccountConfig'
 import defaultImg from '../assets/image/default.jpg'
@@ -83,11 +85,31 @@ export default function AccountNotification() {
         getUsers();
     }, []
     )
+
+    const [editopen, setEditOpen] = useState(false)
+    // const insAnnouncements = thisCourseRating?.filter((ann) => ann?.accountId == thisCourse?.accountId)
+    const haveReceiveCourse = learner?.filter((learner) => learner?.accountId == thisAccount?.id && learner?.status == 1)
+    // const courseReceive = courses?.filter((course) => {
+    //   return haveReceiveCourse?.some((learn) => {
+    //     return learn.courseId === course.id
+    //   })
+    // })
+    const [no, setNo] = useState(false)
+    const [gift, setGift] = useState(false)
     const findAccountById = (id) => {
         return users?.find((user) => user.id === id)
     }
-    const [editopen, setEditOpen] = useState(false)
-    // const insAnnouncements = thisCourseRating?.filter((ann) => ann?.accountId == thisCourse?.accountId)
+    const findCourseById = (id) => {
+        return courses?.find((course) => course.id === id)
+    }
+    /////////////////
+    const checkNoti = () => {
+        if (haveReceiveCourse?.length > 0) {
+            return setGift(true)
+        } else {
+            return setNo(true)
+        }
+    }
     return (
         <>
             <header className="bg-white shadow">
@@ -98,7 +120,65 @@ export default function AccountNotification() {
             <main>
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                     {/*content */}
-                    {learningCourses?.map((product) => (
+                    {haveReceiveCourse?.length > 0 ? <header className="bg-white">
+                        <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900">ArtHub Gift</h1>
+                        <h3 className="text-center text-xl text-gray-500 mt-4">Some one send you these course as gift</h3>
+                        {haveReceiveCourse?.map((sender) => (
+                            <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+
+                                {/* this course info */}
+                                <div className="items-center mt-6 grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+
+                                    <div className="mt-6 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+
+                                        <Link to={`/course/${findCourseById(sender?.courseId)?.id}`}><div className="group relative">
+                                            <div className="aspect-h-1 aspect-w-1 h-full w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                                <img
+                                                    src={linkImg + findCourseById(sender?.courseId)?.image}
+                                                    // {product.imageSrc}
+                                                    alt=""
+                                                    className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                                />
+                                            </div>
+                                            <div className="mt-4 flex justify-between">
+                                                <div>
+                                                    <h3 className="text-sm text-gray-700">
+                                                        <a href="">
+                                                            <span aria-hidden="true" className="absolute inset-0" />
+                                                            {findCourseById(sender?.courseId)?.name}
+                                                        </a>
+                                                    </h3>
+                                                    <p className="mt-1 text-sm text-gray-500">Instructor: {findCourseById(sender?.courseId)?.instructorName}</p>
+                                                </div>
+                                                {findCourseById(sender?.courseId)?.price === 0 ? (
+                                                    <p className="text-sm font-medium text-gray-900">Free</p>
+                                                ) : <p className="text-sm font-medium text-gray-900">${findCourseById(sender?.courseId)?.price}</p>}
+
+                                            </div>
+                                        </div></Link> </div>
+                                </div>
+                                <div key={sender?.id} className="sm:flex sm:items-start mt-8">
+                                    <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                        <HeartIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                    </div>
+                                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                        <div as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                                            {findAccountById(sender?.senderId)?.firstname} has sent you these courses as gift with the message below
+                                        </div>
+                                        <div className="mt-2">
+                                            <p className="mt-8 text-sm text-gray-500">
+                                                {sender?.message}
+                                            </p>
+                                            <p className="mt-8 text-sm text-gray-500">
+                                                We have sent you information about the gifted course including the sender's name and accompanying message! Please check your email. If you have already seen it, please ignore this notice
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>))}
+                    </header> : <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 mb-96">No notifications.</h1>}
+
+                    {/* {learningCourses?.map((product) => (
                         <div className="lg:flex lg:items-center lg:justify-between pb-10">
                             <div className="min-w-0 flex-1">
                                 <h2 className="text-2xl font-bold leading-7 text-gray-900 ">
@@ -128,8 +208,8 @@ export default function AccountNotification() {
                             <div className="bg-white py-24 sm:py-8">
                                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
                                     <h2 className="text-xl font-medium text-gray-900">Course Announcements</h2>
-                                    <div className="mt-4 space-y-6">
-                                        {/* {getThisCourseRating(product?.id)?.slice(0).reverse().map((post) => (
+                                    <div className="mt-4 space-y-6"> */}
+                    {/* {getThisCourseRating(product?.id)?.slice(0).reverse().map((post) => (
                                 <article key={post.id} className="flex max-w-xl flex-col items-start justify-between">
                                     <div className="flex items-center gap-x-4 text-xs mt-4">
                                         <time dateTime={post.timeRate} className="text-gray-500">
@@ -154,12 +234,12 @@ export default function AccountNotification() {
                                     </div>
                                 </article>
                             ))} */}
-                                    </div>
+                    {/* </div>
                                 </div>
                             </div>
                         </div>
 
-                    ))}
+                    ))} */}
                 </div>
             </main>
         </>

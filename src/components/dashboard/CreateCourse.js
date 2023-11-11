@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { CheckCircleIcon } from '@heroicons/react/24/outline'
+import { CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -38,7 +38,9 @@ export default function CreateCourse() {
             __html: DOMPurify.sanitize(html)
         }
     }
-
+    const [failopen, setFailOpen] = useState(false)
+    const [message, setMessage] = useState()
+    const [detailmessage, setDetailMessage] = useState()
     const [category, setCategory] = useState("1")
     const [language, setLanguage] = useState("English")
     const [level, setLevel] = useState("Beginner")
@@ -56,65 +58,132 @@ export default function CreateCourse() {
     const [sec6, setSec6] = useState("")
     async function handleSubmit(e) {
         e.preventDefault()
-        try {
-            await axios.post("http://localhost:8080/course/addCourse", {
-                accountId: thisInstructor.id,
-                status: 0,
-                isApproved: 0,
-                iPassed: 0,
-                coupon: coupon,
-                price: price,
-                language: language,
-                level: level,
-                introduction: introduction,
-                description: convertedContent,
-                name: name,
-                sections: [
-                    {
-                        name: sec1,
-                        accountId: thisInstructor.id
-                    },
-                    {
-                        name: sec2,
-                        accountId: thisInstructor.id
-                    },
-                    {
-                        name: sec3,
-                        accountId: thisInstructor.id
-                    },
-                    {
-                        name: sec4,
-                        accountId: thisInstructor.id
-                    },
-                    {
-                        name: sec5,
-                        accountId: thisInstructor.id
-                    },
-                    {
-                        name: sec6,
-                        accountId: thisInstructor.id
-                    }
+        if (price > 0) {
+            if (thisInstructor.isPremium == 0) {
+                setMessage("Please complete the premium instructor application in order to set a price for your course.")
+                setDetailMessage("You can set your course price as soon as your linked payment method is approved.")
+                setFailOpen(true)
+            } else {
+                try {
+                    await axios.post("http://localhost:8080/course/addCourse", {
+                        accountId: thisInstructor.id,
+                        status: 0,
+                        isApproved: 0,
+                        iPassed: 0,
+                        coupon: coupon,
+                        price: price,
+                        language: language,
+                        level: level,
+                        introduction: introduction,
+                        description: convertedContent,
+                        name: name,
+                        sections: [
+                            {
+                                name: sec1,
+                                accountId: thisInstructor.id
+                            },
+                            {
+                                name: sec2,
+                                accountId: thisInstructor.id
+                            },
+                            {
+                                name: sec3,
+                                accountId: thisInstructor.id
+                            },
+                            {
+                                name: sec4,
+                                accountId: thisInstructor.id
+                            },
+                            {
+                                name: sec5,
+                                accountId: thisInstructor.id
+                            },
+                            {
+                                name: sec6,
+                                accountId: thisInstructor.id
+                            }
 
-                ],
-                learningObjective: {
-                    one: lo1,
-                    two: lo2,
-                    three: lo3,
-                    four: lo4
-                },
-                categories: [
-                    {
-                        categoryId: category
-                    }
-                ]
-            });
-            setOpen(true)
+                        ],
+                        learningObjective: {
+                            one: lo1,
+                            two: lo2,
+                            three: lo3,
+                            four: lo4
+                        },
+                        categories: [
+                            {
+                                categoryId: category
+                            }
+                        ]
+                    });
+                    setOpen(true)
 
-        } catch (err) {
-            alert(err);
+                } catch (err) {
+                    alert(err);
+                }
+            }
+        } else {
+            try {
+                await axios.post("http://localhost:8080/course/addCourse", {
+                    accountId: thisInstructor.id,
+                    status: 0,
+                    isApproved: 0,
+                    iPassed: 0,
+                    coupon: coupon,
+                    price: price,
+                    language: language,
+                    level: level,
+                    introduction: introduction,
+                    description: convertedContent,
+                    name: name,
+                    sections: [
+                        {
+                            name: sec1,
+                            accountId: thisInstructor.id
+                        },
+                        {
+                            name: sec2,
+                            accountId: thisInstructor.id
+                        },
+                        {
+                            name: sec3,
+                            accountId: thisInstructor.id
+                        },
+                        {
+                            name: sec4,
+                            accountId: thisInstructor.id
+                        },
+                        {
+                            name: sec5,
+                            accountId: thisInstructor.id
+                        },
+                        {
+                            name: sec6,
+                            accountId: thisInstructor.id
+                        }
+
+                    ],
+                    learningObjective: {
+                        one: lo1,
+                        two: lo2,
+                        three: lo3,
+                        four: lo4
+                    },
+                    categories: [
+                        {
+                            categoryId: category
+                        }
+                    ]
+                });
+                setOpen(true)
+
+            } catch (err) {
+                alert(err);
+            }
         }
+
     }
-    
+
     return (
         <div className="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
             {/* <div
@@ -137,7 +206,7 @@ export default function CreateCourse() {
             </div>
             <form action="#" method="POST" className="mx-auto mt-16 max-w-xl sm:mt-20" >
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-                    <div>
+                    <div className="sm:col-span-2">
                         <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">
                             Course title
                         </label>
@@ -154,7 +223,7 @@ export default function CreateCourse() {
                             />
                         </div>
                     </div>
-                    <div>
+                    {/* <div>
                         <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">
                             Course subtitle
                         </label>
@@ -167,7 +236,7 @@ export default function CreateCourse() {
                                 className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6"
                             />
                         </div>
-                    </div>
+                    </div> */}
                     <div className="sm:col-span-2">
                         <label htmlFor="company" className="block text-sm font-semibold leading-6 text-gray-900">
                             Course Introduction
@@ -324,7 +393,7 @@ export default function CreateCourse() {
                     </div>
                     <div className="sm:col-span-2">
                         <h2 class="text-base font-semibold leading-7 text-gray-900">What will students learn in your course?</h2>
-                        <p class="mt-1 text-sm leading-6 text-gray-600">You must enter at least 6 learning objectives or outcomes that learners can expect to achieve after completing your course.</p>
+                        <p class="mt-1 text-sm leading-6 text-gray-600">You must enter at least 4 learning objectives or outcomes that learners can expect to achieve after completing your course.</p>
                         {/* <label htmlFor="company" className="block text-sm font-semibold leading-6 text-gray-900">
                             Course Introduction
                         </label> */}
@@ -546,6 +615,75 @@ export default function CreateCourse() {
                                             className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                                             onClick={() => setOpen(false)}
                                             ref={cancelButtonRef}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <Transition.Root show={failopen} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={setFailOpen}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
+                        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                                    <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                        <div className="sm:flex sm:items-start">
+                                            <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                                                <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
+                                            </div>
+                                            <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                                <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                                                    {message}
+                                                </Dialog.Title>
+                                                <div className="mt-2">
+                                                    <p className="text-sm text-gray-500">
+                                                        {detailmessage}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                                        <Link to={"/instructordashboard/premium"}><button
+                                            type="button"
+                                            className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
+                                            onClick={() => {
+                                                setFailOpen(false)
+                                            }}
+                                        >
+                                            Accept
+                                        </button></Link>
+                                        <button
+                                            type="button"
+                                            className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                            onClick={() => {
+                                                setFailOpen(false)
+                                            }}
                                         >
                                             Cancel
                                         </button>

@@ -51,7 +51,8 @@ export default function AccountSetting() {
                 facebook: facebook,
                 twitter: twitter,
                 roleId: thisAccount.roleId,
-                isActive: 1
+                isActive: 1,
+                isPremium : thisAccount.isPremium
             }).then(response => {
                 const updatedAccount = response.data;
                 localStorage.setItem("logined", JSON.stringify(updatedAccount));

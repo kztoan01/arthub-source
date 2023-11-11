@@ -118,9 +118,7 @@ export default function AccountPurchase() {
             <main>
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                     {/*content */}
-                    {/* <div className="bg-white" onClick={() => setOpen(true)}> */}
-                    {/* <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"> */}
-                    <h2 class="text-base font-semibold leading-7 text-gray-900">Click on the course to see detailed payment history</h2>
+                    {courses?.length > 0 ? <><h2 class="text-base font-semibold leading-7 text-gray-900">Click on the course to see detailed payment history</h2>
                     <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8" >
 
                         {courses?.map((product) => (
@@ -140,7 +138,10 @@ export default function AccountPurchase() {
                                 <p className="mt-1 text-lg font-medium text-gray-900">${product.course.price}</p>
                             </div>
                         ))}
-                    </div>
+                    </div> </>:<h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 mb-96">You don't have any course purchases.</h1> }
+                    {/* <div className="bg-white" onClick={() => setOpen(true)}> */}
+                    {/* <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8"> */}
+                    
                     {/* </div>
                     </div> */}
                 </div>

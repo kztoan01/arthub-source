@@ -140,17 +140,18 @@ export default function PreviewCourse(props) {
 
     //save img
     const [detail, setDetail] = useState(false)
-    const formData = new FormData();
-    formData.append('one', img1);
-    formData.append('two', img2);
-    formData.append('three', img3);
-    formData.append('four', img4);
-    formData.append('courseId', thisCourse?.id);
+    const formIMGData = new FormData();
+    formIMGData.append('one', img1);
+    formIMGData.append('two', img2);
+    formIMGData.append('three', img3);
+    formIMGData.append('four', img4);
+    formIMGData.append('courseId', thisCourse?.id);
     async function save(e) {
         setLoading(true)
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/image/saveCourseImages", formData).then(response => {
+            await axios.post("http://localhost:8080/image/saveCourseImages", formIMGData).then(response => {
+                console.log(response)
                 setLoading(false)
                 setOpen(true)
             });;
@@ -280,6 +281,25 @@ export default function PreviewCourse(props) {
         e.preventDefault();
         try {
             await axios.post("http://localhost:8080/course/updateCourseStatusTo1", formSaveCourse).then(response => {
+                setLoading(false)
+                setCheckOpen(false)
+                setSaveOpen(true)
+            });;
+        } catch (err) {
+            alert(err);
+        }
+    }
+    const formUpdateData = new FormData();
+    formUpdateData.append('courseId', id);
+    formUpdateData.append('InstructorEmail', "kztoan01@gmail.com");
+    formUpdateData.append('StaffMessages', "");
+    formUpdateData.append('action', 1);
+    formUpdateData.append('attachment', "");
+    async function manage(e) {
+        setLoading(true)
+        e.preventDefault();
+        try {
+            await axios.post("http://localhost:8080/course/updateCourseStatus", formUpdateData).then(response => {
                 setLoading(false)
                 setCheckOpen(false)
                 setSaveOpen(true)
@@ -1145,7 +1165,11 @@ export default function PreviewCourse(props) {
                                         <button
                                             type="button"
                                             className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-purple-500 sm:ml-3 sm:w-auto"
-                                            onClick={(e) => saveCourse(e)}
+                                            onClick={(e) => {
+                                                setCheckOpen(false)
+                                                setLoading(true)
+                                                manage(e)
+                                            }}
                                         >
                                             Accept
                                         </button>
