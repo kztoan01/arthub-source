@@ -83,6 +83,7 @@ function Course(props) {
     //     },
     // ]
     const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
+    console.log(courses)
     return (
         <>
             <div className="bg-gray-100">

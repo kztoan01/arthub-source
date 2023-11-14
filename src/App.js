@@ -61,6 +61,8 @@ import { AuthContextProvider } from './components/authConfig/AuthContext.js';
 import Student from './components/userpage/Student.js';
 import PremiumInstructor from './components/dashboard/PremiumInstructor.js'; 
 import { createContext } from 'react';
+import PromoSection from './components/userpage/PromoSection.js';
+import DashboardAdminContent from './components/admin/DashboardAdminContent.js';
 export const LearnerContext = createContext(null);
 function App() {
   const [learner, setLearner] = useState()
@@ -151,6 +153,7 @@ function App() {
                   <Nav2 login="Login" signup="Sign Up" />
                   <Cover />
                   <Course />
+                  <PromoSection />
                   <Feature />
                   <Footer />
                 </ProtectedRouteSTU>
@@ -293,6 +296,7 @@ function App() {
             <Route path='/admindashboard' element={<>
               <ProtectedAdmin>
                 <AdminDashboard dashboard="true" />
+                <DashboardAdminContent />
               </ProtectedAdmin></>} />
             <Route path='/admindashboard/courses' element={<>
               <ProtectedAdmin>

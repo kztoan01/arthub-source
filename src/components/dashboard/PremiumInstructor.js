@@ -318,7 +318,7 @@ export default function PremiumInstructor(props) {
             </>,
         },
         {
-            label: "Intructor Terms",
+            label: "Instructor Terms",
             value: "terms",
             desc: <div class="sm:mx-auto sm:w-full sm:max-w-sm">  <img class="mx-auto h-21 w-auto sm:col-span-3"
                 src={logoArtHub} alt="ArtHub" />
