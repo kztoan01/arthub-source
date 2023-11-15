@@ -52,7 +52,7 @@ export default function CoursesContent(props) {
                 <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
                     {/*content */}
                     {courseOwn?.length === 0 ? (
-                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Vous n'avez pas encore créé de cours. Cliquez ci-dessous pour commencer à créer votre premier cours.</h1>
+                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">You haven't created any courses yet. Start creating a course now!</h1>
                     ) : <div className="bg-white">
                         <h2 className="text-2xl font-bold text-gray-900">Search your courses</h2>
                         <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)}

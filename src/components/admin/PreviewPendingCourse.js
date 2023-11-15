@@ -108,7 +108,6 @@ export default function PreviewPendingCourse(props) {
 
     //img config
     const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
-    console.log(linkImg + thisCourse?.images?.two)
     return (
         <>
             <div className="bg-white">
@@ -235,16 +234,16 @@ export default function PreviewPendingCourse(props) {
                                             <StarIcon
                                                 key={rating}
                                                 className={classNames(
-                                                    reviews.average > rating ? 'text-gray-900' : 'text-gray-200',
+                                                    thisCourse?.avg > rating ? 'text-gray-900' : 'text-gray-200',
                                                     'h-5 w-5 flex-shrink-0'
                                                 )}
                                                 aria-hidden="true"
                                             />
                                         ))}
                                     </div>
-                                    <p className="sr-only">{reviews.average} out of 5 stars</p>
+                                    <p className="sr-only">{thisCourse?.avg} out of 5 stars</p>
                                     <a href={reviews.href} className="ml-3 text-sm font-medium text-purple-600 hover:text-purple-500">
-                                        {reviews.totalCount} reviews
+                                        {thisCourse?.count} reviews
                                     </a>
                                 </div>
                             </div>
@@ -263,25 +262,6 @@ export default function PreviewPendingCourse(props) {
                                         </ul>
                                     </div>
                                 </div>
-
-                                {/* Sizes
-                <div className="mt-10">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-medium text-gray-900">Size</h3>
-                    <a href="#" className="text-sm font-medium text-purple-600 hover:text-purple-500">
-                      Size guide
-                    </a>
-                  </div>
-                </div> */}
-                                {/* {thisCourse?.price > 0 && isLearn ? (
-                                          <p className="text-sm font-medium text-gray-900">Free</p>
-                                      ) : <p className="text-sm font-medium text-gray-900">{product.price}</p>} */}
-                                {/* <Link to={`/learning/${id}`}> <button
-                    type="submit"
-                    className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
-                  >
-                    {enroll}
-                  </button></Link> */}
                                 {displayMessage()}
                             </form>
                         </div>
@@ -392,76 +372,7 @@ export default function PreviewPendingCourse(props) {
                     ))}
                 </div>
             </div>
-
-            {/* details */}
             <CourseOverview />
-            {/* <div className="isolate bg-white px-6 py-24 sm:py-0 lg:px-24">
-                <div className="px-4 sm:px-0">
-                    <h3 className="text-base font-semibold leading-7 text-gray-900">About this course</h3>
-                    <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">{thisCourse?.name}</p>
-                </div>
-                <div className="mt-6 border-t border-gray-100">
-                    <dl className="divide-y divide-gray-100">
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Instructor</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{thisCourse?.instructorName}</dd>
-                        </div>
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Email address</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{thisCourse?.instructorEmail}</dd>
-                        </div>
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Level / Language / Price</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{thisCourse?.level} / {thisCourse?.language} / {thisCourse?.price}</dd>
-                        </div>
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Course introduction</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{thisCourse?.introduction}</dd>
-                        </div>
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">Description</dt>
-                            <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {thisCourse?.description}
-                            </dd>
-                        </div>
-                        <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                            <dt className="text-sm font-medium leading-6 text-gray-900">About Instructor</dt>
-                            <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
-                                <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
-                                    <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                                        <div className="flex w-0 flex-1 items-center">
-                                            <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                                                <span className="truncate font-medium">resume_back_end_developer.pdf</span>
-                                                <span className="flex-shrink-0 text-gray-400">2.4mb</span>
-                                            </div>
-                                        </div>
-                                        <div className="ml-4 flex-shrink-0">
-                                            <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
-                                                Download
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li className="flex items-center justify-between py-4 pl-4 pr-5 text-sm leading-6">
-                                        <div className="flex w-0 flex-1 items-center">
-                                            <PaperClipIcon className="h-5 w-5 flex-shrink-0 text-gray-400" aria-hidden="true" />
-                                            <div className="ml-4 flex min-w-0 flex-1 gap-2">
-                                                <span className="truncate font-medium">coverletter_back_end_developer.pdf</span>
-                                                <span className="flex-shrink-0 text-gray-400">4.5mb</span>
-                                            </div>
-                                        </div>
-                                        <div className="ml-4 flex-shrink-0">
-                                            <a href="#" className="font-medium text-purple-600 hover:text-purple-500">
-                                                Download
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </dd>
-                        </div>
-                    </dl>
-                </div>
-            </div> */}
         </>
     )
 }

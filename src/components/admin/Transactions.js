@@ -156,7 +156,7 @@ export default function Transactions() {
                 {allPayout?.map((pay) => (
                   <>
                     <tr key={pay.id}>
-                      {pay.totalPayout > 0 && pay.recipient == lastMonth - 1 ? <><td className="">
+                      {pay.totalPayout > 0 && pay.recipient <= lastMonth  ? <><td className="">
                         <div className="flex items-center gap-3">
                           <Avatar
                             src={linkImg + pay.image}

@@ -84,7 +84,7 @@ export default function DashboardContent() {
                                     .
                                 </dt>
                             </p>
-                            <LineChart />
+                            <LineChart learner={learner} />
                             <div class="grid grid-cols-2 gap-4">
 
                                 <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">

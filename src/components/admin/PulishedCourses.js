@@ -1,0 +1,115 @@
+import { useState, useEffect } from "react";
+import apiCourse from '../api/axiosCourseConfig'
+import { Link } from "react-router-dom";
+import Paginate from "../extension/Paginate";
+export default function PulishedCourses(props) {
+    const [courses, setCourses] = useState()
+    const getCourses = async () => {
+        try {
+            const response = await apiCourse.get("/getCourses");
+            setCourses(response.data);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    useEffect(() => {
+        getCourses();
+    }, []
+    )
+    const [search, setSearch] = useState('')
+    const thisAccount = JSON.parse(localStorage.getItem("logined"))
+    const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
+    const [currentPage, setCurrentPage] = useState(1);
+    const [coursesPerPage] = useState(8);
+    const indexOfLastPost = currentPage * coursesPerPage;
+    const indexOfFirstPost = indexOfLastPost - coursesPerPage;
+    const currentPosts = courses?.slice(indexOfFirstPost, indexOfLastPost);
+    const paginate = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+    const previousPage = () => {
+        if (currentPage !== 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const nextPage = () => {
+        if (currentPage !== Math.ceil(courses?.length / coursesPerPage)) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    return (
+        <>
+            <header className="bg-white shadow">
+                <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">Published Courses</h1>
+                </div>
+            </header>
+            <main>
+                <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+                    {/*content */}
+                    {courses?.length === 0 ? (
+                        <h1 className="text-3xl font-bold tracking-tight text-gray-900">No courses here!</h1>
+                    ) : <div className="bg-white">
+                        <h2 className="text-2xl font-bold text-gray-900">Search your courses</h2>
+                        <div class="mt-2"> <input id="search" name="search" type="text" autocomplete="search" placeholder="e.g Caricature" onChange={(e) => setSearch(e.target.value)}
+                            class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-purple-600 sm:text-sm sm:leading-6" />
+                        </div>
+                        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+
+                            {courses?.filter((product) => {
+                                if (String(product.status) === "2") {
+                                    if (search === '') {
+                                        return product;
+                                    } else {
+                                        return product.name?.toLowerCase().includes(search.toLowerCase())
+                                    }
+                                }
+                            }).slice(indexOfFirstPost, indexOfLastPost).map((product) => (
+                                <Link to={`/pendingcourse/${product.id}`}><div key={product.id} className="group relative">
+                                    <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                                        <img
+                                            src={linkImg + product.image}
+                                            // {product.imageSrc}
+                                            alt=""
+                                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                        />
+                                    </div>
+                                    <div className="mt-4 flex justify-between">
+                                        <div>
+                                            <h3 className="text-sm text-gray-700">
+                                                <a href="">
+                                                    <span aria-hidden="true" className="absolute inset-0" />
+                                                    {product.name}
+                                                </a>
+                                            </h3>
+                                            <p className="mt-1 text-sm text-gray-500">Instructor: {product.instructorName}</p>
+                                        </div>
+                                        {product.price === 0 ? (
+                                            <p className="text-sm font-medium text-gray-900">Free</p>
+                                        ) : <p className="text-sm font-medium text-gray-900">${product.price}</p>}
+
+                                    </div>
+                                </div></Link>
+
+                            ))}
+
+                        </div>
+                        <div className="mt-16">
+                            <Paginate
+                                postsPerPage={coursesPerPage}
+                                totalPosts={courses?.length}
+                                paginate={paginate}
+                                currentPage={currentPage}
+                                previousPage={previousPage}
+                                nextPage={nextPage}
+                            /></div>
+                    </div>}
+
+                </div>
+            </main>
+        </>
+    )
+}

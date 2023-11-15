@@ -20,7 +20,7 @@ export function PieChart({ courses, learner }) {
     datasets: [
       {
         label: '$ of Revenue',
-        data: labelsId?.map((label) => learner?.filter((learner) => learner.ownerCourse === thisAccount?.id && learner.courseId == label)?.reduce(function (prev, current) {
+        data: labelsId?.map((label) => learner?.filter((learner) => learner.courseId == label)?.reduce(function (prev, current) {
           return prev += current.price * 65 / 100
         }, 0)),
         backgroundColor: [

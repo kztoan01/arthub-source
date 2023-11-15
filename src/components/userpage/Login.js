@@ -54,8 +54,8 @@ function Login(props) {
             const response = await axios.post("http://localhost:8080/api/accounts/login", formLogin).
                 then(response => {
                     if (response.status == 200) {
-                        if(response.data.token != null){
-                            localStorage.setItem('_id',response.data.id)
+                        if (response.data.token != null) {
+                            localStorage.setItem('_id', response.data.id)
                             setCheckToken(true)
                         }
                         else if (response.data?.roleId === "1") {
@@ -83,11 +83,20 @@ function Login(props) {
                                 navigate("/");
                             }
                         } else if (response.data?.roleId === "3") {
-                            navigate("/3");
-                        } else {
-                            if (localStorage.getItem("INS-authenticated") || localStorage.getItem("STU-authenticated")) {
+                            if (localStorage.getItem("INS-authenticated") || localStorage.getItem("STU-authenticated") || localStorage.getItem("AD-authenticated")) {
                                 localStorage.removeItem("INS-authenticated")
                                 localStorage.removeItem("STU-authenticated")
+                                localStorage.removeItem("AD-authenticated")
+                            }
+                            setauthenticated(true)
+                            localStorage.setItem("STAFF-authenticated", true);
+                            localStorage.setItem("logined", JSON.stringify(response.data));
+                            navigate("/staff/courses");
+                        } else {
+                            if (localStorage.getItem("INS-authenticated") || localStorage.getItem("STU-authenticated") || localStorage.getItem("STAFF-authenticated")) {
+                                localStorage.removeItem("INS-authenticated")
+                                localStorage.removeItem("STU-authenticated")
+                                localStorage.removeItem("STAFF-authenticated")
                             }
                             setauthenticated(true)
                             localStorage.setItem("AD-authenticated", true);
@@ -320,27 +329,27 @@ function Login(props) {
         }
     }
     //check token
-    const[token,setToken] = useState()
-    const [checkToken,setCheckToken] = useState(false)
-    const [ertoken,setErtoken] = useState(false)
+    const [token, setToken] = useState()
+    const [checkToken, setCheckToken] = useState(false)
+    const [ertoken, setErtoken] = useState(false)
     const formCheckToken = new FormData();
-    formCheckToken.append('id',localStorage.getItem('_id'))
-    formCheckToken.append('token',token)
+    formCheckToken.append('id', localStorage.getItem('_id'))
+    formCheckToken.append('token', token)
     const handleCheckToken = async (e) => {
         e.preventDefault()
-            try {
-                const response = await axios.post("http://localhost:8080/api/accounts/checkToken", formCheckToken).
-                    then(response => {
-                        handleLogin(e)
-                        localStorage.removeItem('_id')
-                    })
-            } catch (e) {
-                if (e.response.status == 403 || e.response.status == 404) {
-                    setMessage("Wrong OTP")
-                    setDetailMessage("Please enter the right OTP we sent you via your email address.")
-                    setErtoken(true)
-                }
+        try {
+            const response = await axios.post("http://localhost:8080/api/accounts/checkToken", formCheckToken).
+                then(response => {
+                    handleLogin(e)
+                    localStorage.removeItem('_id')
+                })
+        } catch (e) {
+            if (e.response.status == 403 || e.response.status == 404) {
+                setMessage("Wrong OTP")
+                setDetailMessage("Please enter the right OTP we sent you via your email address.")
+                setErtoken(true)
             }
+        }
 
     }
     return (
@@ -520,7 +529,7 @@ function Login(props) {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <form class="space-y-6"  onSubmit={(e) => handleSubmitUpdate(e)}>
+                                            <form class="space-y-6" onSubmit={(e) => handleSubmitUpdate(e)}>
                                                 <div> <label for="email" class="block text-sm font-medium leading-6 text-gray-900">First Name</label>
                                                     <div class="mt-2"> <input id="name" name="name" type="text" autocomplete="name" required value={firstname}
                                                         onChange={(e) => {
@@ -692,10 +701,10 @@ function Login(props) {
                                                         </Dialog.Title>
                                                         <div className="mt-2">
                                                             <p className="text-sm text-gray-500">
-                                                            We have sent you a confirmation email.
+                                                                We have sent you a confirmation email.
                                                             </p>
                                                             <p className="text-sm text-gray-500">
-                                                            Please check. If not received within 30 minutes. Check your spam mailbox. The email address is arthub.edu@gmail.com
+                                                                Please check. If not received within 30 minutes. Check your spam mailbox. The email address is arthub.edu@gmail.com
                                                             </p>
                                                         </div>
                                                     </div>

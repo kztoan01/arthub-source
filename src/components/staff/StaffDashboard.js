@@ -10,7 +10,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-function AdminDashboard(props) {
+function StaffDashboard(props) {
  
   const {logOut} = UserAuth()
   const handleLogOutGoogle = async () => {
@@ -22,7 +22,7 @@ function AdminDashboard(props) {
 };
   const thisAccount = JSON.parse(localStorage.getItem("logined"))
   const handleLogout = (e) => {
-    localStorage.removeItem("AD-authenticated");
+    localStorage.removeItem("STAFF-authenticated");
     localStorage.removeItem("logined");
   }
   const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
@@ -38,12 +38,9 @@ function AdminDashboard(props) {
     { name: 'Settings', href: '#' },
   ]
   const navigation = [
-    { name: 'Dashboard', href: '#', current: props.dashboard, link: '/admindashboard' },
-    { name: 'Courses', href: '#', current: props.course, link: '/admindashboard/courses' },
-    { name: 'Account', href: '#', current: props.account, link: '/admindashboard/account' },
-    { name: 'Performance', href: '#', current: props.perform, link: '/admindashboard/performance' },
-    { name: 'Reports', href: '#', current: props.report, link: '/admindashboard/reports' },
-    { name: 'Setting', href: '#', current: props.setting, link: '/admindashboard/setting' },
+    { name: 'Courses', href: '#', current: props.course, link: '/staff/courses' },
+    { name: 'Reports', href: '#', current: props.report, link: '/staff/reports' },
+    { name: 'Setting', href: '#', current: props.setting, link: '/staff/setting' },
   ]
   return (
     <>
@@ -61,11 +58,11 @@ function AdminDashboard(props) {
                 <div className="flex h-16 items-center justify-between">
                   <div className="flex items-center">
                     <div className="flex-shrink-0">
-                      <Link to="/" href="#"><img
+                      <img
                         className="h-8 w-8"
                         src={logo}
                         alt="ArtHub"
-                      /></Link>
+                      />
                     </div>
                     <div className="hidden md:block">
                       <div className="ml-10 flex items-baseline space-x-4">
@@ -227,4 +224,4 @@ function AdminDashboard(props) {
   )
 }
 
-export default AdminDashboard;
+export default StaffDashboard;

@@ -136,7 +136,7 @@ export default function Overview() {
                                     .
                                 </dt>
                             </p>
-                            <LineChart />
+                            <LineChart  courses={courses} learner={learner}/>
                             <div class="grid grid-cols-2 gap-4">
 
                                 <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
@@ -169,7 +169,7 @@ export default function Overview() {
                                     ))}
 
                                 </dl>
-                                <div className="w-auto h-auto"><PieChart courses={courses} learner={learner} /></div>
+                                <div className="w-auto h-auto"><PieChart courses={courseOwn} learner={learner} /></div>
                             </div>
                         </div>
 

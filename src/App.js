@@ -59,10 +59,13 @@ import Instructor from './components/userpage/Instructor.js';
 import ErrorPage from './components/error/ErrorPage.js';
 import { AuthContextProvider } from './components/authConfig/AuthContext.js';
 import Student from './components/userpage/Student.js';
-import PremiumInstructor from './components/dashboard/PremiumInstructor.js'; 
+import PremiumInstructor from './components/dashboard/PremiumInstructor.js';
 import { createContext } from 'react';
 import PromoSection from './components/userpage/PromoSection.js';
 import DashboardAdminContent from './components/admin/DashboardAdminContent.js';
+import ManageAllCourse from './components/admin/ManageAllCourse.js';
+import ProtectedStaff from './components/protect/ProtectedStaff.js';
+import StaffDashboard from './components/staff/StaffDashboard.js';
 export const LearnerContext = createContext(null);
 function App() {
   const [learner, setLearner] = useState()
@@ -192,12 +195,12 @@ function App() {
             <Route exact path="/course/:id"
               element={
                 <>
-                <LearnerContext.Provider value={contextValue}>
-                  <ProtectedRouteSTU>
-                    <Nav2 login="Login" signup="Sign Up" />
-                    <CoursePreview />
-                    <Footer />
-                  </ProtectedRouteSTU>
+                  <LearnerContext.Provider value={contextValue}>
+                    <ProtectedRouteSTU>
+                      <Nav2 login="Login" signup="Sign Up" />
+                      <CoursePreview />
+                      <Footer />
+                    </ProtectedRouteSTU>
                   </LearnerContext.Provider>
                 </>
               }
@@ -301,7 +304,7 @@ function App() {
             <Route path='/admindashboard/courses' element={<>
               <ProtectedAdmin>
                 <AdminDashboard course="true" />
-                <ManageCourse />
+                <ManageAllCourse />
               </ProtectedAdmin></>} />
             <Route path='/pendingcourse/:id' element={<>
               <ProtectedAdmin>
@@ -333,7 +336,30 @@ function App() {
                 <AccountSetting />
               </ProtectedAdmin>
             </>} />
-
+            {/* staff dashboard */}
+            <Route path='/staff/courses' element={<>
+              <ProtectedStaff>
+                <StaffDashboard course="true" />
+                <ManageAllCourse />
+              </ProtectedStaff></>} />
+            <Route path='/pendingcourse/:id' element={<>
+              <ProtectedStaff>
+                <StaffDashboard course="true" />
+                <PreviewPendingCourse />
+                <Footer />
+              </ProtectedStaff></>} />
+            <Route path='/staff/reports' element={<>
+              <ProtectedStaff>
+                <StaffDashboard report="true" />
+                <ManageNotify />
+              </ProtectedStaff>
+            </>} />
+            <Route path='/staff/setting' element={<>
+              <ProtectedStaff>
+                <StaffDashboard setting="true" />
+                <AccountSetting />
+              </ProtectedStaff>
+            </>} />
           </Routes>
         </ShopContextProvider>
       </BrowserRouter>

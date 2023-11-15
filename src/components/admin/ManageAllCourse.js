@@ -8,18 +8,20 @@ import {
 import { useState } from "react";
 import Transactions from "./Transactions";
 import DashboardAdminContent from "./DashboardAdminContent";
-export default function ArthubPerformance() {
+import ManageCourse from "./MagageCourse";
+import PulishedCourses from "./PulishedCourses";
+export default function ManageAllCourse() {
     const data = [
         {
-            label: "Instructor Revenue",
-            value: "Transactions",
-            desc: <Transactions />,
+            label: "Waiting for censorship",
+            value: "Waiting for censorship",
+            desc: <ManageCourse/>,
         },
 
         {
-            label: "Course Revenue",
+            label: "All Courses",
             value: "courses",
-            desc: <><DashboardAdminContent/></>,
+            desc: <><PulishedCourses/></>,
         },
         {
             label: "Reviews",
@@ -43,12 +45,12 @@ export default function ArthubPerformance() {
             ,
         },
     ];
-    const [activeTab, setActiveTab] = useState("Transactions");
+    const [activeTab, setActiveTab] = useState("Waiting for censorship");
     return (
         <>
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">Performance</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-gray-900">Courses</h1>
                 </div>
             </header>
             <main>
