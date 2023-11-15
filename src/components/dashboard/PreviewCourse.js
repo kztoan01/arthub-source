@@ -632,7 +632,7 @@ export default function PreviewCourse(props) {
                                     type="button"
                                     className="mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-purple-600 px-8 py-3 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                                 >
-                                    Save Course
+                                    Save Images
                                 </button>
                             </form>
                         </div>

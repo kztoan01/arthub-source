@@ -117,7 +117,7 @@ export default function DashboardContent() {
                                     ))}
 
                                 </dl>
-                                <div className="w-auto h-auto"><PieChart courses={courses} learner={learner} /></div>
+                                <div className="w-auto h-auto"><PieChart courses={courseOwn} learner={learner} /></div>
                             </div>
                         </div>
 

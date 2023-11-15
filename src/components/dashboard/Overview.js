@@ -48,6 +48,7 @@ export default function Overview() {
     const courseSoldLastMonth = learner?.filter((learner) => learner.ownerCourse === thisAccount?.id && learner.date.split("-")[1] == thisMonth - 1);
     const courseSoldThisMonth = learner?.filter((learner) => learner.ownerCourse === thisAccount?.id && learner.date.split("-")[1] == thisMonth);
     const courseOwn = courses?.filter((courses) => courses.accountId === thisAccount?.id);
+    console.log(courseOwn)
     let totalAmount = courseSold?.reduce(function (prev, current) {
         return prev += current.price
     }, 0);

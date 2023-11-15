@@ -65,6 +65,7 @@ function Signup() {
                 })
             } catch (err) {
                 if (err.response.status == 403) {
+                    setIsOpen(false)
                     setMessage("Email already exists")
                     setDetailMessage("Please enter another email or login")
                     setOpen(true)

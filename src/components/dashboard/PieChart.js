@@ -14,7 +14,7 @@ export function PieChart({ courses, learner }) {
   }, 0);
   const labels = courses?.map((course) => course.name);
   const labelsId = courses?.map((course) => course.id);
-  console.log(labelsId)
+  console.log(labels)
   const data = {
     labels,
     datasets: [

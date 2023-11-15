@@ -353,7 +353,8 @@ export default function CoursePreview(props) {
   const [action, setAction] = useState(1)
   formMailData.append('courseId', thisCourse?.id);
   // formMailData.append('receiverEmail', receiverMail);
-  formMailData.append('receiverEmail', 'kztoan01@gmail.com');
+  //console.log(receiverMail)
+  formMailData.append('receiverEmail', receiverMail);
   formMailData.append('SenderMessages', senderMessages);
   formMailData.append('receiverName', receiverFirstname + " " + receiverLastname);
   formMailData.append('receiverPassword', receiverPassword);
