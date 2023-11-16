@@ -10,7 +10,7 @@ const ProtectedLearning = ({ children }) => {
     const [isEnroll, setIsEnroll] = useState(false)
     const getLearner = async () => {
         try {
-           await axios.get("http://localhost:8080/learner/getLearners").then(response => {
+           await axios.get("https://arthubplatform1.azurewebsites.net/learner/getLearners").then(response => {
             console.log(response.data.find((learn) => learn?.accountId == thisAccount?.id && learn.courseId == id))
             if(response.data.find((learn) => learn?.accountId == thisAccount?.id && learn.courseId == id)){
                 setIsEnroll(true)

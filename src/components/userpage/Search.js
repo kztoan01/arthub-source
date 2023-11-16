@@ -30,7 +30,6 @@ const languages = [
   { value: 'french', label: 'French', checked: false },
   { value: 'japanese', label: 'Japanese', checked: false },
   { value: 'chinese', label: 'Chinese', checked: false },
-  { value: 'dogese', label: 'Dogese', checked: false },
 ]
 const levels = [
   { value: '', label: 'All Levels', checked: true },
@@ -54,7 +53,6 @@ const filters = [
       { value: 'french', label: 'French', checked: false },
       { value: 'japanese', label: 'Japanese', checked: false },
       { value: 'chinese', label: 'Chinese', checked: false },
-      { value: 'dogese', label: 'Dogese', checked: false },
     ],
   },
   {
@@ -72,8 +70,8 @@ const filters = [
     name: 'Price',
     options: [
       { value: '', label: 'All Price', checked: true },
-      { value: 'free', label: 'Free', checked: false },
-      { value: 0, label: 'Paid', checked: false },
+      { value: 0, label: 'Free', checked: false },
+      { value: 1, label: 'Paid', checked: false },
     ],
     // options: [
     //   { value: '', label: 'All Price', checked: true },
@@ -135,14 +133,15 @@ export default function Search(props) {
   const state = location.state;
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  // const realprice = courses.map((course) => (course.coursePrice - (course.coursePrice * course.courseCoupon) / 100).toFixed(2));
-  // console.log(realprice);
-  // const renderPrice = realprice.map((price, index) => <p key={index} className="text-sm font-medium text-gray-900">${price}</p>)
   const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
   const [search, setSearch] = useState('');
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
   const [price, setPrice] = useState('');
+  const freeCourses = courses?.filter((course) => course?.price == 0)
+  const paidCourses = courses?.filter((course) => course?.price > 0)
+  console.log(price)
+  console.log(search)
   return (
     <div className="bg-white">
       <div>
@@ -391,19 +390,30 @@ export default function Search(props) {
                     if (String(product.status) === "2") {
                       if (search === '') {
                         if (language === '') {
-                          return product;
+                          if(level === ''){
+                            if(price === ''){
+                               return product;
+                            }else {
+                              if(price == 0){
+                                console.log("free")
+                                return freeCourses
+                              }else{
+                                return paidCourses
+                              }
+                              
+                            }
+                          }else {
+                            return product.level?.toLowerCase().includes(level)
+                          }
                         } else {
                           return product.language?.toLowerCase().includes(language)
                         }
                       } else {
-                        return product.name?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language)
-                          || product.description?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language)
-                          || product.instructorName?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language)
-
-                        // || product.courseCategories.toLowerCase().includes(search)
+                        return product.name?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language) && product.level?.toLowerCase().includes(level) && freeCourses
+                          || product.description?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language) && product.level?.toLowerCase().includes(level) && freeCourses
+                          || product.instructorName?.toLowerCase().includes(search.toLowerCase()) && product.language?.toLowerCase().includes(language) && product.level?.toLowerCase().includes(level) && freeCourses
                       }
                     }
-                    // return  ? product : 
                   }).slice(indexOfFirstPost, indexOfLastPost).map((product) => (
                     <Link to={`/course/${product.id}`}><div key={product.id} className="group relative">
                       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">

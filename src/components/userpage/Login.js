@@ -51,7 +51,7 @@ function Login(props) {
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post("http://localhost:8080/api/accounts/login", formLogin).
+            const response = await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts/login", formLogin).
                 then(response => {
                     if (response.status == 200) {
                         if (response.data.token != null) {
@@ -194,7 +194,7 @@ function Login(props) {
             setIsOpen(true)
         } else {
             try {
-                await axios.put("http://localhost:8080/api/accounts", {
+                await axios.put("https://arthubplatform1.azurewebsites.net/api/accounts", {
                     id: id,
                     username: username,
                     bio: '',
@@ -266,7 +266,7 @@ function Login(props) {
 
     const handleLoginGoogle = async () => {
         try {
-            const response = await axios.post("http://localhost:8080/api/accounts/GoogleLogin", formLoginGoogle).
+            const response = await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts/GoogleLogin", formLoginGoogle).
                 then(response => {
                     if (response.status == 200) {
                         if (response.data?.roleId === "1") {
@@ -338,7 +338,7 @@ function Login(props) {
     const handleCheckToken = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post("http://localhost:8080/api/accounts/checkToken", formCheckToken).
+            const response = await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts/checkToken", formCheckToken).
                 then(response => {
                     handleLogin(e)
                     localStorage.removeItem('_id')

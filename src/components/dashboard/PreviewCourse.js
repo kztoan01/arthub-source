@@ -150,7 +150,7 @@ export default function PreviewCourse(props) {
         setLoading(true)
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/image/saveCourseImages", formIMGData).then(response => {
+            await axios.post("https://arthubplatform1.azurewebsites.net/image/saveCourseImages", formIMGData).then(response => {
                 console.log(response)
                 setLoading(false)
                 setOpen(true)
@@ -173,7 +173,7 @@ export default function PreviewCourse(props) {
         setLoading(true)
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/course/updateMainImage", formMainImageData).then(response => {
+            await axios.post("https://arthubplatform1.azurewebsites.net/course/updateMainImage", formMainImageData).then(response => {
                 setLoading(false)
                 setOpen(true)
             });;
@@ -230,7 +230,7 @@ export default function PreviewCourse(props) {
             setLoading(true)
             e.preventDefault();
             try {
-                await axios.post("http://localhost:8080/video/add", formVideoData)
+                await axios.post("https://arthubplatform1.azurewebsites.net/video/add", formVideoData)
                     .then(response => {
                         setLoading(false)
                         setDetail(false)
@@ -258,7 +258,7 @@ export default function PreviewCourse(props) {
         setLoading(true)
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/video/delete", formVideoDelete)
+            await axios.post("https://arthubplatform1.azurewebsites.net/video/delete", formVideoDelete)
                 .then(response => {
                     setLoading(false)
                     getThisCourse()
@@ -280,7 +280,7 @@ export default function PreviewCourse(props) {
         setLoading(true)
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/course/updateCourseStatusTo1", formSaveCourse).then(response => {
+            await axios.post("https://arthubplatform1.azurewebsites.net/course/updateCourseStatusTo1", formSaveCourse).then(response => {
                 setLoading(false)
                 setCheckOpen(false)
                 setSaveOpen(true)
@@ -299,7 +299,7 @@ export default function PreviewCourse(props) {
         setLoading(true)
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/course/updateCourseStatus", formUpdateData).then(response => {
+            await axios.post("https://arthubplatform1.azurewebsites.net/course/updateCourseStatus", formUpdateData).then(response => {
                 setLoading(false)
                 setCheckOpen(false)
                 setSaveOpen(true)

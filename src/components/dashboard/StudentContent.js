@@ -18,7 +18,7 @@ export default function StudentContent() {
     const [studentsPerPage] = useState(5);
     const getCourses = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/course/GetCourseByInstructorID/${thisAccount?.id}`);
+            const response = await axios.get(`https://arthubplatform1.azurewebsites.net/course/GetCourseByInstructorID/${thisAccount?.id}`);
             setCourseStudent(response.data);
         } catch (err) {
             console.log(err);

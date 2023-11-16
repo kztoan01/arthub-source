@@ -1,6 +1,6 @@
 import axios from 'axios';
 
 export default axios.create({
-    baseURL:'http://localhost:8080/course',
+    baseURL:'https://arthubplatform1.azurewebsites.net/course',
     headers: {"ngrok-skip-brower-warning": "true"}
 });

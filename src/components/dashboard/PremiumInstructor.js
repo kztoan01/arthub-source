@@ -36,7 +36,7 @@ export default function PremiumInstructor(props) {
     async function save(e) {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/api/updateAccountImage", formData).then(response => {
+            await axios.post("https://arthubplatform1.azurewebsites.net/api/updateAccountImage", formData).then(response => {
                 setDetail(false)
             });;
         } catch (err) {
@@ -61,7 +61,7 @@ export default function PremiumInstructor(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            await axios.put("http://localhost:8080/api/accounts", {
+            await axios.put("https://arthubplatform1.azurewebsites.net/api/accounts", {
                 id: thisAccount.id,
                 username: thisAccount.username,
                 bio: bio,
@@ -99,7 +99,7 @@ export default function PremiumInstructor(props) {
     async function handlePayout(e) {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/payout/create", {
+            await axios.post("https://arthubplatform1.azurewebsites.net/payout/create", {
                 accountId: parseInt(thisAccount.id),
                 platform: "PayPal",
                 recipientName: recipientName,

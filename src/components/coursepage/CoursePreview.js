@@ -131,7 +131,7 @@ export default function CoursePreview(props) {
     e.preventDefault();
     if (localStorage.getItem("STU-authenticated")) {
       try {
-        await axios.post("http://localhost:8080/course/enrol", formData).then(response => {
+        await axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formData).then(response => {
           setOpen(true)
           getLearners()
         })
@@ -304,7 +304,7 @@ export default function CoursePreview(props) {
   const [thisCourseRating, setThisCourseRating] = useState()
   const getThisCourseRating = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/rate/getCourseRate", formCourseRating);
+      const response = await axios.post("https://arthubplatform1.azurewebsites.net/rate/getCourseRate", formCourseRating);
       setThisCourseRating(response.data)
     } catch (e) {
       alert(e)
@@ -365,7 +365,7 @@ export default function CoursePreview(props) {
     try {
       setAction(1)
 
-      await axios.post("http://localhost:8080/api/accounts", {
+      await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts", {
         username: generateString(20),
         lastname: receiverLastname,
         firstname: receiverFirstname,
@@ -380,11 +380,11 @@ export default function CoursePreview(props) {
         formReceiverData.append('senderId', thisAccount?.id);
         formReceiverData.append('message', senderMessages);
       });
-      await axios.post("http://localhost:8080/course/enrol", formReceiverData).then(response => {
+      await axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formReceiverData).then(response => {
         //setOpen(true)
         getLearners()
       })
-      await axios.post("http://localhost:8080/course/sendMailToReceiver", formMailData).then(response => {
+      await axios.post("https://arthubplatform1.azurewebsites.net/course/sendMailToReceiver", formMailData).then(response => {
         setLoading(false)
       });;
     } catch (err) {
@@ -413,7 +413,7 @@ export default function CoursePreview(props) {
     e.preventDefault();
     try {
       setAction(2)
-      await axios.post("http://localhost:8080/course/enrol", formReceiver).then(response => {
+      await axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formReceiver).then(response => {
         if (response.data == "Course is already Enrolled") {
           setFalseOpen(true)
         } else {
@@ -428,7 +428,7 @@ export default function CoursePreview(props) {
   async function save3(e) {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/course/sendMailToReceiver", formMail).then(response => {
+      await axios.post("https://arthubplatform1.azurewebsites.net/course/sendMailToReceiver", formMail).then(response => {
         setLoading(false)
       });
     } catch (err) {
@@ -513,9 +513,9 @@ export default function CoursePreview(props) {
       setLoading(true)
       try {
         setAction(2)
-        axios.post("http://localhost:8080/course/enrol", formReceiver).then(response => {
+        axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formReceiver).then(response => {
           getLearners()
-          axios.post("http://localhost:8080/course/sendMailToReceiver", formMail).then(response => {
+          axios.post("https://arthubplatform1.azurewebsites.net/course/sendMailToReceiver", formMail).then(response => {
             setLoading(false)
             setSend(true)
           });
@@ -560,9 +560,9 @@ export default function CoursePreview(props) {
       // if (receiverMailCheck?.roleId == 2) {
       //   try {
       //     setAction(2)
-      //     axios.post("http://localhost:8080/course/enrol", formReceiver).then(response => {
+      //     axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formReceiver).then(response => {
       //       getLearner()
-      //       axios.post("http://localhost:8080/course/sendMailToReceiver", formMail).then(response => {
+      //       axios.post("https://arthubplatform1.azurewebsites.net/course/sendMailToReceiver", formMail).then(response => {
       //         setLoading(false)
       //         setSend(true)
       //       });
@@ -575,7 +575,7 @@ export default function CoursePreview(props) {
       try {
         setAction(1)
         setStatus(1)
-        axios.post("http://localhost:8080/api/accounts", {
+        axios.post("https://arthubplatform1.azurewebsites.net/api/accounts", {
           username: generateString(20),
           lastname: receiverLastname,
           firstname: receiverFirstname,
@@ -589,10 +589,10 @@ export default function CoursePreview(props) {
           formReceiverData.append('status', 1);
           formReceiverData.append('senderId', thisAccount?.id);
           formReceiverData.append('message', senderMessages);
-          axios.post("http://localhost:8080/course/enrol", formReceiverData).then(response => {
+          axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formReceiverData).then(response => {
             //setOpen(true)
             getLearners()
-            axios.post("http://localhost:8080/course/sendMailToReceiver", formMailData).then(response => {
+            axios.post("https://arthubplatform1.azurewebsites.net/course/sendMailToReceiver", formMailData).then(response => {
               setLoading(false)
               setSend(true)
             });
@@ -639,7 +639,7 @@ export default function CoursePreview(props) {
     if (success) {
       if (localStorage.getItem("STU-authenticated")) {
         try {
-          axios.post("http://localhost:8080/course/enrol", formData).then(response => {
+          axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formData).then(response => {
             getLearners();
             setOpen(true)
             setShow(false)

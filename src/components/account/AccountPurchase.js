@@ -93,7 +93,7 @@ export default function AccountPurchase() {
     const [courses, setCourses] = useState()
     const getCourses = async () => {
         try {
-            const response = await axios.post("http://localhost:8080/learner/showStudentPurchase", form);
+            const response = await axios.post("https://arthubplatform1.azurewebsites.net/learner/showStudentPurchase", form);
             setCourses(response.data);
         } catch (err) {
             console.log(err);

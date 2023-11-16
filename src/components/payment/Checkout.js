@@ -115,7 +115,7 @@ function Checkout() {
             for (var key in cartproducts) {
                 var obj = cartproducts[key]
                 formData.append('courseId', obj?.id);
-                axios.post("http://localhost:8080/course/enrol", formData)
+                axios.post("https://arthubplatform1.azurewebsites.net/course/enrol", formData)
                 formData.delete('courseId')
             }
             setOpen(true)

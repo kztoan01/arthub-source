@@ -28,18 +28,17 @@ import api from '../api/axiosAccountConfig'
 import { setSelectionRange } from '@testing-library/user-event/dist/utils'
 import { UserAuth } from '../authConfig/AuthContext';
 const products = [
-  { name: 'Caricature', state: 'Caricature', description: 'Get a better understanding of your traffic', href: '#', icon: PaintBrushIcon },
-  { name: 'Cartoon', state: 'Cartoon', description: 'Speak directly to your customers', href: '#', icon: BugAntIcon },
-  { name: 'Figure', state: 'Figure', description: 'Your customers’ data will be safe and secure', href: '#', icon: PhotoIcon },
-  { name: 'Gesture', state: 'Gesture', description: 'Connect with third-party tools', href: '#', icon: SparklesIcon },
-  { name: 'Photorealism', state: 'Photorealism', description: 'Build strategic funnels that will convert', href: '#', icon: PencilIcon },
-  { name: 'Scientific illustrations', state: 'Scientific illustrations', description: 'Build strategic funnels that will convert', href: '#', icon: BoltIcon },
-  { name: 'Sketch', state: 'Sketch', description: 'Build strategic funnels that will convert', href: '#', icon: ChartPieIcon },
-  { name: 'Technical', state: 'Technical', description: 'Build strategic funnels that will convert', href: '#', icon: CubeTransparentIcon },
+  { name: 'Caricature', state: 'Caricature', description: 'A drawing that makes someone look funny', href: '#', icon: PaintBrushIcon },
+  { name: 'Cartoon', state: 'Cartoon', description: 'Cartoon drawings depict a more comedic view. ', href: '#', icon: BugAntIcon },
+  { name: 'Figure', state: 'Figure', description: 'Artists create figure drawings', href: '#', icon: PhotoIcon },
+  { name: 'Gesture', state: 'Gesture', description: 'Gesture drawing uses real-life subjects', href: '#', icon: SparklesIcon },
+  { name: 'Photorealism', state: 'Photorealism', description: 'Photorealism, also called hyperrealism', href: '#', icon: PencilIcon },
+  { name: 'Scientific illustrations', state: 'Scientific illustrations', description: 'Pointillism is an artistic technique', href: '#', icon: BoltIcon },
+  { name: 'Sketch', state: 'Sketch', description: 'Communicate complex concepts in an easy-to-comprehend way', href: '#', icon: ChartPieIcon },
+  { name: 'Technical', state: 'Technical', description: 'Technical drawing is the creation of precise diagrams', href: '#', icon: CubeTransparentIcon },
 ]
 const callsToAction = [
-  { name: 'Watch demo', href: '#', icon: PlayCircleIcon },
-  { name: 'Contact sales', href: '#', icon: PhoneIcon },
+
 ]
 
 

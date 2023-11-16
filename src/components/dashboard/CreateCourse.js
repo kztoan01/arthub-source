@@ -65,7 +65,7 @@ export default function CreateCourse() {
                 setFailOpen(true)
             } else {
                 try {
-                    await axios.post("http://localhost:8080/course/addCourse", {
+                    await axios.post("https://arthubplatform1.azurewebsites.net/course/addCourse", {
                         accountId: thisInstructor.id,
                         status: 0,
                         isApproved: 0,
@@ -124,7 +124,7 @@ export default function CreateCourse() {
             }
         } else {
             try {
-                await axios.post("http://localhost:8080/course/addCourse", {
+                await axios.post("https://arthubplatform1.azurewebsites.net/course/addCourse", {
                     accountId: thisInstructor.id,
                     status: 0,
                     isApproved: 0,

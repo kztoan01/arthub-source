@@ -61,7 +61,7 @@ export default function AccountNotification() {
     const getThisCourseRating = async (id) => {
         formCourseRating.append('courseId', id);
         try {
-            const response = await axios.post("http://localhost:8080/rate/getCourseRate", formCourseRating)
+            const response = await axios.post("https://arthubplatform1.azurewebsites.net/rate/getCourseRate", formCourseRating)
             return response.data
         } catch (e) {
             alert(e)

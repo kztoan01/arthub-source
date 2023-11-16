@@ -61,7 +61,7 @@ export default function ManageCourse(props) {
     async function manage(e) {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/course/updateCourseStatus", formData).then(response => {
+            await axios.post("https://arthubplatform1.azurewebsites.net/course/updateCourseStatus", formData).then(response => {
                 if (String(action) === "2") {
                     setPuOpen(true)
                 } else {

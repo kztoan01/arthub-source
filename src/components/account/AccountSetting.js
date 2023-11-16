@@ -14,7 +14,7 @@ export default function AccountSetting() {
     async function save(e) {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/api/updateAccountImage", formData).then(response => {
+            await axios.post("https://arthubplatform1.azurewebsites.net/api/updateAccountImage", formData).then(response => {
                 setDetail(false)
             });;
         } catch (err) {
@@ -38,7 +38,7 @@ export default function AccountSetting() {
     async function handleSubmit(e) {
         e.preventDefault();
         try {
-            await axios.put("http://localhost:8080/api/accounts", {
+            await axios.put("https://arthubplatform1.azurewebsites.net/api/accounts", {
                 id: thisAccount.id,
                 username: username,
                 bio: bio,
@@ -111,7 +111,7 @@ export default function AccountSetting() {
         }
         else {
             try {
-                const response = await axios.post("http://localhost:8080/api/accounts/changePassword", formChangePassword).
+                const response = await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts/changePassword", formChangePassword).
                     then(response => {
                         setOpenPass(false)
                         setOpen(true)

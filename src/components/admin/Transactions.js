@@ -85,7 +85,7 @@ export default function Transactions() {
   const [allPayout, setAllPayOut] = useState()
   const getPayout = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/payout/getPayoutInformations");
+      const response = await axios.get("https://arthubplatform1.azurewebsites.net/payout/getPayoutInformations");
       setAllPayOut(response.data);
     } catch (err) {
       console.log(err);
@@ -107,12 +107,23 @@ export default function Transactions() {
   const [recipientEmail, setRecipientEmail] = useState();
   const [recipientPhone, setRecipientPhone] = useState();
   const [recipientImage, setRecipientImage] = useState();
+  const [recipient, setRecipient] = useState();
+  const [accountId, setAccountId] = useState();
+  console.log(recipient)
+  console.log(accountId)
   const [total, setTotal] = useState();
-  //let payoutDetail
- // const getPayoutDetail = () => {
-    //payoutDetail = JSON.parse(localStorage.getItem("_payout_detail"))
-   // setOpen(true)
-  //}
+  const form = new FormData()
+  form.append("accountId", accountId)
+  form.append("month", lastMonth)
+  const updatePayout = async () => {
+    try {
+      const response = await axios.post("https://arthubplatform1.azurewebsites.net/payout/updatePayout", form);
+      getPayout()
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   return (<>
     <header className="bg-white shadow">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
@@ -156,7 +167,7 @@ export default function Transactions() {
                 {allPayout?.map((pay) => (
                   <>
                     <tr key={pay.id}>
-                      {pay.totalPayout > 0 && pay.recipient <= lastMonth  ? <><td className="">
+                      {pay.totalPayout > 0 && pay.recipient <= lastMonth ? <><td className="">
                         <div className="flex items-center gap-3">
                           <Avatar
                             src={linkImg + pay.image}
@@ -252,6 +263,8 @@ export default function Transactions() {
                                   setRecipientPhone(pay.recipientPhone)
                                   setRecipientImage(linkImg + pay.image)
                                   setTotal(pay.totalPayout)
+                                  setAccountId(pay.accountId)
+                                  setRecipient(lastMonth)
                                   // localStorage.setItem("_payout_detail", JSON.stringify({
                                   //   "platform": platform,
                                   //   "recipientName": recipientName,
@@ -368,7 +381,7 @@ export default function Transactions() {
                               <li className="text-gray-400">
                                 <span className="text-gray-600">Total: {' '}
                                   <a href="#" className="font-semibold text-purple-600">
-                                    ${total*65/100}&nbsp;
+                                    ${total * 65 / 100}&nbsp;
                                   </a>
                                 </span>
                               </li>
@@ -419,8 +432,11 @@ export default function Transactions() {
                         </div>
                         <form>
                           <button
-                            type="submit"
-
+                            type="button"
+                                onClick={() => {
+                                  updatePayout()
+                                  setOpen(false)
+                                }}
                             className="transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 hover:text-purple-500 hover:bg-gray-300 duration-300 mt-10 flex w-full items-center justify-center rounded-md border border-transparent bg-gray-200 px-8 py-3 text-base font-medium text-purple-600 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2"
                           >
                             Complete Payout

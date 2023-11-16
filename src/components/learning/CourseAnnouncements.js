@@ -54,7 +54,7 @@ export default function CourseAnnouncements() {
         } else {
             e.preventDefault();
             try {
-                await axios.post("http://localhost:8080/rate/CourseRate", formAddRating).then(response => {
+                await axios.post("https://arthubplatform1.azurewebsites.net/rate/CourseRate", formAddRating).then(response => {
                     setOpen(true)
                     getThisCourseRating();
                 });
@@ -71,7 +71,7 @@ export default function CourseAnnouncements() {
     const [thisCourseRating, setThisCourseRating] = useState()
     const getThisCourseRating = async () => {
         try {
-            const response = await axios.post("http://localhost:8080/rate/getCourseRate", formCourseRating);
+            const response = await axios.post("https://arthubplatform1.azurewebsites.net/rate/getCourseRate", formCourseRating);
             setThisCourseRating(response.data)
         } catch (e) {
             alert(e)
@@ -111,7 +111,7 @@ export default function CourseAnnouncements() {
         } else {
             e.preventDefault();
             try {
-                await axios.post("http://localhost:8080/rate/updateAnn", formEditAnn).then(response => {
+                await axios.post("https://arthubplatform1.azurewebsites.net/rate/updateAnn", formEditAnn).then(response => {
                     setEditOpen(false)
                     setOpen(true)
                     setComment('')
@@ -130,7 +130,7 @@ export default function CourseAnnouncements() {
     async function handleDeleteRate(e) {
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:8080/rate/deleteCourseRate`, formDeleteAnn)
+            await axios.post(`https://arthubplatform1.azurewebsites.net/rate/deleteCourseRate`, formDeleteAnn)
                 .then(response => {
                     setDeleteOpen(false)
                     setSucOpen(true)

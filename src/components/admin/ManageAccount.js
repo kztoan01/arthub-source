@@ -47,7 +47,7 @@ export default function ManageAccount(props) {
     async function save(e) {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/api/accounts", {
+            await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts", {
                 username: username,
                 lastname: lastname,
                 firstname: firstname,
@@ -66,7 +66,7 @@ export default function ManageAccount(props) {
     async function deleteAccount(id, e) {
         e.preventDefault();
         try {
-            await axios.delete(`http://localhost:8080/api/accounts/${id}`)
+            await axios.delete(`https://arthubplatform1.azurewebsites.net/api/accounts/${id}`)
                 .then(response => {
                     setIsOpen(false)
                     setDeleteOpen(true)

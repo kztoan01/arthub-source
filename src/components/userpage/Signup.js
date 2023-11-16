@@ -41,7 +41,7 @@ function Signup() {
             try {
                 setIsOpen(true)
                 localStorage.setItem('refreshtoken', true)
-                await axios.post("http://localhost:8080/api/accounts", {
+                await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts", {
                     username: username,
                     lastname: lastname,
                     firstname: firstname,
@@ -85,7 +85,7 @@ function Signup() {
             setErtoken(true)
         } else {
             try {
-                const response = await axios.post("http://localhost:8080/api/accounts/checkToken", formCheckToken).
+                const response = await axios.post("https://arthubplatform1.azurewebsites.net/api/accounts/checkToken", formCheckToken).
                     then(response => {
                         setSuccessOpen(true)
                         localStorage.removeItem('_id')
