@@ -314,7 +314,6 @@ export default function CreateCourse() {
                             <option value={"French"}>French</option>
                             <option value={"Japanese"}>Japanese</option>
                             <option value={"Chinese"}>Chinese</option>
-                            <option value={"Dogese"}>Dogese</option>
                         </select> </div>
                     </div>
                     <div class="sm:col-span-3"> <label for="country"

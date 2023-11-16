@@ -151,7 +151,6 @@ export default function PreviewCourse(props) {
         e.preventDefault();
         try {
             await axios.post("https://arthubplatform1.azurewebsites.net/image/saveCourseImages", formIMGData).then(response => {
-                console.log(response)
                 setLoading(false)
                 setOpen(true)
             });;

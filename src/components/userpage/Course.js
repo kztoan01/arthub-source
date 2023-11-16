@@ -18,7 +18,9 @@ function Course(props) {
         getCourses();
     }, []
     )
-    const caricature = courses?.filter((course) => course.level === "Expert" && String(course.status) === "2");
+    const caricature = courses?.filter((course) => course.categories.name === "Caricature" && String(course.status) === "2");
+    const techincal = courses?.filter((course) => course.categories.name === "Technical" && String(course.status) === "2");
+    const sketch = courses?.filter((course) => course.categories.name === "Sketch" && String(course.status) === "2");
     const level = courses?.filter((course) => course.level === "Expert" && String(course.status) === "2");
     const english = courses?.filter((course) => course.language === "English" && String(course.status) === "2");
     const free = courses?.filter((course) => course.price === 0 && String(course.status) === "2");
@@ -26,19 +28,19 @@ function Course(props) {
     const types = [
         {
             name: 'Most Popular Courses',
-            //most popular courses
+            courses: courses
         },
         {
             name: 'Caricature Courses',
-            //caricature courses
+            courses: caricature
         },
         {
             name: 'Cartoon Courses',
-            //cartoon courses
+            courses: techincal
         },
         {
             name: 'Sketch Courses',
-            //sketch courses
+            courses: sketch
         },
         {
             name: 'Expert Courses',
@@ -58,30 +60,6 @@ function Course(props) {
         },
 
     ]
-
-    // if (thisCourse?.price > 0) {
-    //     price = '$' + thisCourse?.price;
-    // } else {
-    //     price = 'Free'
-    // }
-    // const types = [
-    //     {
-    //         name: 'Most Popular Courses',
-    //         courses
-    //     },
-    //     {
-    //         name: 'Caricature Courses',
-    //         courses
-    //     },
-    //     {
-    //         name: 'Cartoon Courses',
-    //         courses
-    //     },
-    //     {
-    //         name: 'Cartoon Courses',
-    //         courses
-    //     },
-    // ]
     const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
     return (
         <>

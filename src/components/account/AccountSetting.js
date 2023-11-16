@@ -560,7 +560,7 @@ export default function AccountSetting() {
                                                 </div> */}
                                                 <div>
                                                     <div class="flex items-center justify-between"> <label for="password"
-                                                        class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                                        class="block text-sm font-medium leading-6 text-gray-900">Current Password</label>
                                                         {/* <div class="text-sm"> <div class="font-semibold text-purple-600 hover:text-purple-500"><EyeIcon className="w-6 h-6"/></div> </div> */}
                                                     </div>
                                                     <div class="mt-2"> <input id="password" name="password" type="password" autocomplete="current-password"
@@ -574,7 +574,7 @@ export default function AccountSetting() {
                                                 </div>
                                                 <div>
                                                     <div class="flex items-center justify-between"> <label for="password"
-                                                        class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                                        class="block text-sm font-medium leading-6 text-gray-900">New Password</label>
                                                         {/* <div class="text-sm"> <div class="font-semibold text-purple-600 hover:text-purple-500"><EyeIcon className="w-6 h-6"/></div> </div> */}
                                                     </div>
                                                     <div class="mt-2"> <input id="password" name="password" type="password" autocomplete="current-password"
@@ -588,7 +588,7 @@ export default function AccountSetting() {
                                                 </div>
                                                 <div>
                                                     <div class="flex items-center justify-between"> <label for="password"
-                                                        class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+                                                        class="block text-sm font-medium leading-6 text-gray-900">Confirm Password</label>
                                                         {/* <div class="text-sm"> <div class="font-semibold text-purple-600 hover:text-purple-500"><EyeIcon className="w-6 h-6"/></div> </div> */}
                                                     </div>
                                                     <div class="mt-2"> <input id="password" name="password" type="password" autocomplete="current-password"
