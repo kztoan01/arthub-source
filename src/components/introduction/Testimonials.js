@@ -10,7 +10,7 @@ export default function Testimonials() {
           <figure className="mt-10">
             <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
               <p>
-                “Bọn anh không tới lấy. Bọn anh cướp.”
+                “ArtHub courses are video-based experiences that give students the chance to learn actionable skills. Whether you have experience teaching, or it’s your first time, we’ll help you package your knowledge into an online course that improves student lives.”
               </p>
             </blockquote>
             <figcaption className="mt-10">

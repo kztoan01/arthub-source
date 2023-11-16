@@ -49,7 +49,8 @@ function Signup() {
                     password: password,
                     roleId: roleId,
                     isActive: 1,
-                    token: generateString(5)
+                    token: generateString(5),
+                    isPremium: 0
                 }).then(response => {
                     if (response.status == 201) {
                         localStorage.setItem('_id', response.data.id)

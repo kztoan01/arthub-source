@@ -19,6 +19,7 @@ function Course(props) {
     }, []
     )
     const caricature = courses?.filter((course) => course.categories.name === "Caricature" && String(course.status) === "2");
+    const publish = courses?.filter((course) => String(course.status) === "2");
     const techincal = courses?.filter((course) => course.categories.name === "Technical" && String(course.status) === "2");
     const sketch = courses?.filter((course) => course.categories.name === "Sketch" && String(course.status) === "2");
     const level = courses?.filter((course) => course.level === "Expert" && String(course.status) === "2");
@@ -28,24 +29,8 @@ function Course(props) {
     const types = [
         {
             name: 'Most Popular Courses',
-            courses: courses
-        },
-        {
-            name: 'Caricature Courses',
-            courses: caricature
-        },
-        {
-            name: 'Cartoon Courses',
-            courses: techincal
-        },
-        {
-            name: 'Sketch Courses',
-            courses: sketch
-        },
-        {
-            name: 'Expert Courses',
-            courses: level
-        },
+            courses: publish
+        }, 
         {
             name: 'English Courses',
             courses: english
@@ -58,6 +43,11 @@ function Course(props) {
             name: 'Free Courses',
             courses: free
         },
+        {
+            name: 'Expert Courses',
+            courses: level
+        },
+
 
     ]
     const linkImg = 'https://storage.cloud.google.com/arthub-bucket/'
@@ -94,8 +84,8 @@ function Course(props) {
             {types?.map((type) => (
                 <div key={type.name} className="bg-white">
                     <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-                        <h2 
-                        className="bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-fuchsia-500 text-2xl font-bold text-gray-900"
+                        <h2
+                            className="bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-fuchsia-500 text-2xl font-bold text-gray-900"
                         // className="text-2xl font-bold tracking-tight text-gray-900"
                         >{type.name}</h2>
 
@@ -104,7 +94,7 @@ function Course(props) {
                                 <Link to={`/course/${product.id}`}><div key={product.id} className="group relative">
                                     <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                                         <img
-                                            src={linkImg+product.image}
+                                            src={linkImg + product.image}
                                             // {product.imageSrc}
                                             alt=""
                                             className="h-full w-full object-cover object-center lg:h-full lg:w-full"

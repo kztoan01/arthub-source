@@ -38,6 +38,7 @@ export default function DashboardAdminContent() {
         getCourses();
     }, []
     )
+    const publish = courses?.filter((course) => String(course.status) === "2");
     const [users, setUsers] = useState()
     const getUsers = async () => {
         try {
@@ -122,7 +123,7 @@ export default function DashboardAdminContent() {
                                     ))}
 
                                 </dl>
-                                <div className="w-auto h-auto"><PieChart courses={courses} learner={learner} /></div>
+                                <div className="w-auto h-auto"><PieChart courses={publish} learner={learner} /></div>
                             </div>
                         </div>
 
